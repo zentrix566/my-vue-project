@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 import Home from './views/Home.vue'
 import JiangyinBattle from './views/JiangyinBattle.vue'
+import DominoFall from './views/DominoFall.vue'
 
 import './styles/global.css'
 
@@ -15,6 +16,12 @@ const router = createRouter({
       name: 'jiangyin',
       component: JiangyinBattle,
       meta: { title: '江阴保卫战 · 形势图' }
+    },
+    {
+      path: '/domino',
+      name: 'domino',
+      component: DominoFall,
+      meta: { title: '多米诺骨牌 · 沿路线连锁倒下' }
     }
   ]
 })

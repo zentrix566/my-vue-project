@@ -5,6 +5,7 @@ import Home from './views/Home.vue'
 import JiangyinBattle from './views/JiangyinBattle.vue'
 import DominoFall from './views/DominoFall.vue'
 import BrushCalligraphy from './views/BrushCalligraphy.vue'
+import OfficialComparison from './views/OfficialComparison.vue'
 
 import './styles/global.css'
 
@@ -29,6 +30,12 @@ const router = createRouter({
       name: 'calligraphy',
       component: BrushCalligraphy,
       meta: { title: '毛笔书法 · 停笔 2 秒自动优化' }
+    },
+    {
+      path: '/officials',
+      name: 'officials',
+      component: OfficialComparison,
+      meta: { title: '中国官职 · 古今对比' }
     }
   ]
 })

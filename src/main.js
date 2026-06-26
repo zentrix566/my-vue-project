@@ -7,6 +7,7 @@ import DominoFall from './views/DominoFall.vue'
 import BrushCalligraphy from './views/BrushCalligraphy.vue'
 import OfficialComparison from './views/OfficialComparison.vue'
 import HearthstoneNexus from './views/HearthstoneNexus.vue'
+import WorldCupKick from './views/WorldCupKick.vue'
 
 import './styles/global.css'
 
@@ -43,6 +44,12 @@ const router = createRouter({
       name: 'nexus',
       component: HearthstoneNexus,
       meta: { title: '炉石魔网 · 脸伤计算器' }
+    },
+    {
+      path: '/worldcup',
+      name: 'worldcup',
+      component: WorldCupKick,
+      meta: { title: '世界杯 · 点球大战' }
     }
   ]
 })

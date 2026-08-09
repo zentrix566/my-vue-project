@@ -1,0 +1,19 @@
+{
+  "name": "zentrix-vue-games",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Zentrix 的个人小游戏合集：世界杯点球大战、江阴保卫战形势图、400 米间歇训练",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.7",
+    "vite": "^8.0.16"
+  }
+}

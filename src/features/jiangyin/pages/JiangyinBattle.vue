@@ -8,7 +8,7 @@ import { RouterLink } from 'vue-router'
  * - 每条箭头任意位置可点击，弹出对应历史事件
  *
  * 坐标系采用 1000 × 900 的 viewBox，与示意图比例一致；
- * 真实底图托管在 OSS，前端经服务端反代以 /site-assets/jiangyin-map.webp 引用（缺图时使用纯色衬底，箭头依然可用）。
+ * 真实底图放在 public/jiangyin-map.png，前端以 /jiangyin-map.png 引用（缺图时使用纯色衬底，箭头依然可用）。
  */
 
 // 路径与事件数据：path 用 SVG path 语法
@@ -90,7 +90,7 @@ const popupStyle = computed(() => ({
 
 const mapBackgroundStyle = {
   backgroundImage: [
-    "url('/site-assets/jiangyin-map.webp')",
+    "url('/jiangyin-map.png')",
     'radial-gradient(circle at 30% 20%, #d8e3d2 0%, transparent 55%)',
     'radial-gradient(circle at 75% 25%, #d6e2cd 0%, transparent 50%)',
     'radial-gradient(circle at 50% 70%, #f1e6cb 0%, transparent 60%)',
@@ -108,7 +108,7 @@ const mapBackgroundStyle = {
     </header>
 
     <div class="map-wrap" ref="wrapRef" @click.self="close">
-      <!-- 底图：经服务端反代引用 /site-assets/jiangyin-map.webp；缺图时使用衬底色 -->
+      <!-- 底图：引用本地 public/jiangyin-map.png；缺图时使用衬底色 -->
       <div class="map-bg" :style="mapBackgroundStyle" />
 
       <svg
@@ -266,7 +266,7 @@ const mapBackgroundStyle = {
   box-shadow: var(--shadow-card);
 }
 
-/* 古风地图底图：图片已迁至 OSS，经 /site-assets/jiangyin-map.webp 由服务端反代加载 */
+/* 古风地图底图：引用本地 public/jiangyin-map.png */
 .map-bg {
   position: absolute;
   inset: 0;

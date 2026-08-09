@@ -2,11 +2,14 @@
   <div class="app-shell">
     <header class="site-header">
       <nav class="nav-container" aria-label="主导航">
-        <RouterLink class="logo" to="/">Zentrix 小游戏</RouterLink>
         <ul class="nav-links">
           <li><RouterLink to="/worldcup">世界杯点球大战</RouterLink></li>
           <li><RouterLink to="/jiangyin">江阴保卫战</RouterLink></li>
           <li><RouterLink to="/interval-training">400 米间歇训练</RouterLink></li>
+          <li><RouterLink to="/domino">多米诺骨牌</RouterLink></li>
+          <li><RouterLink to="/calligraphy">毛笔书法</RouterLink></li>
+          <li><RouterLink to="/officials">官职对比</RouterLink></li>
+          <li><RouterLink to="/nexus">炉石脸伤</RouterLink></li>
         </ul>
       </nav>
     </header>
@@ -46,12 +49,6 @@ const year = new Date().getFullYear()
   align-items: center;
   gap: 24px;
   flex-wrap: wrap;
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--color-text);
 }
 
 .nav-links {

@@ -5,6 +5,7 @@
   --color-primary: #2f6fed;
   --color-card: #ffffff;
   --color-border: #e5e7eb;
+  --color-danger: #d4452f;
   --radius: 12px;
   --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.08);
 }

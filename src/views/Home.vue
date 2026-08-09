@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h1>Zentrix 个人小游戏合集</h1>
     <p class="subtitle">几个用 Vue 写的小玩具，点开即玩。</p>
     <div class="cards">
       <RouterLink class="card" to="/worldcup">
@@ -18,12 +17,32 @@
         <h2>400 米间歇训练</h2>
         <p>配速趋势、评级、日历与导入导出的跑步数据看板。</p>
       </RouterLink>
+      <RouterLink class="card" to="/domino">
+        <div class="emoji">🎴</div>
+        <h2>多米诺骨牌 · 连锁倒下</h2>
+        <p>鼠标画一条路线生成骨牌，点推倒，连锁波沿曲线一节节倒下。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/calligraphy">
+        <div class="emoji">✒️</div>
+        <h2>毛笔书法 · 停笔自动优化</h2>
+        <p>宣纸上书写，停笔 2 秒自动优化成大师笔法，可向标准字形靠拢。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/officials">
+        <div class="emoji">⚖️</div>
+        <h2>中国官职 · 古今对比</h2>
+        <p>以现代行政级别为轴，横向对比各王朝相当官职，支持王朝、级别筛选。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/nexus">
+        <div class="emoji">🔮</div>
+        <h2>炉石魔网 · 脸伤计算器</h2>
+        <p>输入法强与场上怪血量，模拟随机砸怪溢出，算脸伤期望、最大最小与分布。</p>
+      </RouterLink>
     </div>
   </div>
 </template>
 
 <script setup>
-// 首页：三个小游戏的入口卡片
+// 首页：各小功能的入口卡片
 </script>
 
 <style scoped>
@@ -35,7 +54,7 @@
 
 .subtitle {
   color: var(--color-muted);
-  margin-top: -8px;
+  margin-top: 0;
 }
 
 .cards {

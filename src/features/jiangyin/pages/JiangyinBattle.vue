@@ -102,7 +102,7 @@ const mapBackgroundStyle = {
 <template>
   <div class="page">
     <header class="topbar">
-      <RouterLink to="/vue-apps" class="back">← 返回个人项目</RouterLink>
+      <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <h1>江阴保卫战 · 形势图</h1>
       <span class="hint">点击任意一条箭头，查看该路线对应的历史事件</span>
     </header>

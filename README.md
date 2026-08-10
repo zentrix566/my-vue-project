@@ -20,7 +20,7 @@
 npm install
 ```
 
-启动开发服务器（默认 http://localhost:5174）：
+启动开发服务器（默认 http://localhost:5173）：
 
 ```bash
 npm run dev
@@ -55,7 +55,7 @@ my-vue-project/
 ├─ vite.config.js         Vite 配置
 ├─ src/
 │  ├─ main.js             应用入口，挂载路由
-│  ├─ App.vue             站点外壳（导航 + 路由出口）
+│  ├─ App.vue             站点外壳（zentrix566 标识 + 路由出口）
 │  ├─ styles.css          全局样式与 CSS 变量
 │  ├─ global.css          间歇训练看板等组件的排版样式
 │  ├─ router/index.js     路由定义（七个功能懒加载）

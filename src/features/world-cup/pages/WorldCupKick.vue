@@ -577,7 +577,7 @@ onUnmounted(() => {
 <template>
   <div class="page">
     <header class="header">
-      <RouterLink to="/vue-apps" class="back">← 返回个人项目</RouterLink>
+      <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <h1>⚽ 世界杯 · 点球大战</h1>
       <div class="board">
         <span class="score">进球 {{ score }} / {{ maxShots }}</span>

@@ -98,10 +98,16 @@ function resample(points, step) {
 
 // 由笔迹生成骨牌：等间距取点 + 计算每点的前进方向
 function buildDominoes() {
-  const samples = resample(rawPoints.value, spacing.value)
+  let samples = resample(rawPoints.value, spacing.value)
   if (samples.length < 2) {
-    dominoes.value = []
-    return
+    // 笔迹比间距还短：退而用原始笔迹点兜底，保证至少摆 2 块，
+    // 否则用户画短一点就推不动、得反复重画
+    if (rawPoints.value.length >= 2) {
+      samples = rawPoints.value
+    } else {
+      // 只是点了一下没画：保留上一条路线，不破坏已有骨牌
+      return
+    }
   }
   dominoes.value = samples.map((p, i) => {
     const ahead = samples[i + 1] || p

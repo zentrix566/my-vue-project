@@ -1,17 +1,7 @@
 <template>
   <div class="app-shell">
     <header class="site-header">
-      <nav class="nav-container" aria-label="主导航">
-        <ul class="nav-links">
-          <li><RouterLink to="/worldcup">世界杯点球大战</RouterLink></li>
-          <li><RouterLink to="/jiangyin">江阴保卫战</RouterLink></li>
-          <li><RouterLink to="/interval-training">400 米间歇训练</RouterLink></li>
-          <li><RouterLink to="/domino">多米诺骨牌</RouterLink></li>
-          <li><RouterLink to="/calligraphy">毛笔书法</RouterLink></li>
-          <li><RouterLink to="/officials">官职对比</RouterLink></li>
-          <li><RouterLink to="/nexus">炉石脸伤</RouterLink></li>
-        </ul>
-      </nav>
+      <RouterLink class="brand" to="/">zentrix566</RouterLink>
     </header>
     <main class="main-content">
       <RouterView />
@@ -41,33 +31,16 @@ const year = new Date().getFullYear()
   box-shadow: var(--shadow-card);
 }
 
-.nav-container {
+.brand {
+  display: block;
   max-width: 960px;
   margin: 0 auto;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 18px;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-}
-
-.nav-links a {
+  padding: 14px 20px;
   color: var(--color-text);
-  font-size: 15px;
-}
-
-.nav-links a.router-link-active {
-  color: var(--color-primary);
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
 }
 
 .main-content {

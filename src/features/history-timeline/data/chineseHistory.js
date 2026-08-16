@@ -504,7 +504,7 @@ export const eras = [
     intro: '北方进入十六国割据，东晋偏安江左百年。"书圣""田园诗祖"皆出此世，淝水一战保住了江南半壁的汉文明。',
     groups: [
       {
-        label: '东晋初', ruler: '司马睿', rulerTitle: '晋元帝', start: 317, end: 350,
+        label: '东晋初', ruler: '司马睿', rulerTitle: '晋元帝', start: 317, end: 342,
         blurb: '衣冠南渡建江左政权，"王与马，共天下"。',
         figures: [
           { name: '王导', role: '东晋丞相', note: '稳定江左政局，被司马睿邀同坐御床。' },
@@ -512,7 +512,17 @@ export const eras = [
         ]
       },
       {
-        label: '桓温时代', ruler: '桓温', rulerTitle: '权臣', start: 350, end: 373,
+        label: '汉赵', ruler: '刘渊', rulerTitle: '汉赵光文帝', start: 304, end: 329,
+        blurb: '匈奴人趁八王之乱起兵，尊刘汉为正统建汉赵，开启十六国乱世。',
+        figures: []
+      },
+      {
+        label: '后赵', ruler: '石勒', rulerTitle: '后赵明帝', start: 319, end: 351,
+        blurb: '中国历史上唯一从奴隶到皇帝的人，羯族，几乎统一北方。',
+        figures: []
+      },
+      {
+        label: '桓温时代', ruler: '桓温', rulerTitle: '东晋权臣', start: 343, end: 372,
         blurb: '三次北伐收复洛阳，"不能流芳百世，亦当遗臭万年"。',
         figures: [
           { name: '王羲之', role: '书圣', note: '兰亭曲水流觞写下"天下第一行书"，入木三分、东床坦腹。' },
@@ -527,14 +537,21 @@ export const eras = [
         ]
       },
       {
-        label: '淝水之战', ruler: '谢安', rulerTitle: '风流宰相', start: 373, end: 390,
+        label: '淝水', ruler: '谢安', rulerTitle: '东晋宰相', start: 372, end: 396,
         blurb: '东山再起，大战当前围棋赌墅，捷报至而围棋如故，"小儿辈大破贼"。',
         figures: [
           { name: '谢玄', role: '北府兵统帅', note: '组建北府兵，淝水八万破前秦大军，其部下后来出了刘裕。' }
         ]
       },
       {
-        label: '晋宋之际', ruler: '刘裕', rulerTitle: '宋武帝', start: 390, end: 420,
+        label: '后燕后秦', ruler: '慕容垂', rulerTitle: '后燕成武帝', start: 384, end: 416,
+        blurb: '前燕宗室花甲之年复国建后燕，一生未尝败绩；同期后秦姚兴大兴佛教。',
+        figures: [
+          { name: '鸠摩罗什', role: '译经大师', note: '后秦姚兴以国师礼迎至长安，译《金刚经》《法华经》，影响汉传佛教千年。' }
+        ]
+      },
+      {
+        label: '晋宋之际', ruler: '刘裕', rulerTitle: '宋武帝', start: 396, end: 420,
         blurb: '寒门出身北府旧将，"气吞万里如虎"，两次北伐，终代晋建宋。',
         figures: [
           { name: '陶渊明', role: '田园诗祖', note: '"不为五斗米折腰"，归去来兮种豆南山下，桃花源记尽是向往。' }
@@ -553,40 +570,51 @@ export const eras = [
     intro: '南朝宋齐梁陈更迭，北朝从北魏分裂到东西对峙。孝文帝汉化改革推动民族大融合，科学与佛道之学在乱世中生长。',
     groups: [
       {
-        label: '北魏初', ruler: '拓跋焘', rulerTitle: '北魏太武帝', start: 420, end: 470,
+        label: '南朝宋', ruler: '刘裕', rulerTitle: '宋武帝', start: 420, end: 453,
+        blurb: '寒人掌权、北伐收复洛阳长安，其子刘义隆开创"元嘉之治"。',
+        figures: [
+          { name: '刘义隆', role: '宋文帝', note: '在位三十年开创"元嘉之治"，元嘉草草封狼居胥，赢得仓皇北顾。' }
+        ]
+      },
+      {
+        label: '北魏太武', ruler: '拓跋焘', rulerTitle: '北魏太武帝', start: 423, end: 465,
         blurb: '十三岁即位，骁勇善战灭北凉统一北方，国史之狱杀崔浩。',
         figures: []
       },
       {
-        label: '孝文汉化', ruler: '孝文帝', rulerTitle: '拓跋宏', start: 470, end: 520,
+        label: '孝文汉化', ruler: '孝文帝', rulerTitle: '拓跋宏', start: 471, end: 515,
         blurb: '假借南伐迁都洛阳，改汉姓、说汉语、通婚姻，铸就民族融合。',
         figures: [
           { name: '冯太后', role: '北魏改革推手', note: '临朝称制推行俸禄制、均田制、三长制，培养出汉化改革的孙子。' },
-          { name: '郦道元', role: '地理学家', note: '注《水经》成《水经注》，"访渎搜渠，缵而为注"。' }
+          { name: '郦道元', role: '地理学家', note: '注《水经》成《水经注》，"访渎搜渠，缵而为注"。' },
+          { name: '贾思勰', role: '农学家', note: '著《齐民要术》，现存最早最完整的农书。' }
         ]
       },
       {
-        label: '南朝', ruler: '萧衍', rulerTitle: '梁武帝', start: 502, end: 557,
+        label: '南朝梁', ruler: '萧衍', rulerTitle: '梁武帝', start: 502, end: 549,
         blurb: '在位四十八年，四度舍身同泰寺，"自我得之，自我失之"，饿死台城。',
         figures: [
           { name: '陈庆之', role: '白袍将军', note: '文弱书生率七千白袍北伐，"千军万马避白袍"，四十七战皆捷。' },
           { name: '范缜', role: '无神论者', note: '舌战满朝权贵，"神之于形，犹利之于刀"，一篇《神灭论》千古留名。' },
-          { name: '祖冲之', role: '数学家', note: '将圆周率推算到小数点后七位，领先世界近千年，另制《大明历》。' }
+          { name: '祖冲之', role: '数学家', note: '将圆周率推算到小数点后七位，领先世界近千年，另制《大明历》。' },
+          { name: '侯景', role: '宇宙大将军', note: '降而复叛发动侯景之乱攻破建康，江南"千里绝烟"。' }
         ]
       },
       {
-        label: '侯景之乱', ruler: '侯景', rulerTitle: '宇宙大将军', start: 548, end: 552,
-        blurb: '降而复叛攻破建康，江南"千里绝烟"，死后尸体被百姓分食。',
-        figures: []
-      },
-      {
-        label: '北朝末', ruler: null, start: 534, end: 589,
-        blurb: '',
+        label: '东西魏·齐周', ruler: '宇文泰', rulerTitle: '北周文帝', start: 534, end: 581,
+        blurb: '北魏分裂为东西魏，高欢奠基北齐、宇文泰奠基北周；宇文邕灭齐统一北方。',
         figures: [
           { name: '高欢', role: '东魏权臣', note: '怀朔镇戍卒出身，韩陵之战以三万破二十万，奠定北齐基业。' },
-          { name: '宇文泰', role: '西魏权臣', note: '创府兵制、行关中本位，为北周灭齐乃至隋唐制度开路。' },
-          { name: '高长恭', role: '兰陵王', note: '邙山之战戴面具冲阵解洛阳之围，"貌柔心壮，音容兼美"，功高被鸩。' },
-          { name: '贾思勰', role: '农学家', note: '著《齐民要术》，现存最早最完整的农书。' }
+          { name: '高洋', role: '北齐文宣帝', note: '篡东魏建北齐，前期英明后期暴虐，"快刀斩乱麻"的出处。' },
+          { name: '宇文邕', role: '北周武帝', note: '灭佛强国、灭北齐统一北方，若非早逝，历史或将改写。' },
+          { name: '高长恭', role: '兰陵王', note: '邙山之战戴面具冲阵解洛阳之围，"貌柔心壮，音容兼美"，功高被鸩。' }
+        ]
+      },
+      {
+        label: '南朝陈', ruler: '陈霸先', rulerTitle: '陈武帝', start: 557, end: 589,
+        blurb: '南朝最后一个王朝，出身小吏北伐建功；其孙陈叔宝亡国时犹唱后庭花。',
+        figures: [
+          { name: '陈叔宝', role: '陈后主', note: '荒于酒色作《玉树后庭花》，隋军破城时与宠妃躲入井中被俘。' }
         ]
       }
     ]
@@ -713,24 +741,44 @@ export const eras = [
     start: 907,
     end: 960,
     color: '#757575',
-    minW: 320,
+    minW: 580,
     intro: '五十三年换了五个朝代，"天子宁有种耶？兵强马壮者为之尔"。乱世里冯道成了不倒翁，李煜写尽了亡国之愁。',
     groups: [
       {
-        label: '五代更迭', ruler: null, start: 907, end: 960,
-        blurb: '',
+        label: '后梁', ruler: '朱温', rulerTitle: '后梁太祖', start: 907, end: 923,
+        blurb: '篡唐建国开启五代，荒淫暴虐，被亲儿子弑杀。',
+        figures: []
+      },
+      {
+        label: '后唐', ruler: '李存勖', rulerTitle: '后唐庄宗', start: 923, end: 936,
+        blurb: '"生子当如李亚子"，灭梁复唐本可一统，宠伶人身死于兴教门之变。',
+        figures: []
+      },
+      {
+        label: '后晋', ruler: '石敬瑭', rulerTitle: '后晋高祖', start: 936, end: 947,
+        blurb: '认契丹为父、割燕云十六州换皇位，"儿皇帝"遗祸中原四百年。',
+        figures: []
+      },
+      {
+        label: '后汉', ruler: '刘知远', rulerTitle: '后汉高祖', start: 947, end: 950,
+        blurb: '契丹灭晋后乘乱入主中原，在位不足一年，是五代最短命的王朝。',
+        figures: []
+      },
+      {
+        label: '后周', ruler: '柴荣', rulerTitle: '后周世宗', start: 951, end: 960,
+        blurb: '"十年开拓天下，十年养百姓，十年致太平"，三十九岁早逝，为赵宋作嫁衣。',
         figures: [
-          { name: '朱温', role: '后梁太祖', note: '篡唐建国开启五代，荒淫暴虐，被亲儿子弑杀。' },
-          { name: '李存勖', role: '后唐庄宗', note: '"生子当如李亚子"，灭梁复唐本可一统，宠伶人身死于兴教门之变。' },
-          { name: '石敬瑭', role: '儿皇帝', note: '认契丹为父割燕云十六州，遗祸中原四百年。' },
-          { name: '冯道', role: '不倒翁宰相', note: '历四朝十君，乱世中护住百姓与典籍，自号长乐老。' },
-          { name: '柴荣', role: '后周世宗', note: '"十年开拓天下，十年养百姓，十年致太平"，三十九岁早逝，为赵宋作嫁衣。' }
+          { name: '郭威', role: '后周太祖', note: '后周开国皇帝，黄旗加身（后来赵匡胤陈桥兵变的预演），勤俭治国。' },
+          { name: '冯道', role: '不倒翁宰相', note: '历四朝十君，乱世中护住百姓与典籍，自号长乐老。' }
         ]
       },
       {
-        label: '十国·南唐', ruler: '李煜', rulerTitle: '南唐后主', start: 937, end: 975,
+        label: '南唐', ruler: '李煜', rulerTitle: '南唐后主', start: 937, end: 975,
         blurb: '"问君能有几多愁，恰似一江春水向东流"，词中之帝，亡国之君。',
-        figures: []
+        figures: [
+          { name: '李昪', role: '南唐烈祖', note: '南唐开国者，出身孤儿，保境安民，南唐在他治下最为富庶。' },
+          { name: '李璟', role: '南唐元宗', note: '李煜之父，词亦佳，"小楼吹彻玉笙寒"，去帝号向后周称臣。' }
+        ]
       }
     ]
   },
@@ -883,7 +931,7 @@ export const eras = [
     start: 1368,
     end: 1644,
     color: '#b8860b',
-    minW: 760,
+    minW: 1820,
     intro: '郑和七下西洋与闭关锁国同朝，阳明心学与八股取士并行。废丞相、设内阁、建东西厂，制度玩到极致，最后仍逃不过周期律。',
     groups: [
       {
@@ -896,6 +944,13 @@ export const eras = [
         ]
       },
       {
+        label: '建文', ruler: '朱允炆', rulerTitle: '明惠帝', start: 1398, end: 1402,
+        blurb: '建文新政宽刑省狱，仓促削藩引发靖难之役，城破后下落成千古之谜。',
+        figures: [
+          { name: '方孝孺', role: '读书种子', note: '拒为朱棣起草即位诏书，被诛十族，亲友门生八百余人罹难。' }
+        ]
+      },
+      {
         label: '永乐', ruler: '朱棣', rulerTitle: '明成祖', start: 1402, end: 1424,
         blurb: '靖难夺位、迁都北京、五征漠北，"天子守国门"自他始。',
         figures: [
@@ -905,18 +960,56 @@ export const eras = [
         ]
       },
       {
-        label: '正统·景泰', ruler: '朱祁钰', rulerTitle: '景泰帝', start: 1435, end: 1464,
+        label: '洪熙', ruler: '朱高炽', rulerTitle: '明仁宗', start: 1424, end: 1425,
+        blurb: '在位仅十月，平反靖难冤狱、停罢永乐冗役，为"仁宣之治"奠基。',
+        figures: []
+      },
+      {
+        label: '宣德', ruler: '朱瞻基', rulerTitle: '明宣宗', start: 1425, end: 1435,
+        blurb: '平定朱高煦叛乱，"仁宣之治"的主角，促织天子，书画亦佳。',
+        figures: [
+          { name: '三杨', role: '仁宣名相', note: '杨士奇、杨荣、杨溥同心辅政，明代内阁政治的黄金时代。' }
+        ]
+      },
+      {
+        label: '正统·天顺', ruler: '朱祁镇', rulerTitle: '明英宗', start: 1435, end: 1464,
+        blurb: '土木堡之变被瓦剌俘虏，夺门之变复辟，临终废除宫妃殉葬。',
+        figures: [
+          { name: '王振', role: '专权宦官', note: '怂恿英宗亲征，致土木堡之变五十万大军覆没，被樊忠锤杀。' }
+        ]
+      },
+      {
+        label: '景泰', ruler: '朱祁钰', rulerTitle: '明代宗', start: 1449, end: 1457,
         blurb: '危局中即位、任于谦打赢北京保卫战，晚景凄凉，夺门之变后被废。',
         figures: [
           { name: '于谦', role: '救时宰相', note: '北京保卫战力挽狂澜，"粉骨碎身浑不怕，要留清白在人间"，夺门之变后被冤杀。' }
         ]
       },
       {
-        label: '正嘉之世', ruler: null, start: 1505, end: 1566,
-        blurb: '',
+        label: '成化', ruler: '朱见深', rulerTitle: '明宪宗', start: 1464, end: 1487,
+        blurb: '平反于谦、恢复景帝尊号，却专宠万贵妃、设西厂，朝政渐紊。',
+        figures: [
+          { name: '汪直', role: '西厂提督', note: '少年掌西厂，屡兴大狱，"知有汪太监，不知有天子"。' },
+          { name: '唐寅', role: '江南第一才子', note: '唐伯虎，会试舞弊案断送功名，"别人笑我太疯癫，我笑他人看不穿"。' }
+        ]
+      },
+      {
+        label: '弘治', ruler: '朱祐樘', rulerTitle: '明孝宗', start: 1487, end: 1505,
+        blurb: '弘治中兴，一生只娶一妻不近声色，明代罕见的贤君。',
+        figures: []
+      },
+      {
+        label: '正德', ruler: '朱厚照', rulerTitle: '明武宗', start: 1505, end: 1521,
+        blurb: '自封"总督军务威武大将军"，建豹房荒嬉无度，处事却也果决。',
         figures: [
           { name: '王阳明', role: '千古完人', note: '龙场悟道创心学，立德立功立言三不朽，破山中贼易，破心中贼难。' },
-          { name: '唐寅', role: '江南第一才子', note: '唐伯虎，会试舞弊案断送功名，"别人笑我太疯癫，我笑他人看不穿"。' },
+          { name: '刘瑾', role: '立皇帝', note: '八虎之首专权五年，贪赃数目列《华尔街日报》千年富豪榜，被凌迟。' }
+        ]
+      },
+      {
+        label: '嘉靖', ruler: '朱厚熜', rulerTitle: '明世宗', start: 1521, end: 1566,
+        blurb: '大礼议、崇道修玄、二十余年不上朝，海瑞上《治安疏》骂的就是他。',
+        figures: [
           { name: '严嵩', role: '权奸', note: '青词宰相把持朝政二十余年，父子弄权，晚年在墓舍拾祭品充饥。' },
           { name: '戚继光', role: '抗倭名将', note: '练戚家军、创鸳鸯阵荡平倭寇，北御蒙古，"封侯非我意，但愿海波平"。' },
           { name: '海瑞', role: '清官巅峰', note: '买好棺材上《治安疏》骂皇帝，官至二品遗银不足殓葬之费。' },
@@ -924,7 +1017,14 @@ export const eras = [
         ]
       },
       {
-        label: '万历', ruler: '朱翊钧', rulerTitle: '万历帝', start: 1572, end: 1620,
+        label: '隆庆', ruler: '朱载坖', rulerTitle: '明穆宗', start: 1566, end: 1572,
+        blurb: '隆庆开关、俺答封贡，垂拱而治用对人，为张居正改革铺路。',
+        figures: [
+          { name: '高拱', role: '内阁首辅', note: '隆庆名相，整顿吏治改革宿弊，后被张居正与冯保联手逐走。' }
+        ]
+      },
+      {
+        label: '万历', ruler: '朱翊钧', rulerTitle: '明神宗', start: 1572, end: 1620,
         blurb: '前十年张居正改革国势大振，后三十年不上朝，"明实亡于万历"。',
         figures: [
           { name: '张居正', role: '改革家', note: '一条鞭法、考成法，"吾非相，乃摄也"，为帝国续命六十年，身后被抄。' },
@@ -935,10 +1035,21 @@ export const eras = [
         ]
       },
       {
-        label: '天启·崇祯', ruler: '朱由检', rulerTitle: '崇祯帝', start: 1620, end: 1644,
+        label: '泰昌', ruler: '朱常洛', rulerTitle: '明光宗', start: 1620, end: 1620,
+        blurb: '在位仅一月，"红丸案"暴卒，明末三大案之一。',
+        figures: []
+      },
+      {
+        label: '天启', ruler: '朱由校', rulerTitle: '明熹宗', start: 1620, end: 1627,
+        blurb: '木工天才，手艺精湛，却任由魏忠贤与客氏专权，国势日颓。',
+        figures: [
+          { name: '魏忠贤', role: '九千岁', note: '目不识丁的太监权倾天下，生祠遍天下，崇祯即位自缢。' }
+        ]
+      },
+      {
+        label: '崇祯', ruler: '朱由检', rulerTitle: '明思宗', start: 1627, end: 1644,
         blurb: '勤政十七年步步皆错，煤山自缢"勿伤百姓一人"。',
         figures: [
-          { name: '魏忠贤', role: '九千岁', note: '目不识丁的太监权倾天下，生祠遍天下，崇祯即位自缢。' },
           { name: '袁崇焕', role: '辽东督师', note: '宁远大捷炮伤努尔哈赤，己巳之变后被凌迟，京城百姓争食其肉。' }
         ]
       },
@@ -957,14 +1068,24 @@ export const eras = [
     key: 'qing',
     name: '清',
     tagline: '最后的王朝',
-    start: 1644,
+    start: 1616,
     end: 1912,
     color: '#5e35b1',
-    minW: 820,
-    intro: '康雍乾把帝制推到顶点，也把闭关锁国做到极致。鸦片战争后百年屈辱与自救图存交织，中兴名臣与革命者同台，帝制在 1912 年落幕。',
+    minW: 1300,
+    intro: '从努尔哈赤建后金到宣统退位共十二帝。康雍乾把帝制推到顶点，也把闭关锁国做到极致；鸦片战争后百年屈辱与自救图存交织，帝制在 1912 年落幕。',
     groups: [
       {
-        label: '入关定鼎', ruler: '顺治帝', rulerTitle: '福临', start: 1644, end: 1661,
+        label: '天命', ruler: '努尔哈赤', rulerTitle: '清太祖', start: 1616, end: 1626,
+        blurb: '以十三副遗甲起兵统一女真，建后金、创八旗，宁远城下为袁崇焕炮伤而亡。',
+        figures: []
+      },
+      {
+        label: '天聪·崇德', ruler: '皇太极', rulerTitle: '清太宗', start: 1626, end: 1643,
+        blurb: '改国号大清、定族名满洲，两征朝鲜、三入塞内，为入主中原奠基。',
+        figures: []
+      },
+      {
+        label: '顺治', ruler: '顺治帝', rulerTitle: '福临', start: 1644, end: 1661,
         blurb: '六岁登基、二十四岁痘亡（一说出家），满汉融合的过渡者。',
         figures: [
           { name: '多尔衮', role: '摄政王', note: '山海关一战定中原，颁布剃发令，死后被追论罪。' },
@@ -996,27 +1117,38 @@ export const eras = [
         ]
       },
       {
-        label: '嘉道', ruler: null, start: 1796, end: 1850,
-        blurb: '',
+        label: '嘉庆', ruler: '嘉庆帝', rulerTitle: '颙琰', start: 1796, end: 1820,
+        blurb: '亲政即赐死和珅、整顿吏治，却难挽颓势，天理教一度攻入紫禁城。',
+        figures: []
+      },
+      {
+        label: '道光', ruler: '道光帝', rulerTitle: '旻宁', start: 1820, end: 1850,
+        blurb: '节俭到穿补丁裤子，鸦片战争一败涂地，中国近代史的屈辱开端。',
         figures: [
           { name: '龚自珍', role: '思想启蒙先驱', note: '"我劝天公重抖擞，不拘一格降人才"，预言"三千年未有之变局"。' },
           { name: '林则徐', role: '开眼看世界第一人', note: '虎门销烟二百三十七万斤，"苟利国家生死以，岂因祸福避趋之"。' }
         ]
       },
       {
-        label: '咸同', ruler: null, start: 1851, end: 1874,
-        blurb: '',
+        label: '咸丰', ruler: '咸丰帝', rulerTitle: '奕詝', start: 1850, end: 1861,
+        blurb: '内有太平天国、外有英法联军，逃热河病死，慈禧由此登场。',
         figures: [
           { name: '洪秀全', role: '太平天国天王', note: '借拜上帝教起事，半壁江山十四年，天京内讧而亡。' },
-          { name: '石达开', role: '翼王五千岁', note: '太平军第一名将，湖口大败曾国藩，大渡河兵败被凌迟不吭一声。' },
-          { name: '曾国藩', role: '中兴第一名臣', note: '一介书生练湘军"结硬寨打呆仗"，修身日记三十年，誉满天下谤亦随之。' },
-          { name: '左宗棠', role: '抬棺出征', note: '六十有五抬棺西征收复新疆一百六十万平方公里，"身无半亩，心忧天下"。' },
-          { name: '李鸿章', role: '裱糊匠', note: '办洋务建北洋，甲午一败涂地，替朝廷签了一辈子条约，"秋风宝剑孤臣泪"。' },
-          { name: '慈禧太后', role: '实际统治者', note: '垂帘听政近半个世纪，"量中华之物力，结与国之欢心"。' }
+          { name: '石达开', role: '翼王五千岁', note: '太平军第一名将，湖口大败曾国藩，大渡河兵败被凌迟不吭一声。' }
         ]
       },
       {
-        label: '光宣', ruler: '光绪帝', rulerTitle: '载湉', start: 1875, end: 1912,
+        label: '同治', ruler: '同治帝', rulerTitle: '载淳', start: 1861, end: 1875,
+        blurb: '慈禧垂帘、恭王议政，"同治中兴"回光返照，十九岁染天花而亡。',
+        figures: [
+          { name: '慈禧太后', role: '实际统治者', note: '垂帘听政近半个世纪，"量中华之物力，结与国之欢心"。' },
+          { name: '曾国藩', role: '中兴第一名臣', note: '一介书生练湘军"结硬寨打呆仗"，修身日记三十年，誉满天下谤亦随之。' },
+          { name: '左宗棠', role: '抬棺出征', note: '六十有五抬棺西征收复新疆一百六十万平方公里，"身无半亩，心忧天下"。' },
+          { name: '李鸿章', role: '裱糊匠', note: '办洋务建北洋，甲午一败涂地，替朝廷签了一辈子条约，"秋风宝剑孤臣泪"。' }
+        ]
+      },
+      {
+        label: '光绪', ruler: '光绪帝', rulerTitle: '载湉', start: 1875, end: 1908,
         blurb: '戊戌变法一百零三日，瀛台十年囚徒，死在慈禧前一天。',
         figures: [
           { name: '张之洞', role: '洋务殿军', note: '"中体西用"，办汉阳铁厂、枪炮厂，清末新政的操盘手。' },
@@ -1028,6 +1160,11 @@ export const eras = [
           { name: '詹天佑', role: '中国铁路之父', note: '京张铁路"人"字形线路，中国自建干线铁路第一人。' },
           { name: '袁世凯', role: '清末权臣', note: '小站练兵起家，戊戌告密、逼清退位，洪宪帝制八十三天而终。' }
         ]
+      },
+      {
+        label: '宣统', ruler: '溥仪', rulerTitle: '宣统帝', start: 1908, end: 1912,
+        blurb: '三岁登基六岁退位，一生三起三落（张勋复辟、伪满皇帝），终成普通公民。',
+        figures: []
       }
     ]
   },

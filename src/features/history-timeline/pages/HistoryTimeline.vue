@@ -83,21 +83,6 @@
             </div>
           </div>
 
-          <!-- 著名历史事件轨道 -->
-          <div class="events-layer" :class="{ dim: eraDim(era) }">
-            <button
-              v-for="pin in era.pins"
-              :key="'ev-' + pin.name"
-              class="event-pin"
-              :class="{ active: isEventActive(era, pin) }"
-              :style="{ left: pin.x + 'px', bottom: pin.row ? '21px' : '1px', borderColor: era.color }"
-              :title="fmtYear(pin.year) + ' · ' + pin.note"
-              @click="openEvent(era, pin)"
-            >
-              <span class="dot" :style="{ background: era.color }"></span>{{ pin.name }}
-            </button>
-          </div>
-
           <!-- 朝代色带（横跨整个时期） -->
           <button
             class="era-band"
@@ -120,6 +105,21 @@
             >{{ g.label }}</span>
           </div>
         </section>
+
+        <!-- 著名历史事件轨道（全局：按年份在整条轴上定位） -->
+        <div class="events-layer">
+          <button
+            v-for="pin in pins"
+            :key="'ev-' + pin.era.key + '-' + pin.ev.name"
+            class="event-pin"
+            :class="{ dim: eraDim(pin.era), active: isEventActive(pin.era, pin.ev) }"
+            :style="{ left: pin.x + 'px', bottom: pin.row * 21 + 1 + 'px', borderColor: pin.era.color }"
+            :title="fmtYear(pin.ev.year) + ' · ' + pin.ev.note"
+            @click="openEvent(pin.era, pin.ev)"
+          >
+            <span class="dot" :style="{ background: pin.era.color }"></span>{{ pin.ev.name }}
+          </button>
+        </div>
 
         <!-- 轴线与时期分界刻度 -->
         <div class="axis-line"></div>
@@ -218,6 +218,10 @@ const PX_PER_YEAR = 1.9
 const GROUP_MIN_W = 100
 const EQUAL_GROUP_W = 142
 
+// 全局时间范围（事件定位用）
+const GLOBAL_START = Math.min(...eras.map((e) => e.start))
+const GLOBAL_END = Math.max(...eras.map((e) => e.end))
+
 const mode = ref('scale')
 const query = ref('')
 const canvas = ref(null)
@@ -250,30 +254,48 @@ const layout = computed(() => {
     const groupsWidth = off - GROUP_GAP
     const eraWidth = Math.max(groupsWidth, era.minW || 0)
 
-    // 事件定位：在时期宽度内按年份线性插值，同一行放不下时换行错开
-    const rowsEnd = [0, 0]
-    const pins = (era.events || []).map((ev) => {
-      const frac = era.end > era.start ? (ev.year - era.start) / (era.end - era.start) : 0
-      const px = Math.max(0, Math.min(1, frac)) * eraWidth
-      const w = Math.min(eraWidth, ev.name.length * 12.5 + 30)
-      let row = 0
-      if (px < rowsEnd[0]) {
-        row = 1
-        if (px < rowsEnd[1]) row = 0
-      }
-      rowsEnd[row] = px + w
-      return { ...ev, x: px, w, row }
-    })
-
-    items.push({ ...era, x, width: eraWidth, groups, pins })
+    items.push({ ...era, x, width: eraWidth, groups })
     x += eraWidth + ERA_GAP
   }
   return items
 })
 
+// 事件定位：全部事件在全局时间轴上排布
+// - "按时长"模式按真实年份在整条轴上线性插值（跨时期位置连续）
+// - "等宽"模式退回时期内部插值
+// - 三行贪心：某行放不下就顺延到行尾，保证绝不重叠
+const pins = computed(() => {
+  const items = layout.value
+  const usable = totalWidth.value - PAD * 2
+  const span = GLOBAL_END - GLOBAL_START
+  const rowsEnd = [0, 0, 0]
+  const list = []
+  for (const era of items) {
+    for (const ev of era.events || []) {
+      let gx
+      if (mode.value === 'scale') {
+        gx = PAD + ((ev.year - GLOBAL_START) / span) * usable
+      } else {
+        const frac = era.end > era.start ? (ev.year - era.start) / (era.end - era.start) : 0
+        gx = era.x + Math.max(0, Math.min(1, frac)) * era.width
+      }
+      const w = Math.min(usable, ev.name.length * 12.5 + 28)
+      let row = rowsEnd.findIndex((end) => gx >= end)
+      if (row === -1) {
+        row = 0
+        gx = rowsEnd[0]
+      }
+      rowsEnd[row] = gx + w
+      list.push({ era, ev, x: gx, row })
+    }
+  }
+  return list
+})
+
 const totalWidth = computed(() => {
   const last = layout.value[layout.value.length - 1]
-  return last.x + last.width + PAD
+  // 尾部多留 140px，容纳超出最后时期的事件徽章
+  return last.x + last.width + PAD + 140
 })
 
 // 打平所有子列，便于搜索定位
@@ -528,8 +550,8 @@ onBeforeUnmount(() => {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 168px;
-  height: 540px;
+  bottom: 190px;
+  height: 518px;
 }
 
 .group-col {
@@ -639,7 +661,7 @@ onBeforeUnmount(() => {
   left: 0;
   right: 0;
   bottom: 118px;
-  height: 44px;
+  height: 64px;
   transition: opacity 0.15s ease;
 }
 .events-layer.dim { opacity: 0.14; }

@@ -20,6 +20,10 @@
         <button class="btn ghost" @click="randomEra">换个 🎲</button>
       </div>
       <p class="start-hint">例：永乐 · 万历 · 康熙 · 天佑 · 靖安</p>
+      <label class="fast-toggle">
+        <input type="checkbox" v-model="startFastMode" />
+        <span>⚡ 快速模式（自动批阅，一路直达结局）</span>
+      </label>
       <button class="btn primary big" @click="startGame">登基 · 亲政</button>
       <div class="start-rules">
         <p>🗓️ 每月批一份奏折，十二月后岁末结算：税银入库、军饷官俸支出。</p>
@@ -35,7 +39,13 @@
           <div class="reign-line">
             <span class="era-badge">{{ state.eraName }}</span>
             <span class="year-text">{{ cnYear(state.year) }} · {{ MONTH_NAMES[state.month - 1] }}</span>
+            <span class="fast-badge" v-if="fastMode">⚡ 快速</span>
             <span class="age-text">朕 {{ state.age }} 岁</span>
+          </div>
+          <div class="fast-bar" v-if="fastMode">
+            <span class="fast-hint">⚡ 自动批阅中…</span>
+            <button class="btn ghost sm" @click="takeOver">✋ 接管</button>
+            <button class="btn ghost sm" @click="simulateToEnd">⏭ 直接看结局</button>
           </div>
           <div class="stat-row" v-for="st in statList" :key="st.key">
             <span class="stat-label">{{ st.icon }} {{ st.name }}</span>
@@ -65,7 +75,7 @@
               </li>
             </ul>
             <p class="summary-note">{{ settlement.note }}</p>
-            <button class="btn primary" @click="continuePlay">明年再说 →</button>
+            <button class="btn primary" @click="continuePlay">明年再说 →<span v-if="countdown > 0 && !fastMode"> ({{ countdown }})</span></button>
           </div>
 
           <!-- 奏折：事件 -->
@@ -98,7 +108,7 @@
                 :class="{ gain: d.value > 0, loss: d.value < 0 }"
               >{{ d.label }} {{ d.value > 0 ? '+' : '' }}{{ d.value }}</span>
             </div>
-            <button class="btn primary" @click="continuePlay">继续批阅 →</button>
+            <button class="btn primary" @click="continuePlay">继续批阅 →<span v-if="countdown > 0 && !fastMode"> ({{ countdown }})</span></button>
           </div>
         </Transition>
       </section>
@@ -133,7 +143,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onUnmounted } from 'vue'
 import { emperorEvents } from '../data/emperorEvents.js'
 
 const MONTH_NAMES = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月']
@@ -155,6 +165,39 @@ const appliedDeltas = ref([])
 const history = ref([])
 const settlement = reactive({ rows: [], net: 0, note: '' })
 const ending = reactive({ kind: 'death', temple: '', posthumous: '', text: '' })
+
+// ── 快速模式 & 自动批阅 ──
+const fastMode = ref(false) // 当前是否在位中处于快速模式
+const startFastMode = ref(false) // 开局界面勾选的快速模式
+const countdown = ref(0) // 普通模式「继续批阅」倒计时
+let advanceTimer = null
+let countdownTimer = null
+let autoPickTimer = null
+
+function clearAllTimers() {
+  if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null }
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null }
+  if (autoPickTimer) { clearTimeout(autoPickTimer); autoPickTimer = null }
+  countdown.value = 0
+}
+
+// 朱批结果 / 岁末结算后，安排自动进入下一道
+function scheduleAdvance() {
+  clearAllTimers()
+  if (fastMode.value) {
+    advanceTimer = setTimeout(continuePlay, 200)
+    return
+  }
+  countdown.value = 5
+  countdownTimer = setInterval(() => {
+    countdown.value -= 1
+    if (countdown.value <= 0) {
+      clearInterval(countdownTimer)
+      countdownTimer = null
+    }
+  }, 1000)
+  advanceTimer = setTimeout(continuePlay, 5000)
+}
 
 const state = reactive({
   eraName: '',
@@ -206,7 +249,9 @@ function randomEra() {
 }
 
 function startGame() {
+  clearAllTimers()
   const era = eraInput.value.trim()
+  fastMode.value = startFastMode.value
   state.eraName = era || pick(ERA_SUGGESTIONS)
   state.year = 1
   state.month = 1
@@ -235,7 +280,7 @@ function jitter(v) {
   return Math.round(v * (0.8 + Math.random() * 0.4))
 }
 
-function drawEvent() {
+function selectEvent() {
   const pool = emperorEvents.filter((e) => !e.cond || e.cond(state))
   const usable = pool.filter((e) => e.id !== lastEventId.value)
   const candidates = usable.length ? usable : pool
@@ -249,16 +294,27 @@ function drawEvent() {
     roll -= w
     if (roll <= 0) {
       lastEventId.value = e.id
-      currentEvent.value = e
-      return
+      return e
     }
   }
-  currentEvent.value = candidates[candidates.length - 1]
+  return candidates[candidates.length - 1]
+}
+
+function drawEvent() {
+  currentEvent.value = selectEvent()
+  // 快速模式：稍候自动朱批，无需手动点选项
+  if (fastMode.value) {
+    autoPickTimer = setTimeout(() => {
+      if (currentEvent.value && currentEvent.value.options && currentEvent.value.options.length) {
+        choose(pick(currentEvent.value.options))
+      }
+    }, 450)
+  }
 }
 
 const lastEventId = ref('')
 
-function choose(opt) {
+function applyChoice(opt) {
   const applied = {}
   for (const [key, raw] of Object.entries(opt.effects ?? {})) {
     applied[key] = jitter(raw)
@@ -270,22 +326,55 @@ function choose(opt) {
   state.health = Math.max(0, Math.min(100, state.health))
   state.treasury = Math.max(0, state.treasury)
 
-  appliedDeltas.value = STAT_META.filter((m) => applied[m.key])
-    .map((m) => ({
-      label: `${m.icon}${m.name}${m.kind === 'money' ? '(万两)' : ''}`,
-      value: applied[m.key]
-    }))
   history.value.push({
     y: state.year,
     m: MONTH_NAMES[state.month - 1],
     text: `${currentEvent.value.title}，${opt.label}。`
   })
-  chosen.value = opt
   state.handled += 1
+  return applied
+}
+
+function choose(opt) {
+  const applied = applyChoice(opt)
+  appliedDeltas.value = STAT_META.filter((m) => applied[m.key])
+    .map((m) => ({
+      label: `${m.icon}${m.name}${m.kind === 'money' ? '(万两)' : ''}`,
+      value: applied[m.key]
+    }))
+  chosen.value = opt
   cardMode.value = 'result'
+  scheduleAdvance()
+}
+
+// 快速模式：一键模拟到结局（不发事件动画，直接跑完数值）
+function simulateToEnd() {
+  clearAllTimers()
+  let guard = 0
+  while (guard++ < 5000) {
+    if (state.month >= 12) {
+      if (checkEndings()) return
+      yearEnd()
+      if (checkEndings()) return
+    } else {
+      const e = selectEvent()
+      currentEvent.value = e
+      const opt = pick(e.options)
+      applyChoice(opt)
+      state.month += 1
+      if (checkEndings()) return
+    }
+  }
+}
+
+// 快速模式中途接管，转回手动批阅
+function takeOver() {
+  clearAllTimers()
+  fastMode.value = false
 }
 
 function continuePlay() {
+  clearAllTimers()
   // 结算卡之后的继续：进入新年第一份奏折
   if (cardMode.value === 'summary') {
     if (checkEndings()) return
@@ -298,6 +387,7 @@ function continuePlay() {
     yearEnd()
     if (checkEndings()) return
     cardMode.value = 'summary'
+    scheduleAdvance()
   } else {
     state.month += 1
     if (checkEndings()) return
@@ -401,10 +491,13 @@ function finishDeath() {
 }
 
 function restart() {
+  clearAllTimers()
   phase.value = 'start'
   eraInput.value = ''
   cardMode.value = 'event'
 }
+
+onUnmounted(clearAllTimers)
 </script>
 
 <style scoped>
@@ -491,6 +584,57 @@ function restart() {
   font-size: 13px;
   line-height: 2;
   color: #6b573b;
+}
+
+.fast-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 22px;
+  padding: 8px 14px;
+  background: rgba(180, 52, 42, 0.08);
+  border: 1px solid #d4a017;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #5a4424;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fast-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: #b4342a;
+  cursor: pointer;
+}
+
+.fast-badge {
+  padding: 1px 9px;
+  background: #d4a017;
+  color: #2b1110;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.fast-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.fast-hint {
+  font-size: 13px;
+  color: #d4a017;
+  letter-spacing: 1px;
+}
+
+.btn.ghost.sm {
+  padding: 6px 14px;
+  font-size: 13px;
+  letter-spacing: 1px;
 }
 
 /* ── 按钮 ── */

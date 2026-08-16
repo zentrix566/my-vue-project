@@ -416,7 +416,7 @@ export const eras = [
     intro: '狭义自曹丕代汉始（广义自 184 年黄巾起义算起），六十年间英雄辈出，是中国人最耳熟能详的一段历史，大半拜《三国演义》所赐。',
     groups: [
       {
-        label: '曹魏', ruler: '曹操', rulerTitle: '魏武帝（追尊）', start: 220, end: 265,
+        label: '曹魏', ruler: '曹操', rulerTitle: '魏武帝', start: 220, end: 265,
         blurb: '"治世之能臣，乱世之奸雄"，挟天子以令诸侯，官渡以少胜多统一北方。',
         figures: [
           { name: '荀彧', role: '王佐之才', note: '居中持重二十年，为曹操规划统一北方蓝图，因反对称公忧愤而终。' },
@@ -534,7 +534,7 @@ export const eras = [
         ]
       },
       {
-        label: '晋宋之际', ruler: '刘裕', rulerTitle: '宋武帝（南朝宋）', start: 390, end: 420,
+        label: '晋宋之际', ruler: '刘裕', rulerTitle: '宋武帝', start: 390, end: 420,
         blurb: '寒门出身北府旧将，"气吞万里如虎"，两次北伐，终代晋建宋。',
         figures: [
           { name: '陶渊明', role: '田园诗祖', note: '"不为五斗米折腰"，归去来兮种豆南山下，桃花源记尽是向往。' }
@@ -658,7 +658,7 @@ export const eras = [
         ]
       },
       {
-        label: '开元盛世', ruler: '李隆基', rulerTitle: '唐玄宗（前期）', start: 712, end: 742,
+        label: '开元盛世', ruler: '李隆基', rulerTitle: '唐玄宗', start: 712, end: 742,
         blurb: '前半生励精图治，任姚崇宋璟，缔造中国古代的巅峰盛世。',
         figures: [
           { name: '姚崇', role: '救时宰相', note: '提出"十事要说"辅佐玄宗开创开元盛世。' },
@@ -668,7 +668,7 @@ export const eras = [
         ]
       },
       {
-        label: '天宝·安史', ruler: '李隆基', rulerTitle: '唐玄宗（后期）', start: 742, end: 763,
+        label: '天宝·安史', ruler: '李隆基', rulerTitle: '唐玄宗', start: 742, end: 763,
         blurb: '后半生宠贵妃怠政，渔阳鼙鼓动地来，惊破霓裳羽衣曲，仓皇入蜀。',
         figures: [
           { name: '杨玉环', role: '贵妃', note: '"回眸一笑百媚生，六宫粉黛无颜色"，马嵬坡前香消玉殒。' },
@@ -1042,7 +1042,7 @@ export const eras = [
     intro: '帝制终结后的三十七年：共和尝试、军阀混战、新文化运动、抗日战争与解放战争轮番上演，中国完成了从王朝到现代国家的痛苦转身。',
     groups: [
       {
-        label: '民国初建', ruler: '孙中山', rulerTitle: '临时大总统·国父', start: 1912, end: 1916,
+        label: '民国初建', ruler: '孙中山', rulerTitle: '临时大总统', start: 1912, end: 1916,
         blurb: '"革命尚未成功，同志仍须努力"，辛亥革命推翻两千年帝制，三民主义。',
         figures: [
           { name: '黄兴', role: '民国元勋', note: '武昌起义的总司令，"无公则无民国，有史必有斯人"。' },

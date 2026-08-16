@@ -34,9 +34,6 @@
       :class="{ dragging }"
       @wheel.prevent="onWheel"
       @pointerdown="onPointerDown"
-      @pointermove="onPointerMove"
-      @pointerup="onPointerUp"
-      @pointercancel="onPointerUp"
       @scroll="onScroll"
       @click.capture="onClickCapture"
     >
@@ -63,6 +60,7 @@
                 class="chip"
                 :class="{ active: isFigActive(era, g, fig) }"
                 :style="{ borderLeftColor: era.color }"
+                :title="fig.note"
                 @click="openFigure(era, g, fig)"
               >
                 <span class="chip-name">{{ fig.name }}</span>
@@ -73,6 +71,7 @@
                 class="ruler-chip"
                 :class="{ active: isRulerActive(era, g) }"
                 :style="{ background: era.color, borderColor: era.color }"
+                :title="g.blurb"
                 @click="openRuler(era, g)"
               >
                 <span class="crown">👑</span>
@@ -124,6 +123,9 @@
         :style="{ width: thumbW + '%', transform: `translateX(${thumbX}px)` }"
       ></div>
     </div>
+
+    <!-- 详情面板遮罩 -->
+    <div v-if="panel" class="detail-backdrop" @click="panel = null"></div>
 
     <!-- 详情面板 -->
     <aside v-if="panel" class="detail" :style="{ '--era-color': panel.era.color }">
@@ -189,7 +191,7 @@ const PAD = 24
 const ERA_GAP = 18
 const GROUP_GAP = 6
 const PX_PER_YEAR = 1.9
-const GROUP_MIN_W = 92
+const GROUP_MIN_W = 100
 const EQUAL_GROUP_W = 142
 
 const mode = ref('scale')
@@ -312,7 +314,8 @@ function onWheel(e) {
   canvas.value.scrollLeft += e.deltaY + e.deltaX
 }
 
-// 鼠标拖拽平移
+// 鼠标拖拽平移：用 window 监听 move/up，避免在画布上 setPointerCapture 把
+// 卡片的 click 也劫持走（那会导致点卡片弹不出简介）
 let dragStartX = 0
 let dragStartLeft = 0
 let moved = 0
@@ -323,23 +326,24 @@ function onPointerDown(e) {
   moved = 0
   dragStartX = e.clientX
   dragStartLeft = canvas.value.scrollLeft
-  canvas.value.setPointerCapture(e.pointerId)
+  window.addEventListener('pointermove', onDragMove)
+  window.addEventListener('pointerup', onDragUp, { once: true })
 }
 
-function onPointerMove(e) {
-  if (!dragging.value) return
+function onDragMove(e) {
   const dx = e.clientX - dragStartX
   moved = Math.max(moved, Math.abs(dx))
-  canvas.value.scrollLeft = dragStartLeft - dx
+  if (canvas.value) canvas.value.scrollLeft = dragStartLeft - dx
 }
 
-function onPointerUp() {
+function onDragUp() {
   dragging.value = false
-  setTimeout(() => { moved = 0 }, 0)
+  window.removeEventListener('pointermove', onDragMove)
 }
 
+// 拖拽松手会触发一次 click，这里把它拦掉；普通点击（moved≈0）放行给卡片
 function onClickCapture(e) {
-  const wasDrag = moved > 6
+  const wasDrag = moved > 8
   moved = 0
   if (wasDrag) {
     e.stopPropagation()
@@ -366,6 +370,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown)
+  window.removeEventListener('pointermove', onDragMove)
+  window.removeEventListener('pointerup', onDragUp)
 })
 </script>
 
@@ -513,14 +519,16 @@ onBeforeUnmount(() => {
   color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,0.25);
   cursor: pointer;
+  max-width: 100%;
+  overflow: hidden;
   transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
 .ruler-chip:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
 .ruler-chip.active { box-shadow: 0 0 0 2px rgba(47,111,237,0.6), 0 6px 16px rgba(0,0,0,0.2); }
-.ruler-chip .crown { font-size: 15px; line-height: 1; }
-.ruler-main { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; min-width: 0; }
-.ruler-name { font-size: 13.5px; font-weight: 700; white-space: nowrap; }
-.ruler-title { font-size: 10px; opacity: 0.9; white-space: nowrap; }
+.ruler-chip .crown { font-size: 15px; line-height: 1; flex: 0 0 auto; }
+.ruler-main { display: flex; flex-direction: column; align-items: stretch; line-height: 1.15; min-width: 0; flex: 1; overflow: hidden; }
+.ruler-name { font-size: 13.5px; font-weight: 700; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.ruler-title { font-size: 10px; opacity: 0.9; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
 /* 朝代色带 */
 .era-band {
@@ -612,6 +620,14 @@ onBeforeUnmount(() => {
 }
 
 /* ---------- 详情面板 ---------- */
+.detail-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 20, 30, 0.28);
+  z-index: 29;
+  animation: ht-fade 0.15s ease;
+}
+
 .detail {
   position: fixed;
   right: 20px;
@@ -623,9 +639,20 @@ onBeforeUnmount(() => {
   border: 1px solid var(--color-border);
   border-top: 4px solid var(--era-color, var(--color-primary));
   border-radius: var(--radius);
-  box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.22);
   padding: 18px 20px 20px;
   z-index: 30;
+  animation: ht-panel-in 0.18s ease;
+}
+
+@keyframes ht-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ht-panel-in {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: none; }
 }
 .detail .close {
   position: absolute; right: 10px; top: 10px;

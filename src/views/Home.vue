@@ -45,7 +45,7 @@
       <RouterLink class="card" to="/history">
         <div class="emoji">📜</div>
         <h2>中国历史 · 风流人物长卷</h2>
-        <p>从炎黄到当代的横轴时间轴，各时期风流人物一图看尽，可搜人名看事迹。</p>
+        <p>从炎黄到当代按帝王分栏的横轴时间轴，👑 统治者置顶，风流人物向上生长，可搜人名看简介。</p>
       </RouterLink>
     </div>
   </div>

@@ -47,6 +47,31 @@
         <h2>中国历史 · 风流人物长卷</h2>
         <p>从炎黄到当代按帝王分栏的横轴时间轴，👑 统治者置顶，风流人物向上生长，可搜人名看简介。</p>
       </RouterLink>
+      <RouterLink class="card" to="/canghai">
+        <div class="emoji">🌊</div>
+        <h2>沧海一声笑 · 古琴和曲</h2>
+        <p>月下沧海、孤剑侠客，五弦下落音符和一曲《沧海一声笑》，D F G J K 拨弦，评 S/A/B/C/D 境界。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/minister">
+        <div class="emoji">👑</div>
+        <h2>大臣模拟器 · 宦海沉浮</h2>
+        <p>扮演大雍朝官员，批答奏报、周旋同僚；圣眷政绩名望家财四端须平衡，任何一端崩盘都仕途终结。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/stickfight">
+        <div class="emoji">🥋</div>
+        <h2>火柴人格斗 · 龙潭虎穴</h2>
+        <p>火柴人连闯六个房间：三段拳脚连击、飞踢、翻滚闪避加炸药包，红色血液四溅，清空敌人开门突入。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/xifengkou">
+        <div class="emoji">🔪</div>
+        <h2>喜峰口 · 大刀夜袭</h2>
+        <p>1933 年白台子夜袭模拟：摸进日军营地，避灯潜行、背后挥刀，天亮前撤出，配《大刀进行曲》。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/pet">
+        <div class="emoji">🐾</div>
+        <h2>宠物模拟器 · 云养毛孩子</h2>
+        <p>养一只哈基米、大狗、兔子或仓鼠：喂食、陪玩、洗澡、哄睡，四项状态随时间变化，逗宠小游戏赚金币，升级解锁。</p>
+      </RouterLink>
     </div>
   </div>
 </template>

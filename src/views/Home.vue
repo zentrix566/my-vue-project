@@ -37,6 +37,16 @@
         <h2>炉石魔网 · 脸伤计算器</h2>
         <p>输入法强与场上怪血量，模拟随机砸怪溢出，算脸伤期望、最大最小与分布。</p>
       </RouterLink>
+      <RouterLink class="card" to="/fight">
+        <div class="emoji">🥊</div>
+        <h2>擂台投注 · 小人打架</h2>
+        <p>红蓝两个小人随机对打，下注猜胜者；快速投注模式自动连打，看多少轮输光本金。</p>
+      </RouterLink>
+      <RouterLink class="card" to="/history">
+        <div class="emoji">📜</div>
+        <h2>中国历史 · 风流人物长卷</h2>
+        <p>从炎黄到当代的横轴时间轴，各时期风流人物一图看尽，可搜人名看事迹。</p>
+      </RouterLink>
     </div>
   </div>
 </template>

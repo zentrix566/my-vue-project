@@ -13,6 +13,7 @@ import { loadMinisterPage } from '../features/minister/index.js'
 import { loadStickFightPage } from '../features/stick-fight/index.js'
 import { loadXifengkouPage } from '../features/xifengkou/index.js'
 import { loadPetPage } from '../features/pet/index.js'
+import { loadEmperorPage } from '../features/emperor/index.js'
 
 const Home = () => import('../views/Home.vue')
 
@@ -31,7 +32,8 @@ const routes = [
   { path: '/minister', name: 'minister', component: loadMinisterPage, meta: { title: '大臣模拟器 · 宦海沉浮' } },
   { path: '/stickfight', name: 'stickfight', component: loadStickFightPage, meta: { title: '火柴人格斗 · 龙潭虎穴' } },
   { path: '/xifengkou', name: 'xifengkou', component: loadXifengkouPage, meta: { title: '喜峰口 · 大刀夜袭' } },
-  { path: '/pet', name: 'pet', component: loadPetPage, meta: { title: '宠物模拟器 · 云养毛孩子' } }
+  { path: '/pet', name: 'pet', component: loadPetPage, meta: { title: '宠物模拟器 · 云养毛孩子' } },
+  { path: '/emperor', name: 'emperor', component: loadEmperorPage, meta: { title: '皇帝模拟器 · 日理万机' } }
 ]
 
 const router = createRouter({

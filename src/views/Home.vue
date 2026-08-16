@@ -72,6 +72,11 @@
         <h2>宠物模拟器 · 云养毛孩子</h2>
         <p>养一只哈基米、大狗、兔子或仓鼠：喂食、陪玩、洗澡、哄睡，四项状态随时间变化，逗宠小游戏赚金币，升级解锁。</p>
       </RouterLink>
+      <RouterLink class="card" to="/emperor">
+        <div class="emoji">🐉</div>
+        <h2>皇帝模拟器 · 日理万机</h2>
+        <p>拟年号登基，每月朱批奏折：赈灾、边患、党争、选秀。国库民心军力朝纲圣躬五端须平衡，盖棺论定看谥号。</p>
+      </RouterLink>
     </div>
   </div>
 </template>

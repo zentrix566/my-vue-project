@@ -184,7 +184,8 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
-import { eras } from '../data/chineseHistory.js'
+// 历史数据（23 时期 / 133 帝王朝）从 JSON 读取，改内容直接编辑该文件
+import { eras } from '../data/chineseHistory.json'
 
 // 布局常量
 const PAD = 24

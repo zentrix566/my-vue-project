@@ -697,7 +697,6 @@ function finishGame(kind) {
 function draw() {
   ctx.clearRect(0, 0, W, H)
   drawSky()
-  drawGround()
   drawProps()
   drawExit()
   drawEnemies()

@@ -77,6 +77,11 @@
         <h2>皇帝模拟器 · 日理万机</h2>
         <p>拟年号登基，每月朱批奏折：赈灾、边患、党争、选秀。国库民心军力朝纲圣躬五端须平衡，盖棺论定看谥号。</p>
       </RouterLink>
+      <RouterLink class="card" to="/driving">
+        <div class="emoji">🚗</div>
+        <h2>模拟驾驶 · 练车找手感</h2>
+        <p>俯视小车练习变道、转弯、掉头：转向灯时机、导向车道、压线扣分一样不少，方向盘打多少回多少。</p>
+      </RouterLink>
     </div>
   </div>
 </template>

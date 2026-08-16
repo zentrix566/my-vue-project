@@ -83,6 +83,21 @@
             </div>
           </div>
 
+          <!-- 著名历史事件轨道 -->
+          <div class="events-layer" :class="{ dim: eraDim(era) }">
+            <button
+              v-for="pin in era.pins"
+              :key="'ev-' + pin.name"
+              class="event-pin"
+              :class="{ active: isEventActive(era, pin) }"
+              :style="{ left: pin.x + 'px', bottom: pin.row ? '21px' : '1px', borderColor: era.color }"
+              :title="fmtYear(pin.year) + ' · ' + pin.note"
+              @click="openEvent(era, pin)"
+            >
+              <span class="dot" :style="{ background: era.color }"></span>{{ pin.name }}
+            </button>
+          </div>
+
           <!-- 朝代色带（横跨整个时期） -->
           <button
             class="era-band"
@@ -145,6 +160,14 @@
         <p class="d-role">{{ panel.group.rulerTitle }}</p>
         <p class="d-note" v-if="panel.group.blurb">{{ panel.group.blurb }}</p>
         <p class="d-note muted" v-else>该阶段无单一统治者，以群雄并立或权臣执政为主。</p>
+        <button class="linklike" @click="openEra(panel.era)">
+          查看「{{ panel.era.name }}」时期概览 →
+        </button>
+      </template>
+      <template v-else-if="panel.type === 'event'">
+        <p class="d-era">{{ panel.era.name }} · {{ fmtYear(panel.ev.year) }}</p>
+        <h2>{{ panel.ev.name }}</h2>
+        <p class="d-note">{{ panel.ev.note }}</p>
         <button class="linklike" @click="openEra(panel.era)">
           查看「{{ panel.era.name }}」时期概览 →
         </button>
@@ -226,7 +249,23 @@ const layout = computed(() => {
     })
     const groupsWidth = off - GROUP_GAP
     const eraWidth = Math.max(groupsWidth, era.minW || 0)
-    items.push({ ...era, x, width: eraWidth, groups })
+
+    // 事件定位：在时期宽度内按年份线性插值，同一行放不下时换行错开
+    const rowsEnd = [0, 0]
+    const pins = (era.events || []).map((ev) => {
+      const frac = era.end > era.start ? (ev.year - era.start) / (era.end - era.start) : 0
+      const px = Math.max(0, Math.min(1, frac)) * eraWidth
+      const w = Math.min(eraWidth, ev.name.length * 12.5 + 30)
+      let row = 0
+      if (px < rowsEnd[0]) {
+        row = 1
+        if (px < rowsEnd[1]) row = 0
+      }
+      rowsEnd[row] = px + w
+      return { ...ev, x: px, w, row }
+    })
+
+    items.push({ ...era, x, width: eraWidth, groups, pins })
     x += eraWidth + ERA_GAP
   }
   return items
@@ -263,7 +302,7 @@ function rangeText(era) {
   return `${fmtYear(era.start)} – ${end}（${era.end - era.start} 年）`
 }
 
-// 搜索：命中统治者或任一人物的子列整列高亮
+// 搜索：命中统治者、任一人物或历史事件的子列整列高亮
 const matchGroups = computed(() => {
   const q = query.value.trim().toLowerCase()
   if (!q) return null
@@ -274,6 +313,13 @@ const matchGroups = computed(() => {
       ...g.figures.flatMap((f) => [f.name, f.role, f.note])
     ].filter(Boolean).join(' ').toLowerCase()
     if (hay.includes(q)) set.add(era.key + '/' + gi)
+  })
+  // 事件命中：整个时期高亮
+  layout.value.forEach((era) => {
+    const hit = (era.events || []).some((ev) =>
+      (ev.name + ev.note).toLowerCase().includes(q)
+    )
+    if (hit) era.groups.forEach((g, gi) => set.add(era.key + '/' + gi))
   })
   return set
 })
@@ -299,6 +345,9 @@ function openRuler(era, group) {
 function openEra(era) {
   panel.value = { type: 'era', era }
 }
+function openEvent(era, ev) {
+  panel.value = { type: 'event', era, ev }
+}
 
 function isFigActive(era, g, fig) {
   const p = panel.value
@@ -307,6 +356,16 @@ function isFigActive(era, g, fig) {
 function isRulerActive(era, g) {
   const p = panel.value
   return p?.type === 'ruler' && p.era.key === era.key && p.group.label === g.label
+}
+function isEventActive(era, ev) {
+  const p = panel.value
+  return p?.type === 'event' && p.era.key === era.key && p.ev.name === ev.name
+}
+
+// 搜索未命中该时期任何内容时，事件轨道一并淡化
+function eraDim(era) {
+  if (!matchGroups.value) return false
+  return !era.groups.some((g, gi) => matchGroups.value.has(era.key + '/' + gi))
 }
 
 // 滚轮：纵向滚动转横向
@@ -442,7 +501,7 @@ onBeforeUnmount(() => {
 .ht-canvas {
   position: relative;
   margin: 6px 12px 0;
-  height: 640px;
+  height: 720px;
   overflow-x: auto;
   overflow-y: hidden;
   background: linear-gradient(to bottom, #faf7f0, #f3eee2);
@@ -469,8 +528,8 @@ onBeforeUnmount(() => {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 118px;
-  height: 470px;
+  bottom: 168px;
+  height: 540px;
 }
 
 .group-col {
@@ -536,7 +595,7 @@ onBeforeUnmount(() => {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 78px;
+  bottom: 74px;
   height: 40px;
   display: flex;
   flex-direction: column;
@@ -574,12 +633,54 @@ onBeforeUnmount(() => {
 }
 .g-label.ruler { color: #6b5a35; font-weight: 600; }
 
+/* 事件轨道：位于轴线正下方 */
+.events-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 118px;
+  height: 44px;
+  transition: opacity 0.15s ease;
+}
+.events-layer.dim { opacity: 0.14; }
+
+.event-pin {
+  position: absolute;
+  height: 20px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-card);
+  border: 1px solid #999;
+  border-radius: 999px;
+  font-size: 11.5px;
+  color: #4c4637;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.event-pin:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.event-pin.active {
+  box-shadow: 0 0 0 2px rgba(47, 111, 237, 0.5), 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.event-pin .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
 /* 轴线与刻度 */
 .axis-line {
   position: absolute;
   left: 14px;
   right: 14px;
-  bottom: 72px;
+  bottom: 164px;
   height: 2px;
   background: linear-gradient(to right, #b9ae95, #8f7f5f, #b9ae95);
   border-radius: 1px;
@@ -703,8 +804,8 @@ onBeforeUnmount(() => {
 .d-figs button:hover { border-color: var(--era-color, var(--color-primary)); }
 
 @media (max-width: 640px) {
-  .ht-canvas { height: 560px; margin: 6px 8px 0; }
-  .groups { height: 400px; }
+  .ht-canvas { height: 660px; margin: 6px 8px 0; }
+  .groups { height: 460px; }
   .detail {
     left: 12px; right: 12px;
     top: auto; bottom: 12px;

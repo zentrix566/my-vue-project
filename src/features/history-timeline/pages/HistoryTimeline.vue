@@ -1,837 +1,322 @@
 <template>
-  <div class="ht-page">
-    <header class="ht-header">
-      <div class="ht-topbar">
-        <RouterLink to="/" class="back">← 返回首页</RouterLink>
-        <span class="counts">{{ eras.length }} 个时期 · {{ groupCount }} 朝 · {{ totalFigures }} 人</span>
-      </div>
-      <h1>中国历史 · 风流人物长卷</h1>
-      <p class="sub">
-        自炎黄传说至今约四千六百年，按帝王/统治者分栏；<strong>👑 统治者紧贴轴线排在第一位</strong>，
-        风流人物向上生长。<em>"江山代有才人出"——数风流人物，还看今朝。</em>
-      </p>
-      <div class="toolbar">
-        <div class="modes" role="group" aria-label="时间轴比例">
-          <button :class="{ on: mode === 'scale' }" @click="mode = 'scale'">按时长</button>
-          <button :class="{ on: mode === 'equal' }" @click="mode = 'equal'">等宽</button>
-        </div>
-        <input
-          v-model="query"
-          class="search"
-          type="search"
-          placeholder="搜索帝王 / 人物 / 身份 / 事迹，如：霍去病"
-        />
-        <span v-if="query.trim()" class="match-info">
-          {{ matchCount ? `命中 ${matchCount} 人/朝` : '没有找到' }}
-        </span>
-        <span v-else class="hint">拖拽 / 滚轮横移 · 点击人物或统治者看简介</span>
-      </div>
+  <main class="china-page">
+    <header class="china-header">
+      <RouterLink to="/" class="back">← 返回首页</RouterLink>
+      <label class="history-picker">历史 <select v-model="scope" @change="switchScope"><option value="中国">中国历史</option><option v-for="item in worldRegions" :key="item" :value="item">{{ item }}</option></select></label>
+      <div class="title-row"><div><p class="eyebrow">资料来源：你的历史目录与「历史.md」</p><h1>历史 · 中国</h1><p class="intro">皇帝卡居中突出，大臣以 2–3 列并排展示；点击卡片查看详情。</p></div><button class="add-button" @click="formOpen = !formOpen">{{ formOpen ? '收起添加' : '添加人物' }}</button></div>
+      <form v-if="formOpen" class="add-form" @submit.prevent="addPerson"><label>姓名<input v-model.trim="draft.name" required /></label><label>归属时期<select v-model="draft.eraKey"><option v-for="era in eras" :key="era.key" :value="era.key">{{ era.name }}</option></select></label><label>年份<input v-model.number="draft.year" type="number" required /></label><label>身份<input v-model.trim="draft.role" placeholder="如：大臣" /></label><label class="note-field">简评<textarea v-model.trim="draft.note" rows="2" /></label><button class="submit-button" type="submit">保存到本机</button><p v-if="formMessage" class="form-message">{{ formMessage }}</p></form>
+      <div class="toolbar"><label>快速跳转 <select v-model="activeEraKey" @change="jumpToEra(activeEraKey)"><option v-for="era in eras" :key="era.key" :value="era.key">{{ era.name }} · {{ rangeText(era) }}</option></select></label><span>自动记住上次浏览时期</span><input v-model.trim="query" type="search" placeholder="搜索皇帝、人物或事件" /></div>
     </header>
-
-    <div
-      ref="canvas"
-      class="ht-canvas"
-      :class="{ dragging }"
-      @wheel.prevent="onWheel"
-      @pointerdown="onPointerDown"
-      @scroll="onScroll"
-      @click.capture="onClickCapture"
-    >
-      <div class="ht-inner" :style="{ width: totalWidth + 'px' }">
-        <!-- 每个时期一列，内部按帝王分栏 -->
-        <section
-          v-for="era in layout"
-          :key="era.key"
-          class="era"
-          :style="{ left: era.x + 'px', width: era.width + 'px' }"
-        >
-          <!-- 该时期的所有帝王子列：人物向上、统治者贴轴 -->
-          <div class="groups">
-            <div
-              v-for="(g, gi) in era.groups"
-              :key="era.key + '-' + gi"
-              class="group-col"
-              :class="{ dim: matchGroups && !matchGroups.has(era.key + '/' + gi) }"
-              :style="{ left: g.off + 'px', width: g.width + 'px' }"
-            >
-              <button
-                v-for="fig in g.figures"
-                :key="fig.name"
-                class="chip"
-                :class="{ active: isFigActive(era, g, fig) }"
-                :style="{ borderLeftColor: era.color }"
-                :title="fig.note"
-                @click="openFigure(era, g, fig)"
-              >
-                <span class="chip-name">{{ fig.name }}</span>
-                <span class="chip-role">{{ fig.role }}</span>
-              </button>
-              <button
-                v-if="g.ruler"
-                class="ruler-chip"
-                :class="{ active: isRulerActive(era, g) }"
-                :style="{ background: era.color, borderColor: era.color }"
-                :title="g.blurb"
-                @click="openRuler(era, g)"
-              >
-                <span class="crown">👑</span>
-                <span class="ruler-main">
-                  <span class="ruler-name">{{ g.ruler }}</span>
-                  <span class="ruler-title">{{ g.rulerTitle }}</span>
-                </span>
+    <section class="timeline" aria-label="中国历史时间轴"><div class="timeline-axis"></div>
+      <template v-for="item in visibleItems" :key="item.id">
+        <article v-if="item.type === 'event'" :id="item.anchor || undefined" class="timeline-item event">
+          <div class="year"><span>{{ formatYear(item.year) }}</span><i></i></div>
+          <button class="person-card event-card" :style="{ '--era': item.era.color }" @click="selected = item">
+            <span class="person-region">{{ item.era.name }} · 历史事件</span>
+            <strong>{{ item.name }}</strong>
+            <span class="person-role">历史事件</span>
+            <span v-if="item.note" class="person-note">{{ item.note }}</span>
+          </button>
+        </article>
+        <article v-else :id="item.anchor || undefined" class="timeline-item group" :class="item.side">
+          <div class="year"><span>{{ formatYear(item.year) }}</span><i></i></div>
+          <div class="group-block">
+            <button v-if="item.ruler" class="person-card ruler-card" :style="{ '--era': item.era.color }" :id="item.ruler.id" @click="selected = item.ruler">
+              <span class="person-region">{{ item.era.name }} · {{ item.group.label }}</span>
+              <strong><span class="crown">👑</span>{{ item.ruler.name }}</strong>
+              <span v-if="reignText(item.ruler)" class="person-role">在位 {{ reignText(item.ruler) }}</span>
+              <span v-if="reactionFor(item.ruler.name)" class="reaction-badge" :class="reactionFor(item.ruler.name)" role="button" tabindex="0" @click.stop="toggleReaction(item.ruler.name, reactionFor(item.ruler.name))">{{ reactionFor(item.ruler.name) === 'like' ? '♥ 喜欢' : '✕ 讨厌' }}</span>
+            </button>
+            <div v-if="item.figures.length" class="figure-cards">
+              <button v-for="person in item.figures" :key="person.id" class="person-card minister-card" :style="{ '--era': item.era.color }" :id="person.id" @click="selected = person">
+                <span class="person-region">{{ item.era.name }} · {{ item.group.ruler || item.group.label }}</span>
+                <strong>{{ person.name }}</strong>
+                <span class="person-role">{{ person.role }}</span>
+                <span v-if="person.life" class="person-life">生卒 {{ person.life }}</span>
+                <span v-if="person.custom" class="custom-tag">自添</span>
+                <span v-if="reactionFor(person.name)" class="reaction-badge" :class="reactionFor(person.name)" role="button" tabindex="0" @click.stop="toggleReaction(person.name, reactionFor(person.name))">{{ reactionFor(person.name) === 'like' ? '♥ 喜欢' : '✕ 讨厌' }}</span>
               </button>
             </div>
           </div>
-
-          <!-- 朝代色带（横跨整个时期） -->
-          <button
-            class="era-band"
-            :class="{ active: panel?.type === 'era' && panel.era.key === era.key }"
-            :style="{ background: era.color + '26', borderTopColor: era.color }"
-            @click="openEra(era)"
-          >
-            <span class="band-name" :style="{ color: era.color }">{{ era.name }}</span>
-            <span class="band-years">{{ rangeText(era) }}</span>
-          </button>
-
-          <!-- 每个子列的帝王标签 -->
-          <div class="group-labels">
-            <span
-              v-for="(g, gi) in era.groups"
-              :key="'gl-' + gi"
-              class="g-label"
-              :class="{ ruler: g.ruler }"
-              :style="{ left: g.off + 'px', width: g.width + 'px' }"
-            >{{ g.label }}</span>
-          </div>
-        </section>
-
-        <!-- 著名历史事件轨道（全局：按年份在整条轴上定位） -->
-        <div class="events-layer">
-          <button
-            v-for="pin in pins"
-            :key="'ev-' + pin.era.key + '-' + pin.ev.name"
-            class="event-pin"
-            :class="{ dim: eraDim(pin.era), active: isEventActive(pin.era, pin.ev) }"
-            :style="{ left: pin.x + 'px', bottom: pin.row * 21 + 1 + 'px', borderColor: pin.era.color }"
-            :title="fmtYear(pin.ev.year) + ' · ' + pin.ev.note"
-            @click="openEvent(pin.era, pin.ev)"
-          >
-            <span class="dot" :style="{ background: pin.era.color }"></span>{{ pin.ev.name }}
-          </button>
-        </div>
-
-        <!-- 轴线与时期分界刻度 -->
-        <div class="axis-line"></div>
-        <span
-          v-for="(tick, i) in ticks"
-          :key="'tick-' + i"
-          class="tick"
-          :style="{ left: tick.x + 'px' }"
-        >{{ tick.label }}</span>
-      </div>
+        </article>
+      </template>
+      <p v-if="!visibleItems.length" class="empty">没有找到匹配内容。</p>
+    </section>
+    <div class="jump-fab">
+      <select class="fab-era" v-model="activeEraKey" @change="jumpToEra(activeEraKey)" aria-label="选择朝代跳转">
+        <option v-for="era in eras" :key="era.key" :value="era.key">{{ era.name }}</option>
+      </select>
+      <select class="fab-ruler" v-model="fabRulerId" @change="jumpToRuler(fabRulerId)" :disabled="!fabRulers.length" aria-label="选择皇帝跳转（二级）">
+        <option value="">选择皇帝…</option>
+        <option v-for="r in fabRulers" :key="r.id" :value="r.id">{{ r.name }}</option>
+      </select>
+      <input class="fab-search" list="personJumpList" v-model="personQuery" @change="jumpToPerson(personQuery)" placeholder="搜索历史人物…" aria-label="搜索并跳转历史人物" />
+      <datalist id="personJumpList"><option v-for="p in personIndex" :key="p.id" :value="p.name"></option></datalist>
+      <button class="fab-top" @click="scrollTop" aria-label="回到顶部选择朝代">Top ↑</button>
     </div>
-
-    <div class="ht-progress" aria-hidden="true">
-      <div
-        class="thumb"
-        :style="{ width: thumbW + '%', transform: `translateX(${thumbX}px)` }"
-      ></div>
-    </div>
-
-    <!-- 详情面板遮罩 -->
-    <div v-if="panel" class="detail-backdrop" @click="panel = null"></div>
-
-    <!-- 详情面板 -->
-    <aside v-if="panel" class="detail" :style="{ '--era-color': panel.era.color }">
-      <button class="close" aria-label="关闭" @click="panel = null">✕</button>
-      <template v-if="panel.type === 'figure'">
-        <p class="d-era">{{ panel.era.name }} · {{ panel.group.label }}</p>
-        <h2>{{ panel.fig.name }}</h2>
-        <p class="d-role">{{ panel.fig.role }}</p>
-        <p class="d-note">{{ panel.fig.note }}</p>
-        <button class="linklike" @click="openEra(panel.era)">
-          查看「{{ panel.era.name }}」时期概览 →
-        </button>
-      </template>
-      <template v-else-if="panel.type === 'ruler'">
-        <p class="d-era">{{ panel.era.name }} · {{ panel.group.label }}</p>
-        <h2>👑 {{ panel.group.ruler }}</h2>
-        <p class="d-role">{{ panel.group.rulerTitle }}</p>
-        <p class="d-note" v-if="panel.group.blurb">{{ panel.group.blurb }}</p>
-        <p class="d-note muted" v-else>该阶段无单一统治者，以群雄并立或权臣执政为主。</p>
-        <button class="linklike" @click="openEra(panel.era)">
-          查看「{{ panel.era.name }}」时期概览 →
-        </button>
-      </template>
-      <template v-else-if="panel.type === 'event'">
-        <p class="d-era">{{ panel.era.name }} · {{ fmtYear(panel.ev.year) }}</p>
-        <h2>{{ panel.ev.name }}</h2>
-        <p class="d-note">{{ panel.ev.note }}</p>
-        <button class="linklike" @click="openEra(panel.era)">
-          查看「{{ panel.era.name }}」时期概览 →
-        </button>
-      </template>
-      <template v-else>
-        <p class="d-era">{{ rangeText(panel.era) }} · {{ panel.era.groups.length }} 朝</p>
-        <h2>{{ panel.era.name }}</h2>
-        <p class="d-tagline">{{ panel.era.tagline }}</p>
-        <p class="d-note">{{ panel.era.intro }}</p>
-        <div
-          v-for="(g, gi) in panel.era.groups"
-          :key="'d-' + gi"
-          class="d-group"
-        >
-          <button
-            class="d-group-head"
-            @click="g.ruler ? openRuler(panel.era, g) : null"
-            :disabled="!g.ruler"
-          >
-            <span class="d-crown">{{ g.ruler ? '👑' : '◈' }}</span>
-            <strong>{{ g.label }}</strong>
-            <em v-if="g.ruler">{{ g.ruler }}</em>
-          </button>
-          <div class="d-figs">
-            <button
-              v-for="fig in g.figures"
-              :key="'df-' + fig.name"
-              @click="openFigure(panel.era, g, fig)"
-            >{{ fig.name }}</button>
-          </div>
-        </div>
-      </template>
-    </aside>
-  </div>
+    <div v-if="selected" class="detail-backdrop" @click="selected = null"></div>
+    <aside v-if="selected" class="detail" :style="{ '--era': selected.era.color }"><button class="close" @click="selected = null">×</button><p class="detail-region">{{ selected.era.name }} · {{ formatYear(selected.year) }}</p><h2>{{ selected.isRuler ? '👑 ' : '' }}{{ selected.name }}</h2><p class="detail-role">{{ selected.isRuler ? reignText(selected) : selected.role }}</p><dl v-if="selected.life" class="detail-meta"><div><dt>生卒</dt><dd>{{ selected.life }}</dd></div></dl><p class="detail-note">{{ selected.note || '未填写简评。' }}</p><div v-if="selected.type !== 'event'" class="reaction-actions"><button :class="{ active: reactionFor(selected.name) === 'like' }" @click="toggleReaction(selected.name, 'like')">喜欢</button><button :class="{ active: reactionFor(selected.name) === 'dislike' }" @click="toggleReaction(selected.name, 'dislike')">讨厌</button></div><button v-if="selected.custom" class="delete-button" @click="removePerson(selected.id)">删除此自添人物</button></aside>
+  </main>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
-import { RouterLink } from 'vue-router'
-// 历史数据（23 时期 / 133 帝王朝）从 JSON 读取，改内容直接编辑该文件
+import { computed, nextTick, ref, watch } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { eras } from '../data/chineseHistory.json'
+import personDetails from '../data/personDetails.json'
+import { items as worldItems } from '../data/worldHistory.json'
 
-// 布局常量
-const PAD = 24
-const ERA_GAP = 18
-const GROUP_GAP = 6
-const PX_PER_YEAR = 1.9
-const GROUP_MIN_W = 100
-const EQUAL_GROUP_W = 142
-
-// 全局时间范围（事件定位用）
-const GLOBAL_START = Math.min(...eras.map((e) => e.start))
-const GLOBAL_END = Math.max(...eras.map((e) => e.end))
-
-const mode = ref('scale')
+const ERA_KEY = 'history-timeline:last-era'
+const REACTION_KEY = 'history-timeline:person-reactions'
+const CUSTOM_KEY = 'history-timeline:custom-people'
+const router = useRouter()
+const scope = ref('中国')
+const activeEraKey = ref(window.localStorage.getItem(ERA_KEY) || eras[0]?.key)
 const query = ref('')
-const canvas = ref(null)
-const panel = ref(null)
-const dragging = ref(false)
-const thumbW = ref(10)
-const thumbX = ref(0)
-
-const groupCount = eras.reduce((n, e) => n + e.groups.length, 0)
-const totalFigures = eras.reduce(
-  (n, e) => n + e.groups.reduce((a, g) => a + g.figures.length + (g.ruler ? 1 : 0), 0),
-  0
-)
-
-// 计算每个时期及内部每个帝王子列的横向位置/宽度
-const layout = computed(() => {
-  const items = []
-  let x = PAD
-  for (const era of eras) {
-    let off = 0
-    const groups = era.groups.map((g) => {
-      const years = Math.max(1, g.end - g.start)
-      const width = mode.value === 'equal'
-        ? EQUAL_GROUP_W
-        : Math.max(GROUP_MIN_W, Math.round(years * PX_PER_YEAR))
-      const col = { ...g, off, width }
-      off += width + GROUP_GAP
-      return col
-    })
-    const groupsWidth = off - GROUP_GAP
-    const eraWidth = Math.max(groupsWidth, era.minW || 0)
-
-    items.push({ ...era, x, width: eraWidth, groups })
-    x += eraWidth + ERA_GAP
-  }
-  return items
-})
-
-// 事件定位：全部事件在全局时间轴上排布
-// - "按时长"模式按真实年份在整条轴上线性插值（跨时期位置连续）
-// - "等宽"模式退回时期内部插值
-// - 三行贪心：某行放不下就顺延到行尾，保证绝不重叠
-const pins = computed(() => {
-  const items = layout.value
-  const usable = totalWidth.value - PAD * 2
-  const span = GLOBAL_END - GLOBAL_START
-  const rowsEnd = [0, 0, 0]
-  const list = []
-  for (const era of items) {
-    for (const ev of era.events || []) {
-      let gx
-      if (mode.value === 'scale') {
-        gx = PAD + ((ev.year - GLOBAL_START) / span) * usable
-      } else {
-        const frac = era.end > era.start ? (ev.year - era.start) / (era.end - era.start) : 0
-        gx = era.x + Math.max(0, Math.min(1, frac)) * era.width
-      }
-      const w = Math.min(usable, ev.name.length * 12.5 + 28)
-      let row = rowsEnd.findIndex((end) => gx >= end)
-      if (row === -1) {
-        row = 0
-        gx = rowsEnd[0]
-      }
-      rowsEnd[row] = gx + w
-      list.push({ era, ev, x: gx, row })
+const personQuery = ref('')
+const fabRulerId = ref('')
+const selected = ref(null)
+const formOpen = ref(false)
+const formMessage = ref('')
+const draft = ref({ name: '', eraKey: 'dangdai', year: 2026, role: '', note: '' })
+const worldRegions = [...new Set(worldItems.map((item) => item.region))].sort((a, b) => a.localeCompare(b, 'zh-CN'))
+function readJson(key, fallback) { try { return JSON.parse(window.localStorage.getItem(key) || '') ?? fallback } catch { return fallback } }
+const reactions = ref(readJson(REACTION_KEY, {}))
+const customPeople = ref(readJson(CUSTOM_KEY, []).filter((item) => item?.id && item?.name && item?.eraKey))
+const timelineEras = computed(() => eras.map((era) => {
+  const groups = era.groups.map((group) => ({ ...group, figures: [...group.figures] }))
+  customPeople.value.filter((person) => person.eraKey === era.key).forEach((person) => groups.at(-1)?.figures.push({ ...person, custom: true }))
+  return { ...era, groups }
+}))
+function description(name, fallback = '') {
+  const summary = personDetails[name]?.summary || ''
+  return summary.includes('…') ? fallback : (summary || fallback)
+}
+const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
+  const groupItems = era.groups.map((group, gi) => {
+    const side = (eraIndex + gi) % 2 ? 'right' : 'left'
+    const ruler = group.ruler
+      ? {
+          id: `${era.key}-${gi}-r`,
+          type: 'ruler',
+          name: group.ruler,
+          role: group.rulerTitle,
+          note: description(group.ruler, group.blurb),
+          life: personDetails[group.ruler]?.life,
+          reignStart: group.start,
+          reignEnd: group.end,
+          year: group.start,
+          era,
+          group,
+          isRuler: true
+        }
+      : null
+    const figures = group.figures.map((figure, fi) => ({
+      id: `${era.key}-${gi}-f-${fi}`,
+      type: 'figure',
+      name: figure.name,
+      role: figure.role,
+      note: description(figure.name, figure.note),
+      life: personDetails[figure.name]?.life || figure.life,
+      year: figure.year ?? group.start,
+      era,
+      group,
+      custom: figure.custom
+    }))
+    return {
+      id: `${era.key}-${gi}`,
+      type: 'group',
+      year: group.start,
+      era,
+      group,
+      side,
+      ruler,
+      figures,
+      anchor: gi === 0 ? `era-${era.key}` : null
     }
-  }
-  return list
-})
-
-const totalWidth = computed(() => {
-  const last = layout.value[layout.value.length - 1]
-  // 尾部多留 140px，容纳超出最后时期的事件徽章
-  return last.x + last.width + PAD + 140
-})
-
-// 打平所有子列，便于搜索定位
-const flatGroups = computed(() =>
-  layout.value.flatMap((era) =>
-    era.groups.map((g, gi) => ({ era, g, gi, absX: era.x + g.off }))
-  )
-)
-
-// 时期分界刻度
-const ticks = computed(() => {
-  const list = layout.value.map((it) => ({ x: it.x - ERA_GAP / 2, label: fmtYear(it.start) }))
-  const last = layout.value[layout.value.length - 1]
-  list.push({ x: last.x + last.width + ERA_GAP / 2, label: fmtYear(last.end) })
-  return list
-})
-
-function fmtYear(y) {
-  if (y < 0) return `前${-y}`
-  if (y > 0 && y < 100) return `公元${y}`
-  return `${y}`
-}
-
-function rangeText(era) {
-  const end = era.key === 'dangdai' ? '今' : fmtYear(era.end)
-  return `${fmtYear(era.start)} – ${end}（${era.end - era.start} 年）`
-}
-
-// 搜索：命中统治者、任一人物或历史事件的子列整列高亮
-const matchGroups = computed(() => {
-  const q = query.value.trim().toLowerCase()
-  if (!q) return null
-  const set = new Set()
-  flatGroups.value.forEach(({ era, g, gi }) => {
+  })
+  const eventItems = (era.events || []).map((event, ei) => ({ id: `${era.key}-e-${ei}`, type: 'event', name: event.name, role: '历史事件', note: event.note, year: event.year, era }))
+  return [...groupItems, ...eventItems]
+}).sort((a, b) => a.year - b.year || (a.type === 'event' ? -1 : 1)))
+const visibleItems = computed(() => {
+  const text = query.value.toLowerCase()
+  if (!text) return allItems.value
+  return allItems.value.filter((item) => {
+    if (item.type === 'event') {
+      return [item.name, item.role, item.note, item.era.name].filter(Boolean).join(' ').toLowerCase().includes(text)
+    }
     const hay = [
-      g.label, g.ruler, g.rulerTitle, g.blurb,
-      ...g.figures.flatMap((f) => [f.name, f.role, f.note])
+      item.era.name,
+      item.group?.label,
+      item.ruler?.name,
+      item.ruler?.role,
+      item.ruler?.note,
+      ...item.figures.flatMap((f) => [f.name, f.role, f.note])
     ].filter(Boolean).join(' ').toLowerCase()
-    if (hay.includes(q)) set.add(era.key + '/' + gi)
+    return hay.includes(text)
   })
-  // 事件命中：整个时期高亮
-  layout.value.forEach((era) => {
-    const hit = (era.events || []).some((ev) =>
-      (ev.name + ev.note).toLowerCase().includes(q)
-    )
-    if (hit) era.groups.forEach((g, gi) => set.add(era.key + '/' + gi))
+})
+function formatYear(year) { return year < 0 ? `前${Math.abs(year)}年` : `${year}年` }
+function reignText(ruler) {
+  if (!ruler) return ''
+  const s = ruler.reignStart, e = ruler.reignEnd
+  if (s == null && e == null) return ''
+  const start = s != null ? formatYear(s) : ''
+  const end = e != null ? formatYear(e) : ''
+  if (start && end) return `${start}—${end}`
+  if (start) return `${start}起`
+  return `${end}止`
+}
+function rangeText(era) { return `${formatYear(era.start)}—${era.key === 'dangdai' ? '今' : formatYear(era.end)}` }
+function switchScope() { if (scope.value !== '中国') router.push({ path: '/world-history', query: { region: scope.value } }) }
+function scrollTop() { window.scrollTo({ top: 0, behavior: 'smooth' }) }
+const personMap = computed(() => {
+  const map = new Map()
+  for (const item of allItems.value) {
+    if (item.type === 'event') continue
+    if (item.ruler) map.set(item.ruler.id, item.ruler)
+    for (const f of item.figures) map.set(f.id, f)
+  }
+  return map
+})
+const personIndex = computed(() => [...personMap.value.values()].map((p) => ({ id: p.id, name: p.name })))
+const fabRulers = computed(() => {
+  const era = timelineEras.value.find((e) => e.key === activeEraKey.value)
+  if (!era) return []
+  const list = []
+  era.groups.forEach((g, gi) => { if (g.ruler) list.push({ id: `${era.key}-${gi}-r`, name: g.ruler }) })
+  return list
+})
+function jumpToEra(key) {
+  query.value = ''
+  personQuery.value = ''
+  fabRulerId.value = ''
+  window.localStorage.setItem(ERA_KEY, key)
+  nextTick(() => { document.getElementById(`era-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) })
+}
+function jumpToRuler(id) {
+  if (!id) return
+  query.value = ''
+  personQuery.value = ''
+  nextTick(() => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    el.classList.add('flash')
+    setTimeout(() => el.classList.remove('flash'), 1500)
   })
-  return set
-})
-
-const matchCount = computed(() => (matchGroups.value ? matchGroups.value.size : 0))
-
-watch(query, () => {
-  if (!matchGroups.value || matchCount.value === 0) return
-  const first = flatGroups.value.find((fg) =>
-    matchGroups.value.has(fg.era.key + '/' + fg.gi)
-  )
-  if (first && canvas.value) {
-    canvas.value.scrollTo({ left: Math.max(0, first.absX - 80), behavior: 'smooth' })
-  }
-})
-
-function openFigure(era, group, fig) {
-  panel.value = { type: 'figure', era, group, fig }
 }
-function openRuler(era, group) {
-  panel.value = { type: 'ruler', era, group }
+function jumpToPerson(name) {
+  const entry = personIndex.value.find((p) => p.name === name)
+  if (!entry) { personQuery.value = ''; return }
+  query.value = ''
+  nextTick(() => {
+    const el = document.getElementById(entry.id)
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1500) }
+  })
+  personQuery.value = ''
 }
-function openEra(era) {
-  panel.value = { type: 'era', era }
-}
-function openEvent(era, ev) {
-  panel.value = { type: 'event', era, ev }
-}
-
-function isFigActive(era, g, fig) {
-  const p = panel.value
-  return p?.type === 'figure' && p.era.key === era.key && p.group.label === g.label && p.fig.name === fig.name
-}
-function isRulerActive(era, g) {
-  const p = panel.value
-  return p?.type === 'ruler' && p.era.key === era.key && p.group.label === g.label
-}
-function isEventActive(era, ev) {
-  const p = panel.value
-  return p?.type === 'event' && p.era.key === era.key && p.ev.name === ev.name
-}
-
-// 搜索未命中该时期任何内容时，事件轨道一并淡化
-function eraDim(era) {
-  if (!matchGroups.value) return false
-  return !era.groups.some((g, gi) => matchGroups.value.has(era.key + '/' + gi))
-}
-
-// 滚轮：纵向滚动转横向
-function onWheel(e) {
-  if (!canvas.value) return
-  canvas.value.scrollLeft += e.deltaY + e.deltaX
-}
-
-// 鼠标拖拽平移：用 window 监听 move/up，避免在画布上 setPointerCapture 把
-// 卡片的 click 也劫持走（那会导致点卡片弹不出简介）
-let dragStartX = 0
-let dragStartLeft = 0
-let moved = 0
-
-function onPointerDown(e) {
-  if (e.pointerType !== 'mouse' || e.button !== 0 || !canvas.value) return
-  dragging.value = true
-  moved = 0
-  dragStartX = e.clientX
-  dragStartLeft = canvas.value.scrollLeft
-  window.addEventListener('pointermove', onDragMove)
-  window.addEventListener('pointerup', onDragUp, { once: true })
-}
-
-function onDragMove(e) {
-  const dx = e.clientX - dragStartX
-  moved = Math.max(moved, Math.abs(dx))
-  if (canvas.value) canvas.value.scrollLeft = dragStartLeft - dx
-}
-
-function onDragUp() {
-  dragging.value = false
-  window.removeEventListener('pointermove', onDragMove)
-}
-
-// 拖拽松手会触发一次 click，这里把它拦掉；普通点击（moved≈0）放行给卡片
-function onClickCapture(e) {
-  const wasDrag = moved > 8
-  moved = 0
-  if (wasDrag) {
-    e.stopPropagation()
-    e.preventDefault()
-  }
-}
-
-function onScroll() {
-  const el = canvas.value
-  if (!el || !el.scrollWidth) return
-  const ratio = el.clientWidth / el.scrollWidth
-  thumbW.value = Math.max(4, ratio * 100)
-  thumbX.value = (el.scrollLeft / el.scrollWidth) * el.clientWidth
-}
-
-function onKeydown(e) {
-  if (e.key === 'Escape') panel.value = null
-}
-
-onMounted(() => {
-  window.addEventListener('keydown', onKeydown)
-  onScroll()
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', onKeydown)
-  window.removeEventListener('pointermove', onDragMove)
-  window.removeEventListener('pointerup', onDragUp)
-})
+function reactionFor(name) { return reactions.value[name] || '' }
+function toggleReaction(name, value) { const next = { ...reactions.value }; if (next[name] === value) delete next[name]; else next[name] = value; reactions.value = next; window.localStorage.setItem(REACTION_KEY, JSON.stringify(next)) }
+function addPerson() { if (!draft.value.name || !Number.isFinite(Number(draft.value.year))) { formMessage.value = '请填写姓名和年份。'; return }; customPeople.value = [...customPeople.value, { ...draft.value, id: `custom-${Date.now()}`, year: Number(draft.value.year) }]; window.localStorage.setItem(CUSTOM_KEY, JSON.stringify(customPeople.value)); formMessage.value = `已保存「${draft.value.name}」。`; draft.value = { name: '', eraKey: draft.value.eraKey, year: draft.value.year, role: '', note: '' } }
+function removePerson(id) { customPeople.value = customPeople.value.filter((item) => item.id !== id); window.localStorage.setItem(CUSTOM_KEY, JSON.stringify(customPeople.value)); selected.value = null }
+watch(activeEraKey, (key) => window.localStorage.setItem(ERA_KEY, key))
 </script>
 
 <style scoped>
-.ht-page {
-  padding: 24px 0 40px;
-}
-
-.ht-header {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 20px 18px;
-}
-
-.ht-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.back { font-size: 14px; }
-.counts { color: var(--color-muted); font-size: 13px; }
-
-.ht-header h1 { margin: 10px 0 6px; font-size: 26px; }
-.ht-header .sub { margin: 0; color: var(--color-muted); font-size: 14px; }
-.ht-header .sub strong { color: var(--color-text); }
-.ht-header .sub em { font-style: normal; color: var(--color-text); }
-
-.toolbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.modes {
-  display: inline-flex;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--color-card);
-}
-.modes button {
-  border: none;
-  background: transparent;
-  padding: 6px 14px;
-  font-size: 13px;
-  cursor: pointer;
-  color: var(--color-muted);
-}
-.modes button.on { background: var(--color-primary); color: #fff; }
-
-.search {
-  flex: 0 1 320px;
-  min-width: 200px;
-  padding: 7px 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  font-size: 13px;
-  background: var(--color-card);
-  color: var(--color-text);
-}
-.hint, .match-info { font-size: 12px; color: var(--color-muted); }
-
-/* ---------- 时间轴画布 ---------- */
-.ht-canvas {
-  position: relative;
-  margin: 6px 12px 0;
-  height: 720px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  background: linear-gradient(to bottom, #faf7f0, #f3eee2);
-  border: 1px solid #e7e0cf;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
-  cursor: grab;
-  user-select: none;
-  touch-action: pan-x pan-y;
-  scrollbar-width: thin;
-}
-.ht-canvas.dragging { cursor: grabbing; }
-.ht-inner { position: relative; height: 100%; }
-
-/* 每个时期 */
-.era {
-  position: absolute;
-  bottom: 0;
-  height: 100%;
-}
-
-/* 子列容器：人物与统治者都在其中 */
-.groups {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 190px;
-  height: 518px;
-}
-
-.group-col {
-  position: absolute;
-  bottom: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: stretch;
-  gap: 6px;
-  padding: 0 3px;
-  transition: opacity 0.15s ease;
-}
-.group-col.dim { opacity: 0.14; }
-.group-col.dim .chip,
-.group-col.dim .ruler-chip { pointer-events: none; }
-
-/* 人物卡片 */
-.chip {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1px;
-  padding: 3px 8px 4px 7px;
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid #999;
-  border-radius: 7px;
-  text-align: left;
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-.chip:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.14); }
-.chip.active { box-shadow: 0 0 0 2px rgba(47,111,237,0.5); }
-.chip-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.chip-role { font-size: 10.5px; color: var(--color-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-
-/* 统治者卡片：贴轴、突出 */
-.ruler-chip {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 8px;
-  border: 2px solid #999;
-  border-radius: 8px;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-  cursor: pointer;
-  max-width: 100%;
-  overflow: hidden;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-}
-.ruler-chip:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
-.ruler-chip.active { box-shadow: 0 0 0 2px rgba(47,111,237,0.6), 0 6px 16px rgba(0,0,0,0.2); }
-.ruler-chip .crown { font-size: 15px; line-height: 1; flex: 0 0 auto; }
-.ruler-main { display: flex; flex-direction: column; align-items: stretch; line-height: 1.15; min-width: 0; flex: 1; overflow: hidden; }
-.ruler-name { font-size: 13.5px; font-weight: 700; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
-.ruler-title { font-size: 10px; opacity: 0.9; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
-
-/* 朝代色带 */
-.era-band {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 74px;
-  height: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1px;
-  border: none;
-  border-top: 3px solid #999;
-  border-radius: 0 0 6px 6px;
-  cursor: pointer;
-  transition: filter 0.15s ease, box-shadow 0.15s ease;
-}
-.era-band:hover { filter: brightness(0.96); }
-.era-band.active { box-shadow: inset 0 0 0 2px rgba(47,111,237,0.4); }
-.band-name { font-size: 15px; font-weight: 700; line-height: 1.1; }
-.band-years { font-size: 10px; color: #6b6455; }
-
-/* 每个子列的帝王标签 */
-.group-labels {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 30px;
-  height: 40px;
-}
-.g-label {
-  position: absolute;
-  text-align: center;
-  font-size: 10.5px;
-  color: #857a63;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 2px;
-}
-.g-label.ruler { color: #6b5a35; font-weight: 600; }
-
-/* 事件轨道：位于轴线正下方 */
-.events-layer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 118px;
-  height: 64px;
-  transition: opacity 0.15s ease;
-}
-.events-layer.dim { opacity: 0.14; }
-
-.event-pin {
-  position: absolute;
-  height: 20px;
-  padding: 0 9px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--color-card);
-  border: 1px solid #999;
-  border-radius: 999px;
-  font-size: 11.5px;
-  color: #4c4637;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-.event-pin:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-.event-pin.active {
-  box-shadow: 0 0 0 2px rgba(47, 111, 237, 0.5), 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-.event-pin .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex: 0 0 auto;
-}
-
-/* 轴线与刻度 */
-.axis-line {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 164px;
-  height: 2px;
-  background: linear-gradient(to right, #b9ae95, #8f7f5f, #b9ae95);
-  border-radius: 1px;
-}
-.tick {
-  position: absolute;
-  bottom: 8px;
-  transform: translateX(-50%);
-  font-size: 10.5px;
-  color: #857a63;
-  white-space: nowrap;
-}
-.tick::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  width: 1px;
-  height: 8px;
-  background: #a89c82;
-}
-
-.ht-progress {
-  position: relative;
-  height: 4px;
-  margin: 10px 12px 0;
-  border-radius: 2px;
-  background: var(--color-border);
-  overflow: hidden;
-}
-.ht-progress .thumb {
-  position: absolute;
-  left: 0; top: 0;
-  height: 100%;
-  min-width: 8px;
-  border-radius: 2px;
-  background: var(--color-primary);
-  opacity: 0.6;
-}
-
-/* ---------- 详情面板 ---------- */
-.detail-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 20, 30, 0.28);
-  z-index: 29;
-  animation: ht-fade 0.15s ease;
-}
-
-.detail {
-  position: fixed;
-  right: 20px;
-  top: 84px;
-  width: 340px;
-  max-height: calc(100vh - 130px);
-  overflow-y: auto;
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-top: 4px solid var(--era-color, var(--color-primary));
-  border-radius: var(--radius);
-  box-shadow: 0 12px 36px rgba(0,0,0,0.22);
-  padding: 18px 20px 20px;
-  z-index: 30;
-  animation: ht-panel-in 0.18s ease;
-}
-
-@keyframes ht-fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes ht-panel-in {
-  from { opacity: 0; transform: translateX(18px); }
-  to { opacity: 1; transform: none; }
-}
-.detail .close {
-  position: absolute; right: 10px; top: 10px;
-  border: none; background: transparent;
-  font-size: 14px; color: var(--color-muted);
-  cursor: pointer; padding: 4px 6px; border-radius: 6px;
-}
-.detail .close:hover { background: var(--color-bg); color: var(--color-text); }
-.d-era { margin: 0 0 2px; font-size: 12px; color: var(--era-color, var(--color-primary)); font-weight: 600; }
-.detail h2 { margin: 0 0 6px; font-size: 24px; }
-.d-tagline { margin: 0 0 8px; font-size: 13px; color: var(--color-muted); }
-.d-role { margin: 0 0 10px; font-size: 13px; color: var(--color-muted); }
-.d-note { margin: 0 0 12px; font-size: 14px; line-height: 1.7; }
-.d-note.muted { color: var(--color-muted); font-style: italic; }
-.linklike {
-  border: none; background: transparent;
-  color: var(--color-primary);
-  font-size: 13px; cursor: pointer; padding: 0;
-}
-.linklike:hover { text-decoration: underline; }
-
-.d-group { margin-top: 12px; border-top: 1px dashed var(--color-border); padding-top: 8px; }
-.d-group-head {
-  display: flex; align-items: center; gap: 6px;
-  width: 100%;
-  border: none; background: transparent;
-  padding: 2px 0;
-  font-size: 13px;
-  color: var(--color-text);
-  cursor: pointer;
-  text-align: left;
-}
-.d-group-head:disabled { cursor: default; }
-.d-group-head em { color: var(--color-muted); font-style: normal; font-size: 12px; }
-.d-group-head:not(:disabled):hover strong { color: var(--color-primary); }
-.d-crown { font-size: 13px; }
-.d-figs { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
-.d-figs button {
-  border: 1px solid var(--color-border);
-  background: var(--color-bg);
-  border-radius: 999px;
-  padding: 2px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  color: var(--color-text);
-}
-.d-figs button:hover { border-color: var(--era-color, var(--color-primary)); }
-
-@media (max-width: 640px) {
-  .ht-canvas { height: 660px; margin: 6px 8px 0; }
-  .groups { height: 460px; }
-  .detail {
-    left: 12px; right: 12px;
-    top: auto; bottom: 12px;
-    width: auto; max-height: 50vh;
-  }
+/* 保持中国与国外时间轴使用相同的卡片式中轴视觉语言。 */
+.china-page{max-width:1220px;margin:0 auto;padding:28px 20px 56px}
+.back{color:var(--color-primary);font-size:14px}
+.history-picker{display:inline-flex;gap:7px;align-items:center;margin-left:14px;color:var(--color-primary);font-size:13px;font-weight:700}
+.history-picker select,.toolbar select{border:1px solid var(--color-border);border-radius:7px;padding:5px 8px;color:var(--color-text);background:var(--color-card);font:inherit}
+.title-row{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-top:12px}
+.eyebrow{margin:0 0 4px;color:var(--color-muted);font-size:12px}
+h1{margin:0;font-size:32px;letter-spacing:.04em}
+.intro{margin:8px 0 0;color:var(--color-muted)}
+.add-button,.submit-button,.delete-button{min-height:42px;border:0;border-radius:9px;padding:9px 16px;color:#fff;background:var(--color-primary);font:inherit;font-weight:700;cursor:pointer}
+.add-form{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px;padding:16px;border:1px solid var(--color-border);border-radius:12px;background:var(--color-card)}
+.add-form label{display:grid;gap:5px;color:var(--color-muted);font-size:12px;font-weight:700}
+.add-form input,.add-form select,.add-form textarea,.toolbar input{width:100%;box-sizing:border-box;border:1px solid var(--color-border);border-radius:7px;padding:8px;background:var(--color-bg);color:var(--color-text);font:inherit}
+.note-field{grid-column:span 2}
+.form-message{align-self:center;margin:0;color:#247348}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px;color:var(--color-muted);font-size:13px}
+.toolbar label{display:inline-flex;align-items:center;gap:7px;font-weight:700}
+.toolbar input{width:min(280px,100%)}
+.timeline{position:relative;margin:28px auto 0;padding:12px 0}
+.timeline-axis{position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);background:linear-gradient(#40679c,#a88647)}
+.timeline-item{position:relative;width:50%;box-sizing:border-box;padding-bottom:22px}
+.timeline-item.left{margin-right:50%;padding-left:24px;padding-right:84px}
+.timeline-item.right{margin-left:50%;padding-left:84px;padding-right:24px}
+.group-block{display:flex;flex-direction:column;gap:10px;max-width:430px}
+.timeline-item.left .group-block{margin-left:auto;align-items:flex-end}
+.timeline-item.right .group-block{margin-right:auto;align-items:flex-start}
+.year{position:absolute;top:17px;display:flex;width:120px;flex-direction:column;align-items:center;gap:4px;color:#655b48;font-size:12px;font-weight:800;white-space:nowrap}
+.left .year{right:-60px}
+.right .year{left:-60px}
+.year span{z-index:1;padding:2px 5px;border-radius:4px;background:var(--color-bg)}
+.year i{width:13px;height:13px;border:3px solid #fbf8f0;border-radius:50%;background:#40679c;box-shadow:0 0 0 2px #40679c}
+.person-card{position:relative;width:min(100%,430px);padding:13px 16px;border:1px solid color-mix(in srgb,var(--era) 55%,#fff);border-radius:12px;background:var(--color-card);color:var(--color-text);box-shadow:0 4px 12px rgba(35,48,76,.08);cursor:pointer;text-align:left}
+.person-card strong,.person-card span{display:block}
+.person-card strong{font-size:17px}
+.person-region{color:var(--era);font-size:11px;font-weight:800}
+.person-role{margin-top:2px;color:var(--color-muted);font-size:12px}
+.person-life{margin-top:6px;color:#655b48;font-size:12px}
+.person-note{margin-top:6px;color:var(--color-muted);font-size:12px;line-height:1.5}
+.custom-tag{position:absolute;top:10px;left:10px;padding:2px 5px;border-radius:5px;background:#e2eefc;color:#245785;font-size:10px}
+.person-card .reaction-badge{position:absolute;top:9px;right:10px;display:inline-block;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;user-select:none}
+.reaction-badge.like{background:#fde3e1;color:#c0392b}
+.reaction-badge.dislike{background:#e8eaed;color:#5b6470}
+/* 皇帝卡：明显区别于大臣，突出居中 */
+.ruler-card{border:2px solid var(--era);background:linear-gradient(180deg,color-mix(in srgb,var(--era) 14%,#fff),var(--color-card));box-shadow:0 6px 16px color-mix(in srgb,var(--era) 22%,transparent)}
+.ruler-card strong{font-size:20px}
+.ruler-card .crown{margin-right:4px}
+/* 大臣：并排 2–3 列，缩小卡片 */
+.figure-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;width:100%;max-width:430px}
+.minister-card{padding:10px 12px}
+.minister-card strong{font-size:15px}
+/* 历史事件：固定在中轴年份处 */
+.timeline-item.event{width:100%;margin:0;padding:0 50% 22px;min-height:84px;text-align:center}
+.timeline-item.event .person-card{width:220px;transform:translateX(-50%);border-style:dashed;background:#fff9e8;text-align:center}
+.timeline-item.event .year{top:-7px;left:50%;transform:translateX(-50%)}
+.timeline-item.event .year i{display:none}
+.empty{position:relative;text-align:center;color:var(--color-muted)}
+.jump-fab{position:fixed;right:18px;bottom:18px;z-index:15;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;align-items:center;padding:8px 10px;max-width:min(580px,calc(100vw - 24px));border:1px solid var(--color-border);border-radius:22px;background:var(--color-card);box-shadow:0 8px 24px rgba(19,25,38,.18)}
+.jump-fab select{border:1px solid var(--color-border);border-radius:7px;padding:5px 8px;background:var(--color-bg);color:var(--color-text);font:inherit;max-width:120px}
+.jump-fab .fab-ruler{max-width:130px}
+.jump-fab button{min-height:34px;border:0;border-radius:8px;padding:6px 12px;font:inherit;font-weight:700;color:#fff;background:var(--color-primary);cursor:pointer}
+.jump-fab .fab-search{border:1px solid var(--color-border);border-radius:7px;padding:6px 10px;background:var(--color-bg);color:var(--color-text);font:inherit;width:148px}
+.jump-fab .fab-search::placeholder{color:var(--color-muted)}
+.jump-fab .fab-top{background:#2c3e68}
+.jump-fab .fab-era{border:1px solid var(--color-border);border-radius:7px;padding:6px 8px;background:var(--color-bg);color:var(--color-text);font:inherit;max-width:120px}
+.jump-fab .fab-search{width:160px}
+@keyframes flashHighlight{0%{box-shadow:0 0 0 4px var(--era)}100%{box-shadow:0 4px 12px rgba(35,48,76,.08)}}
+.person-card.flash{animation:flashHighlight 1.5s ease-out}
+.detail-backdrop{position:fixed;inset:0;z-index:20;background:rgba(19,25,38,.3)}
+.detail{position:fixed;top:90px;right:20px;z-index:21;width:min(360px,calc(100vw - 32px));padding:24px;border:1px solid var(--color-border);border-radius:14px;background:var(--color-card);box-shadow:0 18px 48px rgba(0,0,0,.2)}
+.close{position:absolute;top:8px;right:10px;border:0;background:transparent;color:var(--color-muted);font-size:24px;cursor:pointer}
+.detail-region{margin:0;color:var(--era);font-size:13px;font-weight:800}
+.detail h2{margin:6px 0;font-size:26px}
+.detail-role{margin:0 0 12px;color:var(--color-muted)}
+.detail-meta{margin:0 0 12px;padding:10px;border-radius:8px;background:var(--color-bg)}
+.detail-meta div{display:flex;gap:12px}
+.detail-meta dt{color:var(--color-muted)}
+.detail-meta dd{margin:0;font-weight:700}
+.detail-note{line-height:1.7}
+.reaction-actions{display:flex;gap:8px;margin-top:16px}
+.reaction-actions button{min-height:38px;border:1px solid var(--color-border);border-radius:8px;padding:6px 12px;background:var(--color-bg);cursor:pointer}
+.reaction-actions button.active{border-color:var(--era);background:color-mix(in srgb,var(--era) 15%,#fff)}
+.delete-button{margin-top:16px;background:#9f3a36}
+@media(max-width:760px){
+  .title-row{align-items:start;flex-direction:column}
+  .add-form{grid-template-columns:1fr}
+  .note-field{grid-column:auto}
+  .toolbar{flex-direction:column;align-items:flex-start}
+  .timeline-axis{left:22px}
+  .timeline-item,.timeline-item.left,.timeline-item.right{width:100%;margin:0;padding:0 0 18px 52px;text-align:left}
+  .group-block{margin:0!important;max-width:100%;align-items:stretch!important}
+  .left .person-card,.figure-cards,.person-card{width:100%}
+  .year,.left .year,.right .year,.timeline-item.event .year{left:0;right:auto;width:auto;transform:none;flex-direction:row}
+  .figure-cards{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .detail{top:auto;right:16px;bottom:16px;left:16px;width:auto}
 }
 </style>

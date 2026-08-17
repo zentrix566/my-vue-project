@@ -1,0 +1,43 @@
+// 体重历史数据（单位：斤），身高 170cm。
+// 每个条目记录某年某月的体重，用于趋势、分年与月度变化分析。
+export const HEIGHT_CM = 170
+
+export const weightRecords = [
+  { year: 2023, month: 7, value: 200.0 },
+  { year: 2023, month: 8, value: 193.0 },
+  { year: 2023, month: 9, value: 190.0 },
+  { year: 2023, month: 10, value: 186.0 },
+  { year: 2023, month: 11, value: 181.0 },
+  { year: 2023, month: 12, value: 178.0 },
+  { year: 2024, month: 1, value: 172.0 },
+  { year: 2024, month: 2, value: 166.0 },
+  { year: 2024, month: 3, value: 158.0 },
+  { year: 2024, month: 4, value: 153.0 },
+  { year: 2024, month: 5, value: 152.5 },
+  { year: 2024, month: 6, value: 158.8 },
+  { year: 2024, month: 7, value: 150.3 },
+  { year: 2024, month: 8, value: 151.7 },
+  { year: 2024, month: 9, value: 157.2 },
+  { year: 2024, month: 10, value: 155.5 },
+  { year: 2024, month: 11, value: 158.8 },
+  { year: 2024, month: 12, value: 160.5 },
+  { year: 2025, month: 1, value: 162.9 },
+  { year: 2025, month: 2, value: 166.9 },
+  { year: 2025, month: 3, value: 158.1 },
+  { year: 2025, month: 4, value: 158.7 },
+  { year: 2025, month: 5, value: 157.1 },
+  { year: 2025, month: 6, value: 153.7 },
+  { year: 2025, month: 7, value: 150.7 },
+  { year: 2025, month: 8, value: 153.3 },
+  { year: 2025, month: 9, value: 157.6 },
+  { year: 2025, month: 10, value: 162.9 },
+  { year: 2025, month: 11, value: 163.0 },
+  { year: 2025, month: 12, value: 165.2 },
+  { year: 2026, month: 1, value: 163.1 },
+  { year: 2026, month: 2, value: 167.1 },
+  { year: 2026, month: 3, value: 163.0 },
+  { year: 2026, month: 4, value: 161.7 },
+  { year: 2026, month: 5, value: 158.2 },
+  { year: 2026, month: 6, value: 159.4 },
+  { year: 2026, month: 7, value: 164.1 }
+]

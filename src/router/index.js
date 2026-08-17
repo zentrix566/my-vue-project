@@ -17,6 +17,7 @@ import { loadEmperorPage } from '../features/emperor/index.js'
 import { loadDrivingPage } from '../features/driving/index.js'
 import { loadSecureStoragePage } from '../features/secure-storage/index.js'
 import { loadSubwayPage } from '../features/subway/index.js'
+import { loadCountdownPage } from '../features/countdown/index.js'
 import { loadWeightTrackerPage } from '../features/weight-tracker/index.js'
 import {
   loadContemporaryFiguresPage,
@@ -46,6 +47,7 @@ const routes = [
   { path: '/driving', name: 'driving', component: loadDrivingPage, meta: { title: '模拟驾驶 · 转弯掉头变道练习场' } },
   { path: '/secure-storage', name: 'secure-storage', component: loadSecureStoragePage, meta: { title: '端到端加密 · 云端密文存储' } },
   { path: '/subway', name: 'subway', component: loadSubwayPage, meta: { title: '北京地铁 · 站站距离' } },
+  { path: '/countdown', name: 'countdown', component: loadCountdownPage, meta: { title: '人生倒计时 · 关键节点还剩多久' } },
   { path: '/weight', name: 'weight', component: loadWeightTrackerPage, meta: { title: '体重变化 · 趋势分析' } },
   { path: '/contemporary-figures', name: 'contemporary-figures', component: loadContemporaryFiguresPage, meta: { title: '当代人物追踪' } },
   { path: '/contemporary-figures/:id', name: 'contemporary-figure-detail', component: loadContemporaryFigureDetailPage, props: true, meta: { title: '当代人物追踪 · 详情' } }

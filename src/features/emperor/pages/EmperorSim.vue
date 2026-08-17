@@ -1,6 +1,6 @@
 <template>
   <div class="emperor-page">
-    <RouterLink class="back" to="/">← 返回首页</RouterLink>
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
     <h1 class="title">👑 皇帝模拟器 · 日理万机</h1>
     <p class="subtitle">
       你登基了。奏折一份份呈上来，赈灾、边患、党争、选秀……朱笔一勾，便是天下。

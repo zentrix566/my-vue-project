@@ -2,6 +2,7 @@
   <section class="section page-section">
     <div class="container">
       <div class="training-header">
+        <RouterLink to="/" class="back">← 返回主页</RouterLink>
         <div>
           <p class="eyebrow">400m Interval</p>
           <h1>间歇训练数据看板</h1>
@@ -406,3 +407,13 @@ onMounted(() => {
   syncChartSelection()
 })
 </script>
+
+<style scoped>
+.back {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--color-muted);
+  font-size: 14px;
+  text-decoration: none;
+}
+</style>

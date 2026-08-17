@@ -1,6 +1,6 @@
 <template>
   <div class="pet-page">
-    <RouterLink class="back" to="/">← 返回首页</RouterLink>
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
     <h1 class="title">🐾 宠物模拟器 · 云养毛孩子</h1>
     <p class="subtitle">
       选一只喜欢的毛孩子，喂饭、陪玩、洗澡、哄睡。状态会随时间下降，太久不照顾它会难过，记得常回来看看。

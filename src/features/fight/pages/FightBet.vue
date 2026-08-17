@@ -1,6 +1,6 @@
 <template>
   <div class="fight-page">
-    <RouterLink class="back" to="/">← 返回首页</RouterLink>
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
     <h1 class="title">🥊 擂台投注 · 火柴人格斗</h1>
     <p class="subtitle">
       红蓝两个火柴人擂台火并：直拳、重拳、上勾拳、扫堂腿、飞踢轮番上阵，

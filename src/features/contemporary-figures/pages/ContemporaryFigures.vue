@@ -38,6 +38,7 @@ const fieldCounts = computed(() => {
 
 <template>
   <div class="cf">
+    <RouterLink to="/" class="back">← 返回主页</RouterLink>
     <section>
       <div class="intro">
       <h2>追踪面板</h2>
@@ -85,6 +86,14 @@ const fieldCounts = computed(() => {
 </template>
 
 <style scoped>
+.back {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--color-muted);
+  font-size: 14px;
+  text-decoration: none;
+}
+
 .intro h2 {
   margin: 0 0 6px;
   font-size: 20px;

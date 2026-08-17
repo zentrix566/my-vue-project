@@ -43,6 +43,7 @@ function setStatus(key) {
 <template>
   <div class="cf">
     <section v-if="figure" class="detail">
+      <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <RouterLink to="/contemporary-figures" class="back">← 返回追踪面板</RouterLink>
 
     <div class="head">

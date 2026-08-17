@@ -1,7 +1,7 @@
 <template>
   <div class="subway">
     <header class="head">
-      <RouterLink to="/" class="back">← 返回首页</RouterLink>
+      <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <h1>北京地铁 · 站站距离</h1>
       <p class="desc">
         覆盖北京目前运营的全部 {{ lines.length }} 条线路、{{ stationCount }} 座车站。

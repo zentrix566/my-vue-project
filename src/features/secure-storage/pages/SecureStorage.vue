@@ -1,6 +1,6 @@
 <template>
   <div class="ss">
-    <RouterLink class="back" to="/">← 返回首页</RouterLink>
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
 
     <header class="head">
       <h1>端到端加密 · 云端密文存储</h1>

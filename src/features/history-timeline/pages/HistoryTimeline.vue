@@ -1,7 +1,7 @@
 <template>
   <main class="china-page">
     <header class="china-header">
-      <RouterLink to="/" class="back">← 返回首页</RouterLink>
+      <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <label class="history-picker">历史 <select v-model="scope" @change="switchScope"><option value="中国">中国历史</option><option v-for="item in worldRegions" :key="item" :value="item">{{ item }}</option></select></label>
       <div class="title-row"><div><p class="eyebrow">资料来源：你的历史目录与「历史.md」</p><h1>历史 · 中国</h1><p class="intro">皇帝卡居中突出，大臣以 2–3 列并排展示；点击卡片查看详情。</p></div><button class="add-button" @click="formOpen = !formOpen">{{ formOpen ? '收起添加' : '添加人物' }}</button></div>
       <form v-if="formOpen" class="add-form" @submit.prevent="addPerson"><label>姓名<input v-model.trim="draft.name" required /></label><label>归属时期<select v-model="draft.eraKey"><option v-for="era in eras" :key="era.key" :value="era.key">{{ era.name }}</option></select></label><label>年份<input v-model.number="draft.year" type="number" required /></label><label>身份<input v-model.trim="draft.role" placeholder="如：大臣" /></label><label class="note-field">简评<textarea v-model.trim="draft.note" rows="2" /></label><button class="submit-button" type="submit">保存到本机</button><p v-if="formMessage" class="form-message">{{ formMessage }}</p></form>
@@ -24,6 +24,7 @@
             <button v-if="item.ruler" class="person-card ruler-card" :style="{ '--era': item.era.color }" :id="item.ruler.id" @click="selected = item.ruler">
               <span class="person-region">{{ item.era.name }} · {{ item.group.label }}</span>
               <strong><span class="crown">👑</span>{{ item.ruler.name }}</strong>
+              <span v-if="item.ruler.alias" class="ruler-alias">{{ item.ruler.alias }}</span>
               <span v-if="reignText(item.ruler)" class="person-role">在位 {{ reignText(item.ruler) }}</span>
               <span v-if="reactionFor(item.ruler.name)" class="reaction-badge" :class="reactionFor(item.ruler.name)" role="button" tabindex="0" @click.stop="toggleReaction(item.ruler.name, reactionFor(item.ruler.name))">{{ reactionFor(item.ruler.name) === 'like' ? '♥ 喜欢' : '✕ 讨厌' }}</span>
             </button>
@@ -55,7 +56,7 @@
       <button class="fab-top" @click="scrollTop" aria-label="回到顶部选择朝代">Top ↑</button>
     </div>
     <div v-if="selected" class="detail-backdrop" @click="selected = null"></div>
-    <aside v-if="selected" class="detail" :style="{ '--era': selected.era.color }"><button class="close" @click="selected = null">×</button><p class="detail-region">{{ selected.era.name }} · {{ formatYear(selected.year) }}</p><h2>{{ selected.isRuler ? '👑 ' : '' }}{{ selected.name }}</h2><p class="detail-role">{{ selected.isRuler ? reignText(selected) : selected.role }}</p><dl v-if="selected.life" class="detail-meta"><div><dt>生卒</dt><dd>{{ selected.life }}</dd></div></dl><p class="detail-note">{{ selected.note || '未填写简评。' }}</p><div v-if="selected.type !== 'event'" class="reaction-actions"><button :class="{ active: reactionFor(selected.name) === 'like' }" @click="toggleReaction(selected.name, 'like')">喜欢</button><button :class="{ active: reactionFor(selected.name) === 'dislike' }" @click="toggleReaction(selected.name, 'dislike')">讨厌</button></div><button v-if="selected.custom" class="delete-button" @click="removePerson(selected.id)">删除此自添人物</button></aside>
+    <aside v-if="selected" class="detail" :style="{ '--era': selected.era.color }"><button class="close" @click="selected = null">×</button><p class="detail-region">{{ selected.era.name }} · {{ formatYear(selected.year) }}</p><h2>{{ selected.isRuler ? '👑 ' : '' }}{{ selected.name }}</h2><p v-if="selected.alias" class="detail-alias">{{ selected.alias }}</p><p class="detail-role">{{ selected.isRuler ? reignText(selected) : selected.role }}</p><dl v-if="selected.life" class="detail-meta"><div><dt>生卒</dt><dd>{{ selected.life }}</dd></div></dl><p class="detail-note">{{ selected.note || '未填写简评。' }}</p><div v-if="selected.type !== 'event'" class="reaction-actions"><button :class="{ active: reactionFor(selected.name) === 'like' }" @click="toggleReaction(selected.name, 'like')">喜欢</button><button :class="{ active: reactionFor(selected.name) === 'dislike' }" @click="toggleReaction(selected.name, 'dislike')">讨厌</button></div><button v-if="selected.custom" class="delete-button" @click="removePerson(selected.id)">删除此自添人物</button></aside>
   </main>
 </template>
 
@@ -101,6 +102,7 @@ const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
           type: 'ruler',
           name: group.ruler,
           role: group.rulerTitle,
+          alias: rulerAlias(group),
           note: description(group.ruler, group.blurb),
           life: personDetails[group.ruler]?.life,
           reignStart: group.start,
@@ -166,6 +168,13 @@ function reignText(ruler) {
   if (start && end) return `${start}—${end}`
   if (start) return `${start}起`
   return `${end}止`
+}
+function rulerAlias(group) {
+  const name = group.ruler
+  const title = group.rulerTitle
+  if (!title || title === name) return ''
+  if (title.includes('·')) return title.split('·').pop().trim()
+  return title
 }
 function rangeText(era) { return `${formatYear(era.start)}—${era.key === 'dangdai' ? '今' : formatYear(era.end)}` }
 function switchScope() { if (scope.value !== '中国') router.push({ path: '/world-history', query: { region: scope.value } }) }
@@ -270,6 +279,7 @@ h1{margin:0;font-size:32px;letter-spacing:.04em}
 .ruler-card{border:2px solid var(--era);background:linear-gradient(180deg,color-mix(in srgb,var(--era) 14%,#fff),var(--color-card));box-shadow:0 6px 16px color-mix(in srgb,var(--era) 22%,transparent)}
 .ruler-card strong{font-size:20px}
 .ruler-card .crown{margin-right:4px}
+.ruler-alias{margin-top:2px;color:var(--era);font-size:13px;font-weight:700}
 /* 大臣：并排 2–3 列，缩小卡片 */
 .figure-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;width:100%;max-width:430px}
 .minister-card{padding:10px 12px}
@@ -296,6 +306,7 @@ h1{margin:0;font-size:32px;letter-spacing:.04em}
 .close{position:absolute;top:8px;right:10px;border:0;background:transparent;color:var(--color-muted);font-size:24px;cursor:pointer}
 .detail-region{margin:0;color:var(--era);font-size:13px;font-weight:800}
 .detail h2{margin:6px 0;font-size:26px}
+.detail-alias{margin:0 0 12px;color:var(--era);font-size:15px;font-weight:700}
 .detail-role{margin:0 0 12px;color:var(--color-muted)}
 .detail-meta{margin:0 0 12px;padding:10px;border-radius:8px;background:var(--color-bg)}
 .detail-meta div{display:flex;gap:12px}

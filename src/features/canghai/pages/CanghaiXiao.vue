@@ -1,6 +1,6 @@
 <template>
   <div class="canghai-page">
-    <RouterLink class="back" to="/">← 返回首页</RouterLink>
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
     <h1 class="title">🌊 沧海一声笑</h1>
     <p class="subtitle">
       五弦古琴，和一曲《沧海一声笑》。音符落至玉轴时按 <kbd>D</kbd> <kbd>F</kbd> <kbd>G</kbd> <kbd>J</kbd> <kbd>K</kbd> 拨弦

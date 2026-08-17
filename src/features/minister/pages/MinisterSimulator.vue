@@ -1,6 +1,6 @@
 <template>
   <div class="minister-page">
-    <RouterLink class="back" to="/">← 返回首页</RouterLink>
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
     <h1 class="title">👑 大臣模拟器 · 宦海沉浮</h1>
     <p class="subtitle">
       大雍景和年间，你初入仕途。批答奏报、周旋同僚、面对诱惑与弹劾——

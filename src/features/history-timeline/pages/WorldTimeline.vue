@@ -1,7 +1,7 @@
 <template>
   <main class="world-page">
     <header class="world-header">
-      <RouterLink to="/" class="back">← 返回首页</RouterLink>
+      <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <label class="history-picker">
         <span>历史</span>
         <select v-model="scope" @change="switchScope">

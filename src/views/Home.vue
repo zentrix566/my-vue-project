@@ -7,6 +7,11 @@
         <h2>世界杯 · 点球大战</h2>
         <p>拖拽调整角度和力度，10 次射门挑战 AI 守门员。</p>
       </RouterLink>
+      <RouterLink class="card" to="/contemporary-figures">
+        <div class="emoji">👤</div>
+        <h2>当代人物追踪</h2>
+        <p>按领域收录当代人物，看出生日期与主要事迹时间轴，并给每个人写观察笔记、标记追踪状态。</p>
+      </RouterLink>
       <RouterLink class="card" to="/jiangyin">
         <div class="emoji">🗺️</div>
         <h2>江阴保卫战 · 形势图</h2>

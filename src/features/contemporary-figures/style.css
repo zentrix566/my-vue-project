@@ -1,0 +1,20 @@
+/* 当代人物追踪 feature 的样式变量与容器
+ * 变量定义在 .cf 上，仅作用于本功能内部，不污染工程其它 feature。 */
+.cf {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --text: #1f2533;
+  --muted: #6b7280;
+  --line: #e6e9f0;
+  --primary: #3b6ef0;
+  --primary-soft: #e8efff;
+  --accent: #f0724a;
+  --positive: #1f9d5b;
+  --concern: #d4452f;
+  --shadow: 0 2px 12px rgba(31, 37, 51, 0.06);
+  --radius: 12px;
+
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px;
+}

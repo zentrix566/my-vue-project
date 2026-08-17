@@ -60,10 +60,6 @@
             <span class="num">{{ plan.segs.length }}</span><span class="unit">段</span>
             <div class="cap">乘车区段</div>
           </div>
-          <div class="sum-item">
-            <span class="num">{{ plan.fare }}</span><span class="unit">元</span>
-            <div class="cap">预计票价</div>
-          </div>
         </div>
 
       <div class="route-mode" :class="plan.mode">
@@ -456,7 +452,7 @@ function buildPlan() {
     return
   }
   if (s === e) {
-    plan.value = { mode: 'auto', totalKm: '0.00', fare: 0, transfers: 0, segs: [], linesUsed: [], single: true, name: s }
+    plan.value = { mode: 'auto', totalKm: '0.00', transfers: 0, segs: [], linesUsed: [], single: true, name: s }
     return
   }
 
@@ -490,7 +486,6 @@ function buildPlan() {
     mode: routeMode,
     seqNames,
     totalKm: (total / 1000).toFixed(2),
-    fare: computeFare(total),
     transfers: Math.max(0, segs.length - 1),
     segs,
     linesUsed,
@@ -564,16 +559,6 @@ lines.forEach((l, i) => {
 })
 function lineColor(name) {
   return lineColorMap[name] || PALETTE[0]
-}
-
-// 北京地铁计价规则（按实际乘车里程，单位：米）
-function computeFare(meters) {
-  const km = meters / 1000
-  if (km <= 6) return 3
-  if (km <= 12) return 4
-  if (km <= 22) return 5
-  if (km <= 32) return 6
-  return 6 + Math.ceil((km - 32) / 20)
 }
 
 function fmt(m) {
@@ -673,6 +658,11 @@ function fmt(m) {
   gap: 28px;
   margin: 22px 0 14px;
   flex-wrap: wrap;
+  padding: 18px 20px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
 }
 .sum-item {
   display: flex;

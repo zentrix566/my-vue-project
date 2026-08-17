@@ -60,6 +60,10 @@
             <span class="num">{{ plan.segs.length }}</span><span class="unit">段</span>
             <div class="cap">乘车区段</div>
           </div>
+          <div class="sum-item">
+            <span class="num">{{ plan.fare }}</span><span class="unit">元</span>
+            <div class="cap">预计票价</div>
+          </div>
         </div>
 
       <div class="route-mode" :class="plan.mode">
@@ -114,7 +118,7 @@
 
     <!-- 线路浏览 -->
     <section v-else class="panel">
-      <div class="line-pick">
+      <div class="line-pick" :style="{ '--line': selectedColor }">
         <label>选择线路：</label>
         <select v-model.number="selectedLine">
           <option v-for="(l, i) in lines" :key="i" :value="i">
@@ -452,7 +456,7 @@ function buildPlan() {
     return
   }
   if (s === e) {
-    plan.value = { mode: 'auto', totalKm: '0.00', transfers: 0, segs: [], linesUsed: [], single: true, name: s }
+    plan.value = { mode: 'auto', totalKm: '0.00', fare: 0, transfers: 0, segs: [], linesUsed: [], single: true, name: s }
     return
   }
 
@@ -486,6 +490,7 @@ function buildPlan() {
     mode: routeMode,
     seqNames,
     totalKm: (total / 1000).toFixed(2),
+    fare: computeFare(total),
     transfers: Math.max(0, segs.length - 1),
     segs,
     linesUsed,
@@ -522,6 +527,10 @@ function toggleHops(idx) {
 watch([start, end], buildPlan)
 buildPlan()
 
+const selectedColor = computed(() =>
+  lineColor(lines[selectedLine.value]?.name)
+)
+
 const browse = computed(() => {
   const line = lines[selectedLine.value]
   if (!line) return null
@@ -540,16 +549,31 @@ const browse = computed(() => {
   return { name: line.name, loop: line.loop, total: cum, rows }
 })
 
-// 线路配色
+// 线路配色：优先用数据自带的官方线色，缺失时回退到通用调色板
 const PALETTE = [
   '#a52a2a', '#c23a30', '#e6731c', '#f0a020', '#caa61b', '#7cae3f', '#2f9e44',
   '#1b9e8f', '#0e8fab', '#2f6fed', '#3b5bdb', '#5f3dc4', '#8e44ad', '#c0398b',
   '#d6336c', '#b08968', '#5c6b73', '#37474f', '#00796b', '#6a1b9a', '#ad1457',
   '#00695c', '#4527a0', '#283593', '#0277bd', '#00838f', '#558b2f',
 ]
+const lineColorMap = {}
+lines.forEach((l, i) => {
+  lineColorMap[l.name] = l.color && l.color.startsWith('#')
+    ? l.color
+    : PALETTE[i % PALETTE.length]
+})
 function lineColor(name) {
-  const idx = lines.findIndex((l) => l.name === name)
-  return PALETTE[idx % PALETTE.length]
+  return lineColorMap[name] || PALETTE[0]
+}
+
+// 北京地铁计价规则（按实际乘车里程，单位：米）
+function computeFare(meters) {
+  const km = meters / 1000
+  if (km <= 6) return 3
+  if (km <= 12) return 4
+  if (km <= 22) return 5
+  if (km <= 32) return 6
+  return 6 + Math.ceil((km - 32) / 20)
 }
 
 function fmt(m) {
@@ -785,7 +809,7 @@ function fmt(m) {
 }
 .line-pick select {
   padding: 9px 12px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--line, var(--color-border));
   border-radius: var(--radius);
   font-size: 14px;
   background: var(--color-bg);

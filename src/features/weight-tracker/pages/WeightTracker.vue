@@ -2,6 +2,7 @@
   <section class="section page-section weight-page">
     <div class="container">
       <div class="page-head">
+        <RouterLink to="/" class="back">← 返回主页</RouterLink>
         <p class="eyebrow">Weight Tracker</p>
         <h1>体重变化看板</h1>
         <p>身高 {{ HEIGHT_CM }}cm，按月记录体重（单位：斤），展示整体趋势、分年度变化与月度增减。</p>
@@ -200,12 +201,39 @@
         </div>
       </section>
 
-      <section class="dashboard-panel">
+      <section class="dashboard-panel wide-panel">
         <div class="panel-heading">
           <div>
             <h2>跨年度同月对比</h2>
-            <p>同一月份在不同年份的体重：绿色为该月历年最轻，红色为历年最重，便于看同比变化。</p>
+            <p>同一月份在不同年份的体重（分组柱状图，鼠标移上去看具体数值）。下方表格中绿色为该月历年最轻、红色为历年最重。</p>
           </div>
+          <div class="chart-legend cmp-legend">
+            <span v-for="y in years" :key="y" :style="{ borderLeftColor: yearColors[y] || 'var(--primary)' }">{{ y }} 年</span>
+          </div>
+        </div>
+        <div class="chart-shell">
+          <svg :viewBox="`0 0 ${monthChart.W} ${monthChart.H}`" role="img" aria-label="跨年度同月体重对比图">
+            <g class="chart-grid-lines">
+              <line v-for="t in monthChart.yTicks" :key="'cy'+t.value" :x1="monthChart.L" :y1="t.y" :x2="monthChart.W - monthChart.R" :y2="t.y" />
+            </g>
+            <line class="chart-axis-line" :x1="monthChart.L" :y1="monthChart.T" :x2="monthChart.L" :y2="monthChart.H - monthChart.B" />
+            <line class="chart-axis-line" :x1="monthChart.L" :y1="monthChart.H - monthChart.B" :x2="monthChart.W - monthChart.R" :y2="monthChart.H - monthChart.B" />
+            <text v-for="t in monthChart.yTicks" :key="'cyl'+t.value" x="6" :y="t.y + 4" font-size="11" fill="var(--muted)">{{ t.value }}</text>
+            <text v-for="t in monthChart.xLabels" :key="'cx'+t.x" :x="t.x" :y="monthChart.H - monthChart.B + 18" font-size="11" fill="var(--muted)" text-anchor="middle">{{ t.label }}</text>
+            <rect
+              v-for="(b, i) in monthChart.bars"
+              :key="'bar'+i"
+              :x="b.x" :y="b.y" :width="b.w" :height="b.h"
+              :fill="b.color"
+              rx="1.5"
+              class="hit"
+              @mouseenter="onCmpEnter(b)" @mouseleave="cmpHover=null"
+            />
+            <g v-if="cmpHover" class="chart-tip">
+              <rect :x="cmpHover.tip.x" :y="cmpHover.tip.y" :width="cmpHover.tip.w" :height="cmpHover.tip.h" rx="6" />
+              <text v-for="(ln,li) in cmpHover.tip.lines" :key="li" :x="cmpHover.tip.textX" :y="cmpHover.tip.y + cmpHover.tip.padY + li*cmpHover.tip.lineH + 11" font-size="12" font-weight="600">{{ ln }}</text>
+            </g>
+          </svg>
         </div>
         <div class="table-shell">
           <table class="cmp-table">
@@ -540,6 +568,14 @@ const onCmpEnter = (b) => {
 <style scoped>
 .weight-page {
   padding-top: 60px;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--color-muted);
+  font-size: 14px;
+  text-decoration: none;
 }
 
 .page-head h1 {

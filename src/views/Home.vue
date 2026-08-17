@@ -2,6 +2,11 @@
   <div class="home">
     <p class="subtitle">几个用 Vue 写的小玩具，点开即玩。</p>
     <div class="cards">
+      <RouterLink class="card" to="/weight">
+        <div class="emoji">⚖️</div>
+        <h2>体重变化 · 趋势分析</h2>
+        <p>按月记录体重，看整体走势、分年度变化和每月增减多少斤，标出最重与最轻节点。</p>
+      </RouterLink>
       <RouterLink class="card" to="/subway">
         <div class="emoji">🚇</div>
         <h2>北京地铁 · 站站距离</h2>

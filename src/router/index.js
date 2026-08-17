@@ -7,7 +7,7 @@ import { loadCalligraphyPage } from '../features/calligraphy/index.js'
 import { loadOfficialsPage } from '../features/officials/index.js'
 import { loadNexusPage } from '../features/nexus/index.js'
 import { loadFightPage } from '../features/fight/index.js'
-import { loadHistoryTimelinePage } from '../features/history-timeline/index.js'
+import { loadHistoryTimelinePage, loadWorldTimelinePage } from '../features/history-timeline/index.js'
 import { loadCanghaiPage } from '../features/canghai/index.js'
 import { loadMinisterPage } from '../features/minister/index.js'
 import { loadStickFightPage } from '../features/stick-fight/index.js'
@@ -31,6 +31,7 @@ const routes = [
   { path: '/nexus', name: 'nexus', component: loadNexusPage, meta: { title: '炉石魔网 · 脸伤计算器' } },
   { path: '/fight', name: 'fight', component: loadFightPage, meta: { title: '擂台投注 · 小人打架' } },
   { path: '/history', name: 'history', component: loadHistoryTimelinePage, meta: { title: '历史 · 中国' } },
+  { path: '/world-history', name: 'world-history', component: loadWorldTimelinePage, meta: { title: '历史 · 国外' } },
   { path: '/canghai', name: 'canghai', component: loadCanghaiPage, meta: { title: '沧海一声笑 · 古琴和曲' } },
   { path: '/minister', name: 'minister', component: loadMinisterPage, meta: { title: '大臣模拟器 · 宦海沉浮' } },
   { path: '/stickfight', name: 'stickfight', component: loadStickFightPage, meta: { title: '火柴人格斗 · 龙潭虎穴' } },

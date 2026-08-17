@@ -130,6 +130,7 @@ const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
       type: 'group',
       year: group.start,
       era,
+      eraIndex,
       group,
       side,
       ruler,
@@ -137,9 +138,19 @@ const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
       anchor: gi === 0 ? `era-${era.key}` : null
     }
   })
-  const eventItems = (era.events || []).map((event, ei) => ({ id: `${era.key}-e-${ei}`, type: 'event', name: event.name, role: '历史事件', note: event.note, year: event.year, era }))
+  const eventItems = (era.events || []).map((event, ei) => ({ id: `${era.key}-e-${ei}`, type: 'event', name: event.name, role: '历史事件', note: event.note, year: event.year, era, eraIndex }))
   return [...groupItems, ...eventItems]
-}).sort((a, b) => a.year - b.year || (a.type === 'event' ? -1 : 1)))
+}).sort((a, b) => {
+  if (a.year !== b.year) return a.year - b.year
+  if (a.eraIndex !== b.eraIndex) return a.eraIndex - b.eraIndex
+  if (a.type !== b.type) return a.type === 'event' ? -1 : 1
+  const ea = a.group ? (a.group.end ?? a.year) : a.year
+  const eb = b.group ? (b.group.end ?? b.year) : b.year
+  if (ea !== eb) return ea - eb
+  const la = a.group ? labelOrder(a.group.label) : 0
+  const lb = b.group ? labelOrder(b.group.label) : 0
+  return la - lb
+}))
 const visibleItems = computed(() => {
   const text = query.value.toLowerCase()
   if (!text) return allItems.value
@@ -175,6 +186,10 @@ function rulerAlias(group) {
   if (!title || title === name) return ''
   if (title.includes('·')) return title.split('·').pop().trim()
   return title
+}
+function labelOrder(label) {
+  const m = String(label || '').match(/(\d+)/)
+  return m ? parseInt(m[1], 10) : 0
 }
 function rangeText(era) { return `${formatYear(era.start)}—${era.key === 'dangdai' ? '今' : formatYear(era.end)}` }
 function switchScope() { if (scope.value !== '中国') router.push({ path: '/world-history', query: { region: scope.value } }) }

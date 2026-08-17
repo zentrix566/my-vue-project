@@ -107,6 +107,11 @@
         <h2>当代人物追踪</h2>
         <p>按领域收录当代人物，看出生日期与主要事迹时间轴，并给每个人写观察笔记、标记追踪状态。</p>
       </RouterLink>
+      <RouterLink class="card" to="/changelog">
+        <div class="emoji">📋</div>
+        <h2>更新日志 · Changelog</h2>
+        <p>项目主要功能与数据更新记录，按提交日期整理，每天一条。</p>
+      </RouterLink>
     </div>
   </div>
 </template>

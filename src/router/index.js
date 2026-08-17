@@ -25,9 +25,11 @@ import {
 } from '../features/contemporary-figures/index.js'
 
 const Home = () => import('../views/Home.vue')
+const Changelog = () => import('../views/Changelog.vue')
 
 const routes = [
   { path: '/', name: 'home', component: Home },
+  { path: '/changelog', name: 'changelog', component: Changelog, meta: { title: '更新日志 · Changelog' } },
   { path: '/worldcup', name: 'worldcup', component: loadWorldCupPage },
   { path: '/jiangyin', name: 'jiangyin', component: loadJiangyinPage },
   { path: '/interval-training', name: 'interval-training', component: loadIntervalTrainingPage },

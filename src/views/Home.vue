@@ -82,6 +82,11 @@
         <h2>模拟驾驶 · 练车找手感</h2>
         <p>俯视小车练习变道、转弯、掉头：转向灯时机、导向车道、压线扣分一样不少，方向盘打多少回多少。</p>
       </RouterLink>
+      <RouterLink class="card" to="/subway">
+        <div class="emoji">🚇</div>
+        <h2>北京地铁 · 站站距离</h2>
+        <p>覆盖全部运营线路，算任意两站最短路径的总距离、换乘次数与逐段里程；也能按线路逐站看相邻站间距。</p>
+      </RouterLink>
     </div>
   </div>
 </template>

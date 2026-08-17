@@ -15,6 +15,7 @@ import { loadXifengkouPage } from '../features/xifengkou/index.js'
 import { loadPetPage } from '../features/pet/index.js'
 import { loadEmperorPage } from '../features/emperor/index.js'
 import { loadDrivingPage } from '../features/driving/index.js'
+import { loadSubwayPage } from '../features/subway/index.js'
 
 const Home = () => import('../views/Home.vue')
 
@@ -35,7 +36,8 @@ const routes = [
   { path: '/xifengkou', name: 'xifengkou', component: loadXifengkouPage, meta: { title: '喜峰口 · 大刀夜袭' } },
   { path: '/pet', name: 'pet', component: loadPetPage, meta: { title: '宠物模拟器 · 云养毛孩子' } },
   { path: '/emperor', name: 'emperor', component: loadEmperorPage, meta: { title: '皇帝模拟器 · 日理万机' } },
-  { path: '/driving', name: 'driving', component: loadDrivingPage, meta: { title: '模拟驾驶 · 转弯掉头变道练习场' } }
+  { path: '/driving', name: 'driving', component: loadDrivingPage, meta: { title: '模拟驾驶 · 转弯掉头变道练习场' } },
+  { path: '/subway', name: 'subway', component: loadSubwayPage, meta: { title: '北京地铁 · 站站距离' } }
 ]
 
 const router = createRouter({

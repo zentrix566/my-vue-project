@@ -15,10 +15,7 @@ import { loadXifengkouPage } from '../features/xifengkou/index.js'
 import { loadPetPage } from '../features/pet/index.js'
 import { loadEmperorPage } from '../features/emperor/index.js'
 import { loadDrivingPage } from '../features/driving/index.js'
-import {
-  loadContemporaryFiguresPage,
-  loadContemporaryFigureDetailPage
-} from '../features/contemporary-figures/index.js'
+import { loadSecureStoragePage } from '../features/secure-storage/index.js'
 import { loadSubwayPage } from '../features/subway/index.js'
 
 const Home = () => import('../views/Home.vue')
@@ -33,7 +30,7 @@ const routes = [
   { path: '/officials', name: 'officials', component: loadOfficialsPage, meta: { title: '中国官职 · 古今对比' } },
   { path: '/nexus', name: 'nexus', component: loadNexusPage, meta: { title: '炉石魔网 · 脸伤计算器' } },
   { path: '/fight', name: 'fight', component: loadFightPage, meta: { title: '擂台投注 · 小人打架' } },
-  { path: '/history', name: 'history', component: loadHistoryTimelinePage, meta: { title: '中国历史 · 风流人物长卷' } },
+  { path: '/history', name: 'history', component: loadHistoryTimelinePage, meta: { title: '历史 · 中国' } },
   { path: '/canghai', name: 'canghai', component: loadCanghaiPage, meta: { title: '沧海一声笑 · 古琴和曲' } },
   { path: '/minister', name: 'minister', component: loadMinisterPage, meta: { title: '大臣模拟器 · 宦海沉浮' } },
   { path: '/stickfight', name: 'stickfight', component: loadStickFightPage, meta: { title: '火柴人格斗 · 龙潭虎穴' } },
@@ -41,9 +38,8 @@ const routes = [
   { path: '/pet', name: 'pet', component: loadPetPage, meta: { title: '宠物模拟器 · 云养毛孩子' } },
   { path: '/emperor', name: 'emperor', component: loadEmperorPage, meta: { title: '皇帝模拟器 · 日理万机' } },
   { path: '/driving', name: 'driving', component: loadDrivingPage, meta: { title: '模拟驾驶 · 转弯掉头变道练习场' } },
-  { path: '/subway', name: 'subway', component: loadSubwayPage, meta: { title: '北京地铁 · 站站距离' } },
-  { path: '/contemporary-figures', name: 'contemporary-figures', component: loadContemporaryFiguresPage, meta: { title: '当代人物追踪' } },
-  { path: '/contemporary-figures/:id', name: 'contemporary-figure-detail', component: loadContemporaryFigureDetailPage, props: true, meta: { title: '当代人物追踪 · 详情' } }
+  { path: '/secure-storage', name: 'secure-storage', component: loadSecureStoragePage, meta: { title: '端到端加密 · 云端密文存储' } },
+  { path: '/subway', name: 'subway', component: loadSubwayPage, meta: { title: '北京地铁 · 站站距离' } }
 ]
 
 const router = createRouter({

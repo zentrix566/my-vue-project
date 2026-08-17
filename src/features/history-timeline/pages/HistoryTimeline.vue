@@ -1,5 +1,24 @@
 <template>
   <main class="china-page">
+    <section class="changelog-banner" :class="{ open: changelogOpen }">
+      <button class="changelog-toggle" type="button" @click="changelogOpen = !changelogOpen" :aria-expanded="changelogOpen">
+        <span class="changelog-flag">📜 更新日志</span>
+        <span class="changelog-latest">最近更新 · {{ changelog[0]?.date }}</span>
+        <span class="changelog-count">{{ changelog.length }} 条</span>
+        <span class="changelog-chevron">{{ changelogOpen ? '收起 ▲' : '展开 ▼' }}</span>
+      </button>
+      <div v-if="changelogOpen" class="changelog-body">
+        <div v-for="entry in changelog" :key="entry.date" class="cl-entry">
+          <div class="cl-head">
+            <span class="cl-date">{{ entry.date }}</span>
+            <span class="cl-title">{{ entry.title }}</span>
+          </div>
+          <ul class="cl-list">
+            <li v-for="(c, i) in entry.changes" :key="i">{{ c }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
     <header class="china-header">
       <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <label class="history-picker">历史 <select v-model="scope" @change="switchScope"><option value="中国">中国历史</option><option v-for="item in worldRegions" :key="item" :value="item">{{ item }}</option></select></label>
@@ -26,6 +45,7 @@
               <strong><span class="crown">👑</span>{{ item.ruler.name }}</strong>
               <span v-if="item.ruler.alias" class="ruler-alias">{{ item.ruler.alias }}</span>
               <span v-if="reignText(item.ruler)" class="person-role">在位 {{ reignText(item.ruler) }}</span>
+              <span v-if="item.ruler.life" class="person-life">生卒 {{ item.ruler.life }}<template v-if="item.ruler.age"> · 享年{{ item.ruler.age }}岁</template></span>
               <span v-if="reactionFor(item.ruler.name)" class="reaction-badge" :class="reactionFor(item.ruler.name)" role="button" tabindex="0" @click.stop="toggleReaction(item.ruler.name, reactionFor(item.ruler.name))">{{ reactionFor(item.ruler.name) === 'like' ? '♥ 喜欢' : '✕ 讨厌' }}</span>
             </button>
             <div v-if="item.figures.length" class="figure-cards">
@@ -33,7 +53,7 @@
                 <span class="person-region">{{ item.era.name }} · {{ item.group.ruler || item.group.label }}</span>
                 <strong>{{ person.name }}</strong>
                 <span class="person-role">{{ person.role }}</span>
-                <span v-if="person.life" class="person-life">生卒 {{ person.life }}</span>
+                <span v-if="person.life" class="person-life">生卒 {{ person.life }}<template v-if="person.age"> · 享年{{ person.age }}岁</template></span>
                 <span v-if="person.custom" class="custom-tag">自添</span>
                 <span v-if="reactionFor(person.name)" class="reaction-badge" :class="reactionFor(person.name)" role="button" tabindex="0" @click.stop="toggleReaction(person.name, reactionFor(person.name))">{{ reactionFor(person.name) === 'like' ? '♥ 喜欢' : '✕ 讨厌' }}</span>
               </button>
@@ -49,14 +69,14 @@
       </select>
       <select class="fab-ruler" v-model="fabRulerId" @change="jumpToRuler(fabRulerId)" :disabled="!fabRulers.length" aria-label="选择皇帝跳转（二级）">
         <option value="">选择皇帝…</option>
-        <option v-for="r in fabRulers" :key="r.id" :value="r.id">{{ r.name }}</option>
+        <option v-for="r in fabRulers" :key="r.id" :value="r.id">{{ r.label }}</option>
       </select>
       <input class="fab-search" list="personJumpList" v-model="personQuery" @change="jumpToPerson(personQuery)" placeholder="搜索历史人物…" aria-label="搜索并跳转历史人物" />
-      <datalist id="personJumpList"><option v-for="p in personIndex" :key="p.id" :value="p.name"></option></datalist>
+      <datalist id="personJumpList"><option v-for="p in personIndex" :key="p.id" :value="p.name">{{ p.label }}</option></datalist>
       <button class="fab-top" @click="scrollTop" aria-label="回到顶部选择朝代">Top ↑</button>
     </div>
     <div v-if="selected" class="detail-backdrop" @click="selected = null"></div>
-    <aside v-if="selected" class="detail" :style="{ '--era': selected.era.color }"><button class="close" @click="selected = null">×</button><p class="detail-region">{{ selected.era.name }} · {{ formatYear(selected.year) }}</p><h2>{{ selected.isRuler ? '👑 ' : '' }}{{ selected.name }}</h2><p v-if="selected.alias" class="detail-alias">{{ selected.alias }}</p><p class="detail-role">{{ selected.isRuler ? reignText(selected) : selected.role }}</p><dl v-if="selected.life" class="detail-meta"><div><dt>生卒</dt><dd>{{ selected.life }}</dd></div></dl><p class="detail-note">{{ selected.note || '未填写简评。' }}</p><div v-if="selected.type !== 'event'" class="reaction-actions"><button :class="{ active: reactionFor(selected.name) === 'like' }" @click="toggleReaction(selected.name, 'like')">喜欢</button><button :class="{ active: reactionFor(selected.name) === 'dislike' }" @click="toggleReaction(selected.name, 'dislike')">讨厌</button></div><button v-if="selected.custom" class="delete-button" @click="removePerson(selected.id)">删除此自添人物</button></aside>
+    <aside v-if="selected" class="detail" :style="{ '--era': selected.era.color }"><button class="close" @click="selected = null">×</button><p class="detail-region">{{ selected.era.name }} · {{ formatYear(selected.year) }}</p><h2>{{ selected.isRuler ? '👑 ' : '' }}{{ selected.name }}</h2><p v-if="selected.alias" class="detail-alias">{{ selected.alias }}</p><p class="detail-role">{{ selected.isRuler ? reignText(selected) : selected.role }}</p><dl v-if="selected.life" class="detail-meta"><div><dt>生卒</dt><dd>{{ selected.life }}<template v-if="selected.age">（享年{{ selected.age }}岁）</template></dd></div></dl><p class="detail-note">{{ selected.note || '未填写简评。' }}</p><div v-if="selected.type !== 'event'" class="reaction-actions"><button :class="{ active: reactionFor(selected.name) === 'like' }" @click="toggleReaction(selected.name, 'like')">喜欢</button><button :class="{ active: reactionFor(selected.name) === 'dislike' }" @click="toggleReaction(selected.name, 'dislike')">讨厌</button></div><button v-if="selected.custom" class="delete-button" @click="removePerson(selected.id)">删除此自添人物</button></aside>
   </main>
 </template>
 
@@ -66,12 +86,14 @@ import { RouterLink, useRouter } from 'vue-router'
 import { eras } from '../data/chineseHistory.json'
 import personDetails from '../data/personDetails.json'
 import { items as worldItems } from '../data/worldHistory.json'
+import { changelog } from '../../../data/changelog.js'
 
 const ERA_KEY = 'history-timeline:last-era'
 const REACTION_KEY = 'history-timeline:person-reactions'
 const CUSTOM_KEY = 'history-timeline:custom-people'
 const router = useRouter()
 const scope = ref('中国')
+const changelogOpen = ref(false)
 const activeEraKey = ref(window.localStorage.getItem(ERA_KEY) || eras[0]?.key)
 const query = ref('')
 const personQuery = ref('')
@@ -93,7 +115,20 @@ function description(name, fallback = '') {
   const summary = personDetails[name]?.summary || ''
   return summary.includes('…') ? fallback : (summary || fallback)
 }
-const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
+const allItems = computed(() => {
+  // 多政权并存的朝代：按政权分组，组内按即位年排序，便于看清继承关系
+  const PARALLEL = new Set(['dongjin', 'nanbeichao', 'wudai'])
+  const regimeRank = {}
+  for (const era of timelineEras.value) {
+    if (!PARALLEL.has(era.key)) continue
+    const rank = {}
+    for (const g of era.groups) {
+      const r = regimeOf(g.label)
+      if (rank[r] === undefined || g.start < rank[r]) rank[r] = g.start
+    }
+    regimeRank[era.key] = rank
+  }
+  return timelineEras.value.flatMap((era, eraIndex) => {
   const groupItems = era.groups.map((group, gi) => {
     const side = (eraIndex + gi) % 2 ? 'right' : 'left'
     const ruler = group.ruler
@@ -105,6 +140,7 @@ const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
           alias: rulerAlias(group),
           note: description(group.ruler, group.blurb),
           life: personDetails[group.ruler]?.life,
+          age: lifeAge(personDetails[group.ruler]?.life),
           reignStart: group.start,
           reignEnd: group.end,
           year: group.start,
@@ -120,6 +156,7 @@ const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
       role: figure.role,
       note: description(figure.name, figure.note),
       life: personDetails[figure.name]?.life || figure.life,
+      age: lifeAge(personDetails[figure.name]?.life || figure.life),
       year: figure.year ?? group.start,
       era,
       group,
@@ -141,6 +178,22 @@ const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
   const eventItems = (era.events || []).map((event, ei) => ({ id: `${era.key}-e-${ei}`, type: 'event', name: event.name, role: '历史事件', note: event.note, year: event.year, era, eraIndex }))
   return [...groupItems, ...eventItems]
 }).sort((a, b) => {
+  const pa = PARALLEL.has(a.era.key)
+  const pb = PARALLEL.has(b.era.key)
+  // 同一多政权朝代内：先按政权块顺序，再组内按即位年
+  if (pa && pb && a.eraIndex === b.eraIndex) {
+    const ra = regimeOf(a.group.label)
+    const rb = regimeOf(b.group.label)
+    const da = regimeRank[a.era.key][ra] ?? a.year
+    const db = regimeRank[b.era.key][rb] ?? b.year
+    if (da !== db) return da - db
+    if (ra !== rb) return ra.localeCompare(rb, 'zh-CN')
+    if (a.year !== b.year) return a.year - b.year
+    const ea = a.group?.end ?? a.year
+    const eb = b.group?.end ?? b.year
+    if (ea !== eb) return ea - eb
+    return labelOrder(a.group.label) - labelOrder(b.group.label)
+  }
   if (a.year !== b.year) return a.year - b.year
   if (a.eraIndex !== b.eraIndex) return a.eraIndex - b.eraIndex
   if (a.type !== b.type) return a.type === 'event' ? -1 : 1
@@ -150,7 +203,8 @@ const allItems = computed(() => timelineEras.value.flatMap((era, eraIndex) => {
   const la = a.group ? labelOrder(a.group.label) : 0
   const lb = b.group ? labelOrder(b.group.label) : 0
   return la - lb
-}))
+})
+})
 const visibleItems = computed(() => {
   const text = query.value.toLowerCase()
   if (!text) return allItems.value
@@ -170,6 +224,34 @@ const visibleItems = computed(() => {
   })
 })
 function formatYear(year) { return year < 0 ? `前${Math.abs(year)}年` : `${year}年` }
+// 从“生卒”文本中解析出享年（周岁，粗略按年差计算）。兼容：前/公元、约、又作、同日多版本（用 / 分隔）、年份缺失（？）。
+const LIFE_SEP = /[—–－~～-]/
+function parseLifeYear(raw) {
+  if (!raw) return null
+  const text = String(raw).split('/')[0].trim()
+  if (!text || text.includes('？')) return null
+  let s = text
+  if (s.includes('约')) s = s.replace(/约/g, '')
+  let bce = false
+  if (s.includes('公元前')) { bce = true; s = s.replace('公元前', '') }
+  else if (s.includes('前')) { bce = true; s = s.replace('前', '') }
+  else if (s.includes('公元')) { s = s.replace('公元', '') }
+  const m = s.match(/(\d+)年/)
+  if (!m) return null
+  let year = parseInt(m[1], 10)
+  if (bce) year = -year
+  return year
+}
+function lifeAge(life) {
+  if (!life) return null
+  const parts = String(life).split(LIFE_SEP)
+  if (parts.length < 2) return null
+  const birth = parseLifeYear(parts[0])
+  const death = parseLifeYear(parts[1])
+  if (birth == null || death == null) return null
+  const age = (birth < 0) !== (death < 0) ? Math.abs(birth) + Math.abs(death) - 1 : death - birth
+  return age > 0 ? age : null
+}
 function reignText(ruler) {
   if (!ruler) return ''
   const s = ruler.reignStart, e = ruler.reignEnd
@@ -187,9 +269,48 @@ function rulerAlias(group) {
   if (title.includes('·')) return title.split('·').pop().trim()
   return title
 }
+// 帝王下拉显示用：优先年号（明/清最常用），无年号时用庙号/谥号-本名；名字太长时只用主名
+function rulerOptionLabel(ruler, title, reign) {
+  if (!ruler) return ''
+  const alias = (() => {
+    if (!title || title === ruler) return ''
+    if (title.includes('·')) return title.split('·').pop().trim()
+    return title
+  })()
+  const isTitle = (n) => /[帝祖宗王公侯皇汗伯主]$/.test(n)
+  // 取本名：ruler 与 title 中不是庙号/谥号的那一个
+  const personalOf = () => {
+    if (!alias) return ruler
+    const rulerIsTitle = isTitle(ruler)
+    const aliasIsTitle = isTitle(alias)
+    if (rulerIsTitle && !aliasIsTitle) return alias
+    if (!rulerIsTitle && aliasIsTitle) return ruler
+    return ruler
+  }
+  let titleName, personalName
+  if (reign) {
+    // 有年号（如 崇祯）：年号(+帝) 作为主名，本名作为副名，与清代「康熙帝-玄烨」风格一致
+    titleName = reign.endsWith('帝') ? reign : reign + '帝'
+    personalName = personalOf()
+  } else {
+    if (!alias) return ruler
+    const rulerIsTitle = isTitle(ruler)
+    const aliasIsTitle = isTitle(alias)
+    if (rulerIsTitle && !aliasIsTitle) { titleName = ruler; personalName = alias }
+    else if (!rulerIsTitle && aliasIsTitle) { titleName = alias; personalName = ruler }
+    else return `${ruler}（${alias}）` // 两边都是庙号/都是本名 → 括号展示
+  }
+  // 长名缩写：本名 > 4 字时只用主名（年号/庙号）
+  if (personalName.length > 4) return titleName
+  return `${titleName}-${personalName}`
+}
 function labelOrder(label) {
   const m = String(label || '').match(/(\d+)/)
   return m ? parseInt(m[1], 10) : 0
+}
+// 从 group label 提取政权前缀（如 "后梁1"→"后梁"、"北魏1"→"北魏"、"武周"→"武周"）
+function regimeOf(label) {
+  return String(label || '').replace(/\d+$/, '')
 }
 function rangeText(era) { return `${formatYear(era.start)}—${era.key === 'dangdai' ? '今' : formatYear(era.end)}` }
 function switchScope() { if (scope.value !== '中国') router.push({ path: '/world-history', query: { region: scope.value } }) }
@@ -203,13 +324,19 @@ const personMap = computed(() => {
   }
   return map
 })
-const personIndex = computed(() => [...personMap.value.values()].map((p) => ({ id: p.id, name: p.name })))
+const personIndex = computed(() => [...personMap.value.values()].map((p) => {
+  const label = p.isRuler && p.group ? rulerOptionLabel(p.group.ruler, p.group.rulerTitle, p.group.reign) : p.name
+  return { id: p.id, name: p.name, label: label || p.name }
+}))
 const fabRulers = computed(() => {
   const era = timelineEras.value.find((e) => e.key === activeEraKey.value)
   if (!era) return []
-  const list = []
-  era.groups.forEach((g, gi) => { if (g.ruler) list.push({ id: `${era.key}-${gi}-r`, name: g.ruler }) })
-  return list
+  // 按皇帝序位排序（reign 起始年优先，label 内序号兜底，最后用原顺序保证稳定），避免 JSON 存储乱序导致下拉乱序
+  return era.groups
+    .map((g, gi) => ({ g, gi }))
+    .filter(({ g }) => g.ruler)
+    .sort((x, y) => (x.g.start - y.g.start) || (labelOrder(x.g.label) - labelOrder(y.g.label)) || (x.gi - y.gi))
+    .map(({ g, gi }) => ({ id: `${era.key}-${gi}-r`, name: g.ruler, label: rulerOptionLabel(g.ruler, g.rulerTitle, g.reign) }))
 })
 function jumpToEra(key) {
   query.value = ''
@@ -250,6 +377,22 @@ watch(activeEraKey, (key) => window.localStorage.setItem(ERA_KEY, key))
 <style scoped>
 /* 保持中国与国外时间轴使用相同的卡片式中轴视觉语言。 */
 .china-page{max-width:1220px;margin:0 auto;padding:28px 20px 56px}
+/* 顶部更新日志面板：默认折叠，点击展开 */
+.changelog-banner{border:1px solid var(--color-border);border-radius:14px;overflow:hidden;background:var(--color-card)}
+.changelog-toggle{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;padding:13px 18px;border:0;background:transparent;color:var(--color-text);font:inherit;cursor:pointer;text-align:left}
+.changelog-flag{font-weight:800;font-size:15px;color:var(--color-primary);white-space:nowrap}
+.changelog-latest{color:var(--color-muted);font-size:13px;white-space:nowrap}
+.changelog-count{margin-left:auto;padding:2px 9px;border-radius:999px;background:var(--color-bg);color:var(--color-muted);font-size:12px;font-weight:700}
+.changelog-chevron{color:var(--color-muted);font-size:13px;font-weight:700;white-space:nowrap}
+.changelog-body{padding:0 18px 18px;border-top:1px solid var(--color-border)}
+.cl-entry{padding:16px 0;border-bottom:1px dashed var(--color-border)}
+.cl-entry:last-child{border-bottom:0;padding-bottom:0}
+.cl-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.cl-date{color:var(--color-primary);font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
+.cl-title{font-size:16px;font-weight:700;color:var(--color-text)}
+.cl-list{margin:0;padding-left:18px;color:var(--color-muted);font-size:13.5px;line-height:1.8}
+.cl-list li{margin-bottom:4px}
+
 .back{color:var(--color-primary);font-size:14px}
 .history-picker{display:inline-flex;gap:7px;align-items:center;margin-left:14px;color:var(--color-primary);font-size:13px;font-weight:700}
 .history-picker select,.toolbar select{border:1px solid var(--color-border);border-radius:7px;padding:5px 8px;color:var(--color-text);background:var(--color-card);font:inherit}

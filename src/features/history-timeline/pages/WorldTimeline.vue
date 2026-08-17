@@ -47,7 +47,7 @@
           <span v-if="person.kind === 'event'" class="person-role">历史事件</span>
           <span v-else-if="person.leader" class="person-role">领导人 · {{ person.role }}</span>
           <span v-else-if="person.role" class="person-role">{{ person.role }}</span>
-          <span v-if="person.life" class="person-life">生卒 {{ person.life }}</span>
+          <span v-if="person.life" class="person-life">生卒 {{ person.life }}<template v-if="person.age"> · 享年{{ person.age }}岁</template></span>
           <span v-if="person.custom" class="custom-tag">自添</span>
         </button>
       </article>
@@ -60,7 +60,7 @@
       <p class="detail-region">{{ selected.region }} · {{ formatYear(selected.year) }}</p>
       <h2>{{ selected.name }}</h2>
       <p v-if="selected.role" class="detail-role">{{ selected.role }}</p>
-      <dl v-if="selected.life" class="detail-meta"><div><dt>生卒</dt><dd>{{ selected.life }}</dd></div></dl>
+      <dl v-if="selected.life" class="detail-meta"><div><dt>生卒</dt><dd>{{ selected.life }}<template v-if="selected.age">（享年{{ selected.age }}岁）</template></dd></div></dl>
       <p class="detail-note">{{ selected.note || '未填写简评。' }}</p>
       <button v-if="selected.custom" class="delete-button" @click="removePerson(selected.id)">删除此自添人物</button>
     </aside>
@@ -93,7 +93,7 @@ function readCustomPeople() {
 }
 
 const customPeople = ref(readCustomPeople())
-const allItems = computed(() => [...items, ...customPeople.value].sort((a, b) => a.year - b.year))
+const allItems = computed(() => [...items, ...customPeople.value].map((p) => ({ ...p, age: lifeAge(p.life) })).sort((a, b) => a.year - b.year))
 const regions = computed(() => [...new Set(allItems.value.map((item) => item.region))].sort((a, b) => a.localeCompare(b, 'zh-CN')))
 const visibleItems = computed(() => region.value === '全部' ? allItems.value : allItems.value.filter((item) => item.region === region.value))
 
@@ -117,6 +117,35 @@ function switchScope() {
 
 function formatYear(year) {
   return year < 0 ? `前${Math.abs(year)}年` : `${year}年`
+}
+
+// 从“生卒”文本中解析出享年（粗略按年差计算）。兼容：前/公元、约、又作、同日多版本（用 / 分隔）、年份缺失（？）。
+const LIFE_SEP = /[—–－~～-]/
+function parseLifeYear(raw) {
+  if (!raw) return null
+  const text = String(raw).split('/')[0].trim()
+  if (!text || text.includes('？')) return null
+  let s = text
+  if (s.includes('约')) s = s.replace(/约/g, '')
+  let bce = false
+  if (s.includes('公元前')) { bce = true; s = s.replace('公元前', '') }
+  else if (s.includes('前')) { bce = true; s = s.replace('前', '') }
+  else if (s.includes('公元')) { s = s.replace('公元', '') }
+  const m = s.match(/(\d+)年/)
+  if (!m) return null
+  let year = parseInt(m[1], 10)
+  if (bce) year = -year
+  return year
+}
+function lifeAge(life) {
+  if (!life) return null
+  const parts = String(life).split(LIFE_SEP)
+  if (parts.length < 2) return null
+  const birth = parseLifeYear(parts[0])
+  const death = parseLifeYear(parts[1])
+  if (birth == null || death == null) return null
+  const age = (birth < 0) !== (death < 0) ? Math.abs(birth) + Math.abs(death) - 1 : death - birth
+  return age > 0 ? age : null
 }
 
 function saveCustomPeople() {

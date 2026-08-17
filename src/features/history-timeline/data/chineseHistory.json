@@ -723,14 +723,39 @@
       ],
       "events": [
         {
+          "name": "楚汉之争",
+          "year": -202,
+          "note": "楚汉相争四年，垓下之战项羽自刎，刘邦于前202年称帝建汉。"
+        },
+        {
+          "name": "白马之盟",
+          "year": -195,
+          "note": "刘邦临终杀白马盟誓「非刘氏而王，天下共击之」，剪除异姓王。"
+        },
+        {
+          "name": "诛灭诸吕",
+          "year": -180,
+          "note": "吕后崩，功臣集团铲除诸吕势力，迎立代王刘恒为文帝。"
+        },
+        {
           "name": "七国之乱",
           "year": -154,
           "note": "吴楚七国以\"清君侧\"为名叛乱，三月即被周亚夫平定。"
         },
         {
+          "name": "张骞通西域",
+          "year": -138,
+          "note": "张骞首次出使西域，凿空之旅，丝绸之路由此开辟。"
+        },
+        {
           "name": "漠北之战",
           "year": -119,
           "note": "卫青霍去病大破匈奴主力，封狼居胥，匈奴远遁漠北。"
+        },
+        {
+          "name": "巫蛊之祸",
+          "year": -91,
+          "note": "征和二年巫蛊之祸，太子刘据被诬起兵自杀，数万人牵连而死。"
         },
         {
           "name": "王莽篡汉",
@@ -759,22 +784,22 @@
           "figures": []
         },
         {
-          "label": "光武中兴",
+          "label": "东汉1",
           "ruler": "刘秀",
           "rulerTitle": "光武帝",
           "start": 25,
-          "end": 75,
-          "blurb": "\"娶妻当得阴丽华，仕宦当执金吾\"，昆阳之战以少胜多，中兴汉室。",
+          "end": 57,
+          "blurb": "昆阳之战以少胜多，柔道治国，中兴汉室。",
           "figures": [
             {
               "name": "阴丽华",
               "role": "光烈皇后",
-              "note": "刘秀少年时感叹“娶妻当得阴丽华”，她以贤德谨慎著称，辅佐光武帝重建汉室。"
+              "note": "刘秀少年感叹“娶妻当得阴丽华”，以贤德谨慎著称，辅佐光武帝重建汉室。"
             }
           ]
         },
         {
-          "label": "明帝",
+          "label": "东汉2",
           "ruler": "汉明帝",
           "rulerTitle": "刘庄",
           "start": 57,
@@ -783,45 +808,99 @@
           "figures": []
         },
         {
-          "label": "章帝",
+          "label": "东汉3",
           "ruler": "汉章帝",
           "rulerTitle": "刘炟",
           "start": 75,
           "end": 88,
-          "blurb": "宽厚为政、会诸儒于白虎观，与明帝并称\"明章之治\"。",
+          "blurb": "宽厚为政，会诸儒于白虎观，与明帝并称“明章之治”。",
           "figures": []
         },
         {
-          "label": "和帝",
+          "label": "东汉4",
           "ruler": "汉和帝",
           "rulerTitle": "刘肇",
           "start": 88,
           "end": 105,
-          "blurb": "幼年即位、铲除外戚窦氏，\"永元之隆\"是东汉国力的顶峰。",
+          "blurb": "幼年即位铲除外戚窦氏，永元之隆为东汉国力顶峰。",
           "figures": []
         },
         {
-          "label": "外戚宦官·桓帝",
+          "label": "东汉5",
+          "ruler": "汉殇帝",
+          "rulerTitle": "刘隆",
+          "start": 105,
+          "end": 106,
+          "blurb": "百日天子，年仅一岁夭折，东汉幼主频立之始。",
+          "figures": []
+        },
+        {
+          "label": "东汉6",
+          "ruler": "汉安帝",
+          "rulerTitle": "刘祜",
+          "start": 106,
+          "end": 125,
+          "blurb": "幼年即位，外戚与宦官交替掌权，突发疾病暴毙。",
+          "figures": []
+        },
+        {
+          "label": "东汉7",
+          "ruler": "刘懿",
+          "rulerTitle": "东汉少帝",
+          "start": 125,
+          "end": 125,
+          "blurb": "在位仅二百余日，史多不列为正统，暴疾而亡。",
+          "figures": []
+        },
+        {
+          "label": "东汉8",
+          "ruler": "汉顺帝",
+          "rulerTitle": "刘保",
+          "start": 125,
+          "end": 144,
+          "blurb": "西征平定羌乱，然权归宦官，外戚宦官交替之局已成。",
+          "figures": []
+        },
+        {
+          "label": "东汉9",
+          "ruler": "汉冲帝",
+          "rulerTitle": "刘炳",
+          "start": 144,
+          "end": 145,
+          "blurb": "两岁即位，次年夭折，外戚梁氏自此抬头。",
+          "figures": []
+        },
+        {
+          "label": "东汉10",
+          "ruler": "汉质帝",
+          "rulerTitle": "刘缵",
+          "start": 145,
+          "end": 146,
+          "blurb": "八岁即位，因言“此跋扈将军也”被梁冀毒杀。",
+          "figures": []
+        },
+        {
+          "label": "东汉11",
           "ruler": "汉桓帝",
           "rulerTitle": "刘志",
-          "start": 106,
+          "start": 146,
           "end": 168,
-          "blurb": "殇、安、顺、冲、质诸帝多幼年即位，外戚与宦官交替掌权；桓帝诛梁冀，却又倚重宦官，党锢之祸由此而起。",
+          "blurb": "联合宦官诛梁冀，旋即宠信宦官，党锢之祸由此而起。",
           "figures": [
             {
               "name": "梁冀",
               "role": "跋扈将军",
-              "note": "以外戚身份专权近二十年，毒杀汉质帝；汉桓帝联合宦官将其铲除，梁氏势力覆灭。"
+              "note": "以外戚专权近二十年，毒杀汉质帝；汉桓帝联合宦官将其铲除，梁氏灭族。"
             }
           ]
         },
         {
-          "label": "灵帝乱政",
+          "label": "东汉12",
           "ruler": "汉灵帝",
           "rulerTitle": "刘宏",
           "start": 168,
           "end": 189,
-          "blurb": "卖官鬻爵、任用十常侍，党锢加深朝野裂痕；黄巾起义爆发后，地方州牧与豪强开始拥兵自重。",
+          "blurb": "卖官鬻爵、任用十常侍，黄巾既起，群雄割据。",
           "figures": [
             {
               "name": "蹇硕",
@@ -831,51 +910,70 @@
           ]
         },
         {
-          "label": "献帝末世",
+          "label": "东汉13",
+          "ruler": "汉少帝",
+          "rulerTitle": "刘辩",
+          "start": 189,
+          "end": 190,
+          "blurb": "何太后所生，被董卓废黜，次年被迫自尽，年仅十七。",
+          "figures": []
+        },
+        {
+          "label": "东汉14",
           "ruler": "汉献帝",
           "rulerTitle": "刘协",
           "start": 189,
           "end": 220,
-          "blurb": "九岁被董卓拥立，先后受董卓、李傕郭汜与曹操控制；建安二十五年禅位曹丕，东汉至此灭亡。",
+          "blurb": "九岁被董卓拥立，终受曹操控制；建安二十五年禅位曹丕，东汉亡。",
           "figures": [
             {
               "name": "董卓",
               "role": "乱臣",
-              "note": "废立皇帝、火烧洛阳，天下从此彻底大乱，死后被点天灯。"
+              "note": "废立皇帝、火烧洛阳，天下大乱，死后被点天灯。"
             },
             {
               "name": "李儒",
               "role": "董卓谋士",
-              "note": "奉董卓之命毒杀被废的弘农王刘辩，正史中此后事迹不详，小说则将其塑造成董卓首席智囊。"
+              "note": "奉董卓之命毒杀被废的弘农王刘辩，正史此后事迹不详。"
             },
             {
               "name": "李傕",
               "role": "凉州军阀",
-              "note": "董卓死后攻陷长安，与郭汜把持朝政并彼此攻杀；汉献帝东逃后势力瓦解，最终被斩。"
+              "note": "董卓死后攻陷长安，与郭汜把持朝政又相互攻杀，最终被斩。"
             },
             {
               "name": "郭汜",
               "role": "凉州军阀",
-              "note": "与李傕共同控制长安，后因内讧相攻使关中残破，最终被部将伍习杀死。"
+              "note": "与李傕共控长安，内讧相攻使关中残破，终被部将所杀。"
             },
             {
               "name": "王异",
               "role": "凉州守城女将",
-              "note": "益州刺史赵昂之妻，马超进攻凉州时协助丈夫守城谋划，多次参与抵御马超。"
+              "note": "益州刺史赵昂之妻，马超攻凉州时协助丈夫守城谋划。"
             },
             {
               "name": "张仲景",
               "role": "医圣",
-              "note": "宗族十分之七死于伤寒，遂著《伤寒杂病论》，中医临床医学之祖。"
+              "note": "宗族十之七死于伤寒，遂著《伤寒杂病论》，中医临床之祖。"
             }
           ]
         }
       ],
       "events": [
         {
+          "name": "绿林赤眉起义",
+          "year": 17,
+          "note": "绿林、赤眉相继起义，新莽统治瓦解，天下大乱。"
+        },
+        {
           "name": "昆阳之战",
           "year": 23,
           "note": "刘秀以两万破王莽四十余万，一战成名，中兴汉室。"
+        },
+        {
+          "name": "诛灭梁冀",
+          "year": 159,
+          "note": "汉桓帝联合宦官诛杀外戚大将军梁冀，抄没家产巨万。"
         },
         {
           "name": "黄巾起义",
@@ -883,9 +981,24 @@
           "note": "张角\"苍天已死，黄天当立\"，天下大乱，汉室名存实亡。"
         },
         {
+          "name": "董卓之乱",
+          "year": 189,
+          "note": "何进召董卓入京，董卓废立皇帝、焚洛阳，群雄起兵讨董。"
+        },
+        {
           "name": "李郭之乱",
           "year": 192,
           "note": "李傕、郭汜攻陷长安，把持朝政后又相互攻杀，汉献帝在乱军中东逃。"
+        },
+        {
+          "name": "曹操挟天子",
+          "year": 196,
+          "note": "曹操迎汉献帝迁都许昌，挟天子以令诸侯。"
+        },
+        {
+          "name": "曹丕代汉",
+          "year": 220,
+          "note": "曹丕逼汉献帝禅位，东汉灭亡，曹魏建立。"
         }
       ]
     },
@@ -1190,117 +1303,650 @@
       "intro": "北方进入十六国割据，东晋偏安江左百年。\"书圣\"\"田园诗祖\"皆出此世，淝水一战保住了江南半壁的汉文明。",
       "groups": [
         {
-          "label": "东晋初",
+          "label": "东晋1",
           "ruler": "司马睿",
           "rulerTitle": "晋元帝",
           "start": 317,
-          "end": 342,
-          "blurb": "衣冠南渡建江左政权，\"王与马，共天下\"。",
+          "end": 322,
+          "blurb": "衣冠南渡，王与马共天下",
           "figures": [
             {
               "name": "王导",
               "role": "东晋丞相",
-              "note": "稳定江左政局，被司马睿邀同坐御床。"
+              "note": "稳定江左政局，被司马睿邀同坐御床"
             },
             {
               "name": "祖逖",
               "role": "北伐名将",
-              "note": "闻鸡起舞、中流击楫，收复黄河以南，壮志未酬死于军中。"
+              "note": "闻鸡起舞、中流击楫，收复黄河以南"
             },
             {
               "name": "陶侃",
               "role": "东晋名臣",
-              "note": "平定苏峻之乱、勤于吏治，以搬砖自励警醒逸乐，后人称其刚毅有为。"
+              "note": "平苏峻之乱，搬砖自励警逸乐"
             }
           ]
         },
         {
-          "label": "汉赵",
+          "label": "东晋2",
+          "ruler": "司马绍",
+          "rulerTitle": "晋明帝",
+          "start": 322,
+          "end": 325,
+          "blurb": "平王敦之乱，在位仅三年",
+          "figures": []
+        },
+        {
+          "label": "东晋3",
+          "ruler": "司马衍",
+          "rulerTitle": "晋成帝",
+          "start": 325,
+          "end": 342,
+          "blurb": "苏峻之乱，庾亮执政",
+          "figures": []
+        },
+        {
+          "label": "东晋4",
+          "ruler": "司马岳",
+          "rulerTitle": "晋康帝",
+          "start": 342,
+          "end": 344,
+          "blurb": "短祚",
+          "figures": []
+        },
+        {
+          "label": "东晋5",
+          "ruler": "司马聃",
+          "rulerTitle": "晋穆帝",
+          "start": 344,
+          "end": 361,
+          "blurb": "桓温崛起，殷浩北伐",
+          "figures": []
+        },
+        {
+          "label": "东晋6",
+          "ruler": "司马丕",
+          "rulerTitle": "晋哀帝",
+          "start": 361,
+          "end": 365,
+          "blurb": "沉迷丹药",
+          "figures": []
+        },
+        {
+          "label": "东晋7",
+          "ruler": "司马奕",
+          "rulerTitle": "晋废帝",
+          "start": 365,
+          "end": 372,
+          "blurb": "被桓温废为海西公",
+          "figures": []
+        },
+        {
+          "label": "东晋8",
+          "ruler": "司马昱",
+          "rulerTitle": "晋简文帝",
+          "start": 372,
+          "end": 372,
+          "blurb": "被桓温所立，当年忧死",
+          "figures": []
+        },
+        {
+          "label": "东晋9",
+          "ruler": "司马曜",
+          "rulerTitle": "晋孝武帝",
+          "start": 372,
+          "end": 396,
+          "blurb": "淝水主政，后期溺于酒",
+          "figures": [
+            {
+              "name": "谢安",
+              "role": "东晋宰相",
+              "note": "围棋赌墅破苻坚，小儿辈大破贼"
+            },
+            {
+              "name": "谢玄",
+              "role": "北府兵帅",
+              "note": "率八万北府兵大破前秦"
+            }
+          ]
+        },
+        {
+          "label": "东晋10",
+          "ruler": "司马德宗",
+          "rulerTitle": "晋安帝",
+          "start": 396,
+          "end": 418,
+          "blurb": "愚痴，桓玄篡位、刘裕掌权",
+          "figures": []
+        },
+        {
+          "label": "东晋11",
+          "ruler": "司马德文",
+          "rulerTitle": "晋恭帝",
+          "start": 418,
+          "end": 420,
+          "blurb": "禅位刘裕，旋被杀",
+          "figures": []
+        },
+        {
+          "label": "汉赵1",
           "ruler": "刘渊",
           "rulerTitle": "汉赵光文帝",
           "start": 304,
-          "end": 329,
-          "blurb": "匈奴人趁八王之乱起兵，尊刘汉为正统建汉赵，开启十六国乱世。",
+          "end": 310,
+          "blurb": "匈奴称汉，开十六国乱世",
           "figures": []
         },
         {
-          "label": "后赵",
+          "label": "汉赵2",
+          "ruler": "刘聪",
+          "rulerTitle": "汉昭武帝",
+          "start": 310,
+          "end": 318,
+          "blurb": "虏晋怀愍二帝",
+          "figures": []
+        },
+        {
+          "label": "汉赵3",
+          "ruler": "刘曜",
+          "rulerTitle": "前赵昭文帝",
+          "start": 318,
+          "end": 329,
+          "blurb": "改国号赵，为后赵所灭",
+          "figures": []
+        },
+        {
+          "label": "成汉1",
+          "ruler": "李雄",
+          "rulerTitle": "成汉武帝",
+          "start": 304,
+          "end": 334,
+          "blurb": "据蜀称帝，治蜀三十年",
+          "figures": []
+        },
+        {
+          "label": "成汉2",
+          "ruler": "李寿",
+          "rulerTitle": "成汉昭文帝",
+          "start": 334,
+          "end": 343,
+          "blurb": "改国号汉",
+          "figures": []
+        },
+        {
+          "label": "成汉3",
+          "ruler": "李势",
+          "rulerTitle": "成汉后主",
+          "start": 343,
+          "end": 347,
+          "blurb": "荒淫，为桓温所灭",
+          "figures": []
+        },
+        {
+          "label": "前凉1",
+          "ruler": "张寔",
+          "rulerTitle": "前凉昭公",
+          "start": 320,
+          "end": 324,
+          "blurb": "保据河西",
+          "figures": []
+        },
+        {
+          "label": "前凉2",
+          "ruler": "张骏",
+          "rulerTitle": "前凉文王",
+          "start": 324,
+          "end": 346,
+          "blurb": "拓境西域",
+          "figures": []
+        },
+        {
+          "label": "前凉3",
+          "ruler": "张重华",
+          "rulerTitle": "前凉桓王",
+          "start": 346,
+          "end": 353,
+          "blurb": "石虎屡攻不克",
+          "figures": []
+        },
+        {
+          "label": "前凉4",
+          "ruler": "张天锡",
+          "rulerTitle": "前凉末主",
+          "start": 363,
+          "end": 376,
+          "blurb": "降于前秦",
+          "figures": []
+        },
+        {
+          "label": "后赵1",
           "ruler": "石勒",
           "rulerTitle": "后赵明帝",
           "start": 319,
-          "end": 351,
-          "blurb": "中国历史上唯一从奴隶到皇帝的人，羯族，几乎统一北方。",
+          "end": 333,
+          "blurb": "奴隶称帝，统一北方",
           "figures": []
         },
         {
-          "label": "桓温时代",
-          "ruler": "桓温",
-          "rulerTitle": "东晋权臣",
-          "start": 343,
-          "end": 372,
-          "blurb": "三次北伐收复洛阳，\"不能流芳百世，亦当遗臭万年\"。",
-          "figures": [
-            {
-              "name": "王羲之",
-              "role": "书圣",
-              "note": "兰亭曲水流觞写下\"天下第一行书\"，入木三分、东床坦腹。"
-            }
-          ]
+          "label": "后赵2",
+          "ruler": "石弘",
+          "rulerTitle": "后赵废帝",
+          "start": 333,
+          "end": 334,
+          "blurb": "石勒子，旋被石虎篡",
+          "figures": []
         },
         {
-          "label": "前秦",
+          "label": "后赵3",
+          "ruler": "石虎",
+          "rulerTitle": "后赵武帝",
+          "start": 334,
+          "end": 349,
+          "blurb": "残暴嗜杀",
+          "figures": []
+        },
+        {
+          "label": "后赵4",
+          "ruler": "石祗",
+          "rulerTitle": "后赵末帝",
+          "start": 349,
+          "end": 351,
+          "blurb": "为冉闵所灭",
+          "figures": []
+        },
+        {
+          "label": "前燕1",
+          "ruler": "慕容皝",
+          "rulerTitle": "前燕文明帝",
+          "start": 337,
+          "end": 348,
+          "blurb": "奠定辽东基业",
+          "figures": []
+        },
+        {
+          "label": "前燕2",
+          "ruler": "慕容儁",
+          "rulerTitle": "前燕景昭帝",
+          "start": 348,
+          "end": 360,
+          "blurb": "灭冉魏，称帝",
+          "figures": []
+        },
+        {
+          "label": "前燕3",
+          "ruler": "慕容暐",
+          "rulerTitle": "前燕末帝",
+          "start": 360,
+          "end": 370,
+          "blurb": "为前秦所灭",
+          "figures": []
+        },
+        {
+          "label": "前秦1",
+          "ruler": "苻健",
+          "rulerTitle": "前秦景明帝",
+          "start": 351,
+          "end": 355,
+          "blurb": "据关中称帝",
+          "figures": []
+        },
+        {
+          "label": "前秦2",
+          "ruler": "苻生",
+          "rulerTitle": "前秦厉王",
+          "start": 355,
+          "end": 357,
+          "blurb": "残暴被弑",
+          "figures": []
+        },
+        {
+          "label": "前秦3",
           "ruler": "苻坚",
-          "rulerTitle": "前秦天王",
+          "rulerTitle": "前秦昭宣帝",
           "start": 357,
           "end": 385,
-          "blurb": "统一北方后投鞭断流南下，淝水一败风声鹤唳、草木皆兵。",
+          "blurb": "统一北方，淝水惨败",
           "figures": [
             {
               "name": "王猛",
               "role": "前秦丞相",
-              "note": "扪虱而谈天下事，\"功盖诸葛第一人\"，临终力劝苻坚勿伐晋。"
+              "note": "扪虱谈天下，临终力劝勿伐晋"
             }
           ]
         },
         {
-          "label": "淝水",
-          "ruler": "谢安",
-          "rulerTitle": "东晋宰相",
-          "start": 372,
-          "end": 396,
-          "blurb": "东山再起，大战当前围棋赌墅，捷报至而围棋如故，\"小儿辈大破贼\"。",
+          "label": "前秦4",
+          "ruler": "苻丕",
+          "rulerTitle": "前秦哀平帝",
+          "start": 385,
+          "end": 386,
+          "blurb": "苻坚子，败亡",
           "figures": []
         },
         {
-          "label": "后燕后秦",
-          "ruler": "慕容垂",
-          "rulerTitle": "后燕成武帝",
+          "label": "前秦5",
+          "ruler": "苻登",
+          "rulerTitle": "前秦高帝",
+          "start": 386,
+          "end": 394,
+          "blurb": "与后秦苦战",
+          "figures": []
+        },
+        {
+          "label": "前秦6",
+          "ruler": "苻崇",
+          "rulerTitle": "前秦末主",
+          "start": 394,
+          "end": 394,
+          "blurb": "为西秦所灭",
+          "figures": []
+        },
+        {
+          "label": "后秦1",
+          "ruler": "姚苌",
+          "rulerTitle": "后秦武昭帝",
           "start": 384,
+          "end": 393,
+          "blurb": "杀苻坚，据关中",
+          "figures": []
+        },
+        {
+          "label": "后秦2",
+          "ruler": "姚兴",
+          "rulerTitle": "后秦文桓帝",
+          "start": 393,
           "end": 416,
-          "blurb": "前燕宗室花甲之年复国建后燕，一生未尝败绩；同期后秦姚兴大兴佛教。",
+          "blurb": "迎鸠摩罗什译经",
           "figures": [
             {
               "name": "鸠摩罗什",
               "role": "译经大师",
-              "note": "后秦姚兴以国师礼迎至长安，译《金刚经》《法华经》，影响汉传佛教千年。"
+              "note": "被姚兴迎至长安，译金刚经法华经"
             }
           ]
         },
         {
-          "label": "晋宋之际",
-          "ruler": "刘裕",
-          "rulerTitle": "宋武帝",
+          "label": "后秦3",
+          "ruler": "姚泓",
+          "rulerTitle": "后秦末主",
+          "start": 416,
+          "end": 417,
+          "blurb": "为刘裕所灭",
+          "figures": []
+        },
+        {
+          "label": "后燕1",
+          "ruler": "慕容垂",
+          "rulerTitle": "后燕成武帝",
+          "start": 384,
+          "end": 396,
+          "blurb": "花甲复国，一生不败",
+          "figures": []
+        },
+        {
+          "label": "后燕2",
+          "ruler": "慕容宝",
+          "rulerTitle": "后燕惠愍帝",
           "start": 396,
+          "end": 398,
+          "blurb": "参合陂之败",
+          "figures": []
+        },
+        {
+          "label": "后燕3",
+          "ruler": "慕容盛",
+          "rulerTitle": "后燕昭武帝",
+          "start": 398,
+          "end": 401,
+          "blurb": "复位图强",
+          "figures": []
+        },
+        {
+          "label": "后燕4",
+          "ruler": "慕容熙",
+          "rulerTitle": "后燕昭文帝",
+          "start": 401,
+          "end": 407,
+          "blurb": "为冯跋所杀",
+          "figures": []
+        },
+        {
+          "label": "西秦1",
+          "ruler": "乞伏国仁",
+          "rulerTitle": "西秦宣烈王",
+          "start": 385,
+          "end": 388,
+          "blurb": "据陇西",
+          "figures": []
+        },
+        {
+          "label": "西秦2",
+          "ruler": "乞伏乾归",
+          "rulerTitle": "西秦武元王",
+          "start": 388,
+          "end": 412,
+          "blurb": "辗转称雄",
+          "figures": []
+        },
+        {
+          "label": "西秦3",
+          "ruler": "乞伏炽磐",
+          "rulerTitle": "西秦文昭王",
+          "start": 412,
+          "end": 428,
+          "blurb": "最强盛时",
+          "figures": []
+        },
+        {
+          "label": "西秦4",
+          "ruler": "乞伏暮末",
+          "rulerTitle": "西秦末主",
+          "start": 428,
+          "end": 431,
+          "blurb": "为夏所灭",
+          "figures": []
+        },
+        {
+          "label": "后凉1",
+          "ruler": "吕光",
+          "rulerTitle": "后凉懿武帝",
+          "start": 386,
+          "end": 399,
+          "blurb": "远征西域，据凉州",
+          "figures": []
+        },
+        {
+          "label": "后凉2",
+          "ruler": "吕绍",
+          "rulerTitle": "后凉隐王",
+          "start": 399,
+          "end": 399,
+          "blurb": "旋被吕纂所杀",
+          "figures": []
+        },
+        {
+          "label": "后凉3",
+          "ruler": "吕纂",
+          "rulerTitle": "后凉灵帝",
+          "start": 399,
+          "end": 401,
+          "blurb": "好战被弑",
+          "figures": []
+        },
+        {
+          "label": "后凉4",
+          "ruler": "吕隆",
+          "rulerTitle": "后凉末主",
+          "start": 401,
+          "end": 403,
+          "blurb": "降于后秦",
+          "figures": []
+        },
+        {
+          "label": "南凉1",
+          "ruler": "秃发乌孤",
+          "rulerTitle": "南凉武王",
+          "start": 397,
+          "end": 399,
+          "blurb": "据廉川",
+          "figures": []
+        },
+        {
+          "label": "南凉2",
+          "ruler": "秃发利鹿孤",
+          "rulerTitle": "南凉康王",
+          "start": 399,
+          "end": 402,
+          "blurb": "迁西平",
+          "figures": []
+        },
+        {
+          "label": "南凉3",
+          "ruler": "秃发傉檀",
+          "rulerTitle": "南凉景王",
+          "start": 402,
+          "end": 414,
+          "blurb": "为西秦所灭",
+          "figures": []
+        },
+        {
+          "label": "南燕1",
+          "ruler": "慕容德",
+          "rulerTitle": "南燕献武帝",
+          "start": 398,
+          "end": 405,
+          "blurb": "据青州广固",
+          "figures": []
+        },
+        {
+          "label": "南燕2",
+          "ruler": "慕容超",
+          "rulerTitle": "南燕末主",
+          "start": 405,
+          "end": 410,
+          "blurb": "为刘裕所灭",
+          "figures": []
+        },
+        {
+          "label": "西凉1",
+          "ruler": "李暠",
+          "rulerTitle": "西凉武昭王",
+          "start": 400,
+          "end": 417,
+          "blurb": "据敦煌，李唐远祖",
+          "figures": []
+        },
+        {
+          "label": "西凉2",
+          "ruler": "李歆",
+          "rulerTitle": "西凉后主",
+          "start": 417,
           "end": 420,
-          "blurb": "寒门出身北府旧将，\"气吞万里如虎\"，两次北伐，终代晋建宋。",
+          "blurb": "攻北凉战死",
+          "figures": []
+        },
+        {
+          "label": "西凉3",
+          "ruler": "李恂",
+          "rulerTitle": "西凉末主",
+          "start": 420,
+          "end": 421,
+          "blurb": "为北凉所灭",
+          "figures": []
+        },
+        {
+          "label": "北凉1",
+          "ruler": "段业",
+          "rulerTitle": "北凉文王",
+          "start": 397,
+          "end": 401,
+          "blurb": "被沮渠蒙逊所取代",
+          "figures": []
+        },
+        {
+          "label": "北凉2",
+          "ruler": "沮渠蒙逊",
+          "rulerTitle": "北凉武宣王",
+          "start": 401,
+          "end": 433,
+          "blurb": "雄猜之主",
+          "figures": []
+        },
+        {
+          "label": "北凉3",
+          "ruler": "沮渠牧犍",
+          "rulerTitle": "北凉哀王",
+          "start": 433,
+          "end": 439,
+          "blurb": "为北魏所灭",
+          "figures": []
+        },
+        {
+          "label": "北燕1",
+          "ruler": "冯跋",
+          "rulerTitle": "北燕文成帝",
+          "start": 407,
+          "end": 430,
+          "blurb": "灭后燕自立",
+          "figures": []
+        },
+        {
+          "label": "北燕2",
+          "ruler": "冯弘",
+          "rulerTitle": "北燕昭成帝",
+          "start": 430,
+          "end": 436,
+          "blurb": "为北魏所灭",
+          "figures": []
+        },
+        {
+          "label": "夏1",
+          "ruler": "赫连勃勃",
+          "rulerTitle": "夏武烈帝",
+          "start": 407,
+          "end": 425,
+          "blurb": "筑统万城，凶暴",
+          "figures": []
+        },
+        {
+          "label": "夏2",
+          "ruler": "赫连昌",
+          "rulerTitle": "夏秦王",
+          "start": 425,
+          "end": 428,
+          "blurb": "为北魏所俘",
+          "figures": []
+        },
+        {
+          "label": "夏3",
+          "ruler": "赫连定",
+          "rulerTitle": "夏末主",
+          "start": 428,
+          "end": 431,
+          "blurb": "为吐谷浑所虏",
           "figures": []
         }
       ],
       "events": [
         {
+          "name": "桓温灭成汉",
+          "year": 347,
+          "note": "东晋桓温伐成汉，攻破成都，李势投降，成汉亡。"
+        },
+        {
           "name": "淝水之战",
           "year": 383,
           "note": "谢安指挥八万北府兵大破苻坚百万大军，保住江南半壁。"
+        },
+        {
+          "name": "参合陂之战",
+          "year": 395,
+          "note": "北魏拓跋珪大败后燕慕容宝，坑杀五万，后燕自此分裂。"
+        },
+        {
+          "name": "刘裕北伐",
+          "year": 409,
+          "note": "刘裕北伐灭南燕（410）、破长安灭后秦（417），威震江左。"
         }
       ]
     },
@@ -1315,115 +1961,514 @@
       "intro": "南朝宋齐梁陈更迭，北朝从北魏分裂到东西对峙。孝文帝汉化改革推动民族大融合，科学与佛道之学在乱世中生长。",
       "groups": [
         {
-          "label": "南朝宋",
+          "label": "宋1",
           "ruler": "刘裕",
           "rulerTitle": "宋武帝",
           "start": 420,
-          "end": 453,
-          "blurb": "寒人掌权、北伐收复洛阳长安，其子刘义隆开创\"元嘉之治\"。",
-          "figures": [
-            {
-              "name": "刘义隆",
-              "role": "宋文帝",
-              "note": "在位三十年开创\"元嘉之治\"，元嘉草草封狼居胥，赢得仓皇北顾。"
-            }
-          ]
-        },
-        {
-          "label": "北魏太武",
-          "ruler": "拓跋焘",
-          "rulerTitle": "北魏太武帝",
-          "start": 423,
-          "end": 465,
-          "blurb": "十三岁即位，骁勇善战灭北凉统一北方，国史之狱杀崔浩。",
+          "end": 422,
+          "blurb": "寒人代晋，气吞万里如虎",
           "figures": []
         },
         {
-          "label": "孝文汉化",
-          "ruler": "孝文帝",
-          "rulerTitle": "拓跋宏",
-          "start": 471,
-          "end": 515,
-          "blurb": "假借南伐迁都洛阳，改汉姓、说汉语、通婚姻，铸就民族融合。",
-          "figures": [
-            {
-              "name": "冯太后",
-              "role": "北魏改革推手",
-              "note": "临朝称制推行俸禄制、均田制、三长制，培养出汉化改革的孙子。"
-            }
-          ]
+          "label": "宋2",
+          "ruler": "刘义隆",
+          "rulerTitle": "宋文帝",
+          "start": 424,
+          "end": 453,
+          "blurb": "元嘉之治，仓皇北顾",
+          "figures": []
         },
         {
-          "label": "南朝梁",
+          "label": "宋3",
+          "ruler": "刘劭",
+          "rulerTitle": "宋元凶",
+          "start": 453,
+          "end": 453,
+          "blurb": "弑父自立，旋被诛",
+          "figures": []
+        },
+        {
+          "label": "宋4",
+          "ruler": "刘骏",
+          "rulerTitle": "宋孝武帝",
+          "start": 453,
+          "end": 464,
+          "blurb": "猜忌宗室",
+          "figures": []
+        },
+        {
+          "label": "宋5",
+          "ruler": "刘子业",
+          "rulerTitle": "宋前废帝",
+          "start": 464,
+          "end": 466,
+          "blurb": "暴虐被弑",
+          "figures": []
+        },
+        {
+          "label": "宋6",
+          "ruler": "刘彧",
+          "rulerTitle": "宋明帝",
+          "start": 466,
+          "end": 472,
+          "blurb": "残杀诸弟",
+          "figures": []
+        },
+        {
+          "label": "宋7",
+          "ruler": "刘昱",
+          "rulerTitle": "宋后废帝",
+          "start": 473,
+          "end": 477,
+          "blurb": "苍梧王，被萧道成弑",
+          "figures": []
+        },
+        {
+          "label": "宋8",
+          "ruler": "刘准",
+          "rulerTitle": "宋顺帝",
+          "start": 477,
+          "end": 479,
+          "blurb": "禅位萧道成",
+          "figures": []
+        },
+        {
+          "label": "齐1",
+          "ruler": "萧道成",
+          "rulerTitle": "齐高帝",
+          "start": 479,
+          "end": 482,
+          "blurb": "代宋建齐",
+          "figures": []
+        },
+        {
+          "label": "齐2",
+          "ruler": "萧赜",
+          "rulerTitle": "齐武帝",
+          "start": 482,
+          "end": 493,
+          "blurb": "永明之治",
+          "figures": []
+        },
+        {
+          "label": "齐3",
+          "ruler": "萧昭业",
+          "rulerTitle": "齐郁林王",
+          "start": 493,
+          "end": 494,
+          "blurb": "荒淫无度",
+          "figures": []
+        },
+        {
+          "label": "齐4",
+          "ruler": "萧鸾",
+          "rulerTitle": "齐明帝",
+          "start": 494,
+          "end": 498,
+          "blurb": "大杀宗室",
+          "figures": []
+        },
+        {
+          "label": "齐5",
+          "ruler": "萧宝卷",
+          "rulerTitle": "齐东昏侯",
+          "start": 498,
+          "end": 501,
+          "blurb": "荒嬉被弑",
+          "figures": []
+        },
+        {
+          "label": "齐6",
+          "ruler": "萧宝融",
+          "rulerTitle": "齐和帝",
+          "start": 501,
+          "end": 502,
+          "blurb": "禅位萧衍",
+          "figures": []
+        },
+        {
+          "label": "梁1",
           "ruler": "萧衍",
           "rulerTitle": "梁武帝",
           "start": 502,
           "end": 549,
-          "blurb": "在位四十八年，四度舍身同泰寺，\"自我得之，自我失之\"，饿死台城。",
+          "blurb": "在位四十八年，饿死台城",
           "figures": [
             {
               "name": "陈庆之",
               "role": "白袍将军",
-              "note": "文弱书生率七千白袍北伐，\"千军万马避白袍\"，四十七战皆捷。"
+              "note": "率七千白袍北伐，千军万马避白袍"
             },
             {
               "name": "侯景",
               "role": "宇宙大将军",
-              "note": "降而复叛发动侯景之乱攻破建康，江南\"千里绝烟\"。"
+              "note": "侯景之乱攻破建康，江南千里绝烟"
             }
           ]
         },
         {
-          "label": "东西魏·齐周",
-          "ruler": "宇文泰",
-          "rulerTitle": "北周文帝",
+          "label": "梁2",
+          "ruler": "萧纲",
+          "rulerTitle": "梁简文帝",
+          "start": 549,
+          "end": 551,
+          "blurb": "被侯景所立旋弑",
+          "figures": []
+        },
+        {
+          "label": "梁3",
+          "ruler": "萧绎",
+          "rulerTitle": "梁元帝",
+          "start": 552,
+          "end": 554,
+          "blurb": "江陵焚书",
+          "figures": []
+        },
+        {
+          "label": "梁4",
+          "ruler": "萧方智",
+          "rulerTitle": "梁敬帝",
+          "start": 555,
+          "end": 557,
+          "blurb": "禅位陈霸先",
+          "figures": []
+        },
+        {
+          "label": "陈1",
+          "ruler": "陈霸先",
+          "rulerTitle": "陈武帝",
+          "start": 557,
+          "end": 559,
+          "blurb": "代梁建陈",
+          "figures": []
+        },
+        {
+          "label": "陈2",
+          "ruler": "陈蒨",
+          "rulerTitle": "陈文帝",
+          "start": 559,
+          "end": 566,
+          "blurb": "天嘉之治",
+          "figures": []
+        },
+        {
+          "label": "陈3",
+          "ruler": "陈伯宗",
+          "rulerTitle": "陈废帝",
+          "start": 566,
+          "end": 568,
+          "blurb": "被陈顼篡",
+          "figures": []
+        },
+        {
+          "label": "陈4",
+          "ruler": "陈顼",
+          "rulerTitle": "陈宣帝",
+          "start": 568,
+          "end": 582,
+          "blurb": "太建北伐",
+          "figures": []
+        },
+        {
+          "label": "陈5",
+          "ruler": "陈叔宝",
+          "rulerTitle": "陈后主",
+          "start": 582,
+          "end": 589,
+          "blurb": "玉树后庭花，隋灭陈",
+          "figures": []
+        },
+        {
+          "label": "北魏1",
+          "ruler": "拓跋珪",
+          "rulerTitle": "魏道武帝",
+          "start": 386,
+          "end": 409,
+          "blurb": "复国称帝，建魏",
+          "figures": []
+        },
+        {
+          "label": "北魏2",
+          "ruler": "拓跋嗣",
+          "rulerTitle": "魏明元帝",
+          "start": 409,
+          "end": 423,
+          "blurb": "南征刘宋",
+          "figures": []
+        },
+        {
+          "label": "北魏3",
+          "ruler": "拓跋焘",
+          "rulerTitle": "魏太武帝",
+          "start": 423,
+          "end": 452,
+          "blurb": "统一北方，国史之狱",
+          "figures": []
+        },
+        {
+          "label": "北魏4",
+          "ruler": "拓跋濬",
+          "rulerTitle": "魏文成帝",
+          "start": 452,
+          "end": 465,
+          "blurb": "复兴佛教",
+          "figures": []
+        },
+        {
+          "label": "北魏5",
+          "ruler": "拓跋弘",
+          "rulerTitle": "魏献文帝",
+          "start": 465,
+          "end": 471,
+          "blurb": "禅位孝文",
+          "figures": []
+        },
+        {
+          "label": "北魏6",
+          "ruler": "元宏",
+          "rulerTitle": "魏孝文帝",
+          "start": 471,
+          "end": 499,
+          "blurb": "汉化改革，迁都洛阳",
+          "figures": [
+            {
+              "name": "冯太后",
+              "role": "改革推手",
+              "note": "临朝称制行均田三长，培养孝文"
+            }
+          ]
+        },
+        {
+          "label": "北魏7",
+          "ruler": "元恪",
+          "rulerTitle": "魏宣武帝",
+          "start": 499,
+          "end": 515,
+          "blurb": "佛寺兴盛",
+          "figures": []
+        },
+        {
+          "label": "北魏8",
+          "ruler": "元诩",
+          "rulerTitle": "魏孝明帝",
+          "start": 515,
+          "end": 528,
+          "blurb": "胡太后乱政，河阴之变",
+          "figures": []
+        },
+        {
+          "label": "北魏9",
+          "ruler": "元子攸",
+          "rulerTitle": "魏孝庄帝",
+          "start": 528,
+          "end": 530,
+          "blurb": "杀尔朱荣",
+          "figures": []
+        },
+        {
+          "label": "北魏10",
+          "ruler": "元修",
+          "rulerTitle": "魏孝武帝",
+          "start": 532,
+          "end": 534,
+          "blurb": "奔关中，魏分裂",
+          "figures": []
+        },
+        {
+          "label": "东魏1",
+          "ruler": "元善见",
+          "rulerTitle": "魏孝静帝",
           "start": 534,
-          "end": 581,
-          "blurb": "北魏分裂为东西魏，高欢奠基北齐、宇文泰奠基北周；宇文邕灭齐统一北方。",
+          "end": 550,
+          "blurb": "高欢执政，禅位北齐",
           "figures": [
             {
               "name": "高欢",
               "role": "东魏权臣",
-              "note": "怀朔镇戍卒出身，韩陵之战以三万破二十万，奠定北齐基业。"
-            },
-            {
-              "name": "高洋",
-              "role": "北齐文宣帝",
-              "note": "篡东魏建北齐，前期英明后期暴虐，\"快刀斩乱麻\"的出处。"
-            },
-            {
-              "name": "宇文邕",
-              "role": "北周武帝",
-              "note": "灭佛强国、灭北齐统一北方，若非早逝，历史或将改写。"
-            },
-            {
-              "name": "高长恭",
-              "role": "兰陵王",
-              "note": "邙山之战戴面具冲阵解洛阳之围，\"貌柔心壮，音容兼美\"，功高被鸩。"
+              "note": "怀朔镇戍卒，韩陵破二十万，奠基北齐"
             }
           ]
         },
         {
-          "label": "南朝陈",
-          "ruler": "陈霸先",
-          "rulerTitle": "陈武帝",
-          "start": 557,
-          "end": 589,
-          "blurb": "南朝最后一个王朝，出身小吏北伐建功；其孙陈叔宝亡国时犹唱后庭花。",
+          "label": "西魏1",
+          "ruler": "元宝炬",
+          "rulerTitle": "魏文帝",
+          "start": 535,
+          "end": 551,
+          "blurb": "宇文泰执政",
+          "figures": []
+        },
+        {
+          "label": "西魏2",
+          "ruler": "元廓",
+          "rulerTitle": "魏恭帝",
+          "start": 554,
+          "end": 557,
+          "blurb": "禅位北周",
+          "figures": []
+        },
+        {
+          "label": "北齐1",
+          "ruler": "高洋",
+          "rulerTitle": "北齐文宣帝",
+          "start": 550,
+          "end": 559,
+          "blurb": "代东魏建齐，前期英明后期暴",
           "figures": [
             {
-              "name": "陈叔宝",
-              "role": "陈后主",
-              "note": "荒于酒色作《玉树后庭花》，隋军破城时与宠妃躲入井中被俘。"
+              "name": "高长恭",
+              "role": "兰陵王",
+              "note": "邙山戴面具冲阵解洛阳之围，功高被鸩"
             }
           ]
+        },
+        {
+          "label": "北齐2",
+          "ruler": "高殷",
+          "rulerTitle": "北齐废帝",
+          "start": 559,
+          "end": 560,
+          "blurb": "被高演篡",
+          "figures": []
+        },
+        {
+          "label": "北齐3",
+          "ruler": "高演",
+          "rulerTitle": "北齐孝昭帝",
+          "start": 560,
+          "end": 561,
+          "blurb": "短暂有为",
+          "figures": []
+        },
+        {
+          "label": "北齐4",
+          "ruler": "高湛",
+          "rulerTitle": "北齐武成帝",
+          "start": 561,
+          "end": 565,
+          "blurb": "荒淫",
+          "figures": []
+        },
+        {
+          "label": "北齐5",
+          "ruler": "高纬",
+          "rulerTitle": "北齐后主",
+          "start": 565,
+          "end": 577,
+          "blurb": "无愁天子，亡国之君",
+          "figures": []
+        },
+        {
+          "label": "北齐6",
+          "ruler": "高恒",
+          "rulerTitle": "北齐幼主",
+          "start": 577,
+          "end": 577,
+          "blurb": "禅位被杀，齐亡",
+          "figures": []
+        },
+        {
+          "label": "北周1",
+          "ruler": "宇文觉",
+          "rulerTitle": "北周孝闵帝",
+          "start": 557,
+          "end": 557,
+          "blurb": "代西魏建周，旋被弑",
+          "figures": []
+        },
+        {
+          "label": "北周2",
+          "ruler": "宇文毓",
+          "rulerTitle": "北周明帝",
+          "start": 557,
+          "end": 560,
+          "blurb": "颇有为",
+          "figures": []
+        },
+        {
+          "label": "北周3",
+          "ruler": "宇文邕",
+          "rulerTitle": "北周武帝",
+          "start": 560,
+          "end": 578,
+          "blurb": "灭佛强国，灭北齐",
+          "figures": [
+            {
+              "name": "宇文宪",
+              "role": "齐炀王",
+              "note": "武帝弟，英武善战，旋被诬杀"
+            }
+          ]
+        },
+        {
+          "label": "北周4",
+          "ruler": "宇文赟",
+          "rulerTitle": "北周宣帝",
+          "start": 578,
+          "end": 579,
+          "blurb": "荒淫",
+          "figures": []
+        },
+        {
+          "label": "北周5",
+          "ruler": "宇文阐",
+          "rulerTitle": "北周静帝",
+          "start": 579,
+          "end": 581,
+          "blurb": "禅位杨坚",
+          "figures": []
         }
       ],
       "events": [
         {
+          "name": "北魏统一北方",
+          "year": 439,
+          "note": "太武帝拓跋焘灭北凉，终结十六国，统一北方。"
+        },
+        {
+          "name": "元嘉北伐",
+          "year": 450,
+          "note": "宋文帝刘义隆北伐北魏，拓跋焘反攻至长江，「元嘉草草，仓皇北顾」。"
+        },
+        {
+          "name": "孝文帝改革",
+          "year": 493,
+          "note": "北魏孝文帝迁都洛阳，推行汉化，改鲜卑姓为汉姓。"
+        },
+        {
+          "name": "六镇起义",
+          "year": 523,
+          "note": "北魏六镇起义爆发，由盛转衰，开启北方乱局。"
+        },
+        {
+          "name": "河阴之变",
+          "year": 528,
+          "note": "尔朱荣以祭天为名溺杀胡太后与幼帝，围杀王公大臣两千余人。"
+        },
+        {
+          "name": "陈庆之北伐",
+          "year": 529,
+          "note": "陈庆之护送元颢北归，以七千白袍军一度攻入洛阳。"
+        },
+        {
+          "name": "邙山之战",
+          "year": 538,
+          "note": "东西魏邙山会战，西魏大败，伤亡六万余，东魏收复北豫洛州。"
+        },
+        {
+          "name": "玉壁之战",
+          "year": 546,
+          "note": "高欢攻玉壁不克，韦孝宽死守五十余日，高欢郁愤成疾而终。"
+        },
+        {
           "name": "侯景之乱",
           "year": 548,
           "note": "降将侯景攻破建康，江南\"千里绝烟\"，士族门阀就此式微。"
+        },
+        {
+          "name": "北周灭北齐",
+          "year": 577,
+          "note": "周武帝宇文邕灭北齐，统一北方，为隋混一打下基础。"
         }
       ]
     },
@@ -1480,9 +2525,34 @@
       ],
       "events": [
         {
+          "name": "隋灭陈统一",
+          "year": 589,
+          "note": "隋灭南陈，结束南北朝数百年分裂，天下重归一统。"
+        },
+        {
+          "name": "开凿大运河",
+          "year": 605,
+          "note": "隋炀帝征发民力开凿大运河，贯通南北，劳民伤财。"
+        },
+        {
+          "name": "瓦岗起义",
+          "year": 611,
+          "note": "翟让、李密起于瓦岗，隋末民变序幕，中原大乱。"
+        },
+        {
           "name": "三征高句丽",
           "year": 612,
           "note": "隋炀帝三征高句丽皆败，民力枯竭，天下大乱由此起。"
+        },
+        {
+          "name": "晋阳起兵",
+          "year": 617,
+          "note": "李渊于晋阳起兵，次年逼隋恭帝禅位，建立唐朝。"
+        },
+        {
+          "name": "江都兵变",
+          "year": 618,
+          "note": "宇文化及发动兵变弑隋炀帝于江都，隋朝灭亡。"
         }
       ]
     },
@@ -1497,7 +2567,7 @@
       "intro": "从玄武门到安史之乱是上升与极盛，之后一百五十年藩镇、党争、宦官轮番登场。诗歌、书法、佛道与万国衣冠，构成中国人念念不忘的\"盛唐气象\"。",
       "groups": [
         {
-          "label": "高祖开国",
+          "label": "唐朝1",
           "ruler": "李渊",
           "rulerTitle": "唐高祖",
           "start": 618,
@@ -1506,36 +2576,47 @@
           "figures": []
         },
         {
-          "label": "贞观之治",
+          "label": "唐朝2",
           "ruler": "李世民",
           "rulerTitle": "唐太宗",
           "start": 626,
           "end": 649,
-          "blurb": "玄武门夺位，纳谏任贤，\"以铜为镜正衣冠，以史为镜知兴替\"，天可汗。",
-          "figures": []
+          "blurb": "玄武门夺位，纳谏任贤，天可汗，贞观之治。",
+          "figures": [
+            {
+              "name": "长孙无忌",
+              "role": "凌烟阁首功",
+              "note": "玄武门之变核心谋划者，凌烟阁二十四功臣之首，后遭诬陷自缢。"
+            },
+            {
+              "name": "尉迟敬德",
+              "role": "猛将",
+              "note": "玄武门射杀李元吉，三夺槊护李世民，凌烟阁功臣。"
+            }
+          ]
         },
         {
-          "label": "高宗",
+          "label": "唐朝3",
           "ruler": "李治",
           "rulerTitle": "唐高宗",
           "start": 649,
           "end": 683,
-          "blurb": "永徽之治、灭西突厥与高句丽，唐朝版图最盛；晚年风疾，武后渐掌实权。",
+          "blurb": "永徽之治、灭西突厥与高句丽，晚年武后渐掌实权。",
           "figures": [
             {
               "name": "薛仁贵",
               "role": "白袍小将",
-              "note": "\"将军三箭定天山，壮士长歌入汉关\"，大非川一败晚节留憾。"
+              "note": "将军三箭定天山，大非川一败晚节留憾。"
             }
           ]
         },
         {
           "label": "武周",
           "ruler": "武则天",
-          "rulerTitle": "女皇",
-          "start": 684,
+          "rulerTitle": "武周",
+          "start": 690,
           "end": 705,
-          "blurb": "从才人到皇后到皇帝，首创殿试武举，\"政启开元，治宏贞观\"，留无字碑任人评说。",
+          "blurb": "从才人到女皇，改唐为周，首创殿试武举，留无字碑任人评说。",
           "figures": [
             {
               "name": "上官婉儿",
@@ -1550,145 +2631,315 @@
           ]
         },
         {
-          "label": "开元盛世",
+          "label": "唐朝4",
+          "ruler": "李显",
+          "rulerTitle": "唐中宗",
+          "start": 705,
+          "end": 710,
+          "blurb": "两度为帝，复位后纵容韦后安乐公主，终被毒杀。",
+          "figures": [
+            {
+              "name": "韦皇后",
+              "role": "中宗皇后",
+              "note": "效法武后弄权，与安乐公主毒杀中宗，旋被唐隆政变诛灭。"
+            },
+            {
+              "name": "安乐公主",
+              "role": "中宗之女",
+              "note": "恃宠擅权，欲为皇太女，唐隆政变中与韦后同被斩。"
+            }
+          ]
+        },
+        {
+          "label": "唐朝5",
+          "ruler": "李旦",
+          "rulerTitle": "唐睿宗",
+          "start": 710,
+          "end": 712,
+          "blurb": "两度登基，景云之际禅于太子隆基，开启开元。",
+          "figures": [
+            {
+              "name": "太平公主",
+              "role": "武则天之女",
+              "note": "唐隆政变功臣，权倾朝野，先天政变中被玄宗赐死。"
+            }
+          ]
+        },
+        {
+          "label": "唐朝6",
+          "ruler": "李重茂",
+          "rulerTitle": "唐少帝",
+          "start": 710,
+          "end": 710,
+          "blurb": "中宗崩后继位，在位仅十七日，唐隆政变后退位。",
+          "figures": []
+        },
+        {
+          "label": "唐朝7",
           "ruler": "李隆基",
           "rulerTitle": "唐玄宗",
           "start": 712,
-          "end": 742,
-          "blurb": "前半生励精图治，任姚崇宋璟，缔造中国古代的巅峰盛世。",
+          "end": 756,
+          "blurb": "开元盛世臻于极盛，晚年怠政致安史之乱，盛唐转衰。",
           "figures": [
             {
               "name": "李白",
               "role": "诗仙",
-              "note": "\"仰天大笑出门去，我辈岂是蓬蒿人\"，绣口一吐就是半个盛唐。"
-            }
-          ]
-        },
-        {
-          "label": "天宝·安史",
-          "ruler": "李隆基",
-          "rulerTitle": "唐玄宗",
-          "start": 742,
-          "end": 763,
-          "blurb": "后半生宠贵妃怠政，渔阳鼙鼓动地来，惊破霓裳羽衣曲，仓皇入蜀。",
-          "figures": [
+              "note": "仰天大笑出门去，绣口一吐半盛唐。"
+            },
             {
               "name": "杨玉环",
               "role": "贵妃",
-              "note": "\"回眸一笑百媚生，六宫粉黛无颜色\"，马嵬坡前香消玉殒。"
+              "note": "回眸一笑百媚生，马嵬坡前香消玉殒。"
             },
             {
               "name": "李林甫",
               "role": "权相",
-              "note": "\"口有蜜，腹有剑\"，把持相位十九年，养出安禄山之患。"
+              "note": "口蜜腹剑，把持相位十九年，养出安禄山之患。"
             },
             {
               "name": "安禄山",
               "role": "叛乱者",
-              "note": "三百斤的胡旋舞高手，渔阳鼙鼓动地来。"
+              "note": "渔阳鼙鼓动地来，安史之乱倾覆盛唐。"
             },
             {
               "name": "高仙芝",
               "role": "西域名将",
-              "note": "翻越葱岭远征小勃律，威震西域；潼关失守前遭谗被杀。"
+              "note": "翻越葱岭远征小勃律，潼关失守前遭谗被杀。"
             },
             {
               "name": "哥舒翰",
               "role": "河西名将",
-              "note": "长期镇守河西，安史之乱时被迫出潼关决战，兵败被俘。"
+              "note": "长期镇守河西，安史之乱被迫出潼关决战兵败被俘。"
             },
             {
               "name": "高力士",
               "role": "内廷重臣",
-              "note": "侍奉玄宗数十年，参与朝廷决策，也是唐代宦官权势上升的代表人物。"
+              "note": "侍奉玄宗数十年，唐代宦官权势上升的代表。"
             }
           ]
         },
         {
-          "label": "肃代中兴",
+          "label": "唐朝8",
           "ruler": "李亨",
           "rulerTitle": "唐肃宗",
           "start": 756,
-          "end": 779,
+          "end": 762,
           "blurb": "灵武即位扛起平叛大旗，借回纥兵收复两京，宦官势力自此坐大。",
           "figures": [
             {
               "name": "郭子仪",
               "role": "中兴名将",
-              "note": "平定安史之乱，\"功盖天下而主不疑，位极人臣而众不嫉\"。"
+              "note": "平定安史之乱，功盖天下而主不疑。"
             },
             {
               "name": "李光弼",
               "role": "中兴第一",
-              "note": "与郭子仪并称\"李郭\"，太原以少胜多，出奇无穷。"
+              "note": "与郭子仪并称李郭，太原以少胜多。"
             },
             {
               "name": "杜甫",
               "role": "诗圣",
-              "note": "\"会当凌绝顶\"到\"艰难苦恨繁霜鬓\"，诗史在笔，茅屋秋风仍念天下寒士。"
+              "note": "诗史在笔，茅屋秋风仍念天下寒士。"
             },
             {
               "name": "张巡",
               "role": "睢阳守将",
-              "note": "与许远死守睢阳，牵制叛军主力，为唐军收复两京争取时间。"
+              "note": "与许远死守睢阳，牵制叛军主力。"
             },
             {
               "name": "颜真卿",
               "role": "名臣·书法家",
-              "note": "安史乱中举义抗敌，晚年奉命劝降李希烈而遇害，忠烈与书名并传。"
+              "note": "安史乱中举义抗敌，晚年奉命劝降遇害。"
             }
           ]
         },
         {
-          "label": "元和中兴",
+          "label": "唐朝9",
+          "ruler": "李豫",
+          "rulerTitle": "唐代宗",
+          "start": 762,
+          "end": 779,
+          "blurb": "平定安史之乱，然信任宦官、藩镇割据渐成。",
+          "figures": [
+            {
+              "name": "鱼朝恩",
+              "role": "权宦",
+              "note": "权倾朝野，770年被代宗设计勒死。"
+            },
+            {
+              "name": "元载",
+              "role": "宰相",
+              "note": "助铲除李辅国鱼朝恩，后独揽朝政被赐死，抄出胡椒巨万。"
+            }
+          ]
+        },
+        {
+          "label": "唐朝10",
+          "ruler": "李适",
+          "rulerTitle": "唐德宗",
+          "start": 779,
+          "end": 805,
+          "blurb": "锐意削藩反致四镇之乱、泾原兵变，终妥协藩镇。",
+          "figures": [
+            {
+              "name": "李泌",
+              "role": "谋臣·宰相",
+              "note": "四落四起，定联蕃制吐蕃之策，立于宰相任上。"
+            },
+            {
+              "name": "李晟",
+              "role": "名将",
+              "note": "收复长安，平定朱泚之乱，后削兵权。"
+            },
+            {
+              "name": "马燧",
+              "role": "名将",
+              "note": "败李怀光、吐蕃，平凉会盟遭劫之耻。"
+            },
+            {
+              "name": "卢杞",
+              "role": "宰相",
+              "note": "迎合圣意妒贤，加税激变藩镇，终未返朝。"
+            }
+          ]
+        },
+        {
+          "label": "唐朝11",
+          "ruler": "李诵",
+          "rulerTitle": "唐顺宗",
+          "start": 805,
+          "end": 805,
+          "blurb": "永贞革新未及半载，为宦官所逼退位，旋即病崩。",
+          "figures": []
+        },
+        {
+          "label": "唐朝12",
           "ruler": "李纯",
           "rulerTitle": "唐宪宗",
           "start": 805,
           "end": 820,
-          "blurb": "刚明果断削平藩镇，\"元和中兴\"昙花一现，晚年为宦官所弑。",
+          "blurb": "刚明削平藩镇，元和中兴昙花一现，晚年为宦官所弑。",
           "figures": [
             {
               "name": "裴度",
               "role": "中兴名相",
-              "note": "督师平淮西吴元济，\"四朝元老\"，身系天下轻重三十年。"
+              "note": "督师平淮西，身系天下轻重三十年。"
             }
           ]
         },
         {
-          "label": "晚唐",
-          "ruler": null,
+          "label": "唐朝13",
+          "ruler": "李恒",
+          "rulerTitle": "唐穆宗",
           "start": 820,
-          "end": 859,
-          "blurb": "",
+          "end": 824,
+          "blurb": "即位后游乐无度，服食金丹而崩，年仅三十。",
+          "figures": []
+        },
+        {
+          "label": "唐朝14",
+          "ruler": "李湛",
+          "rulerTitle": "唐敬宗",
+          "start": 824,
+          "end": 827,
+          "blurb": "少年即位，沉迷游猎，为宦官所弑，年仅十八。",
+          "figures": []
+        },
+        {
+          "label": "唐朝15",
+          "ruler": "李昂",
+          "rulerTitle": "唐文宗",
+          "start": 827,
+          "end": 840,
+          "blurb": "谋诛宦官发动甘露之变失败，遭软禁郁郁而终。",
           "figures": [
             {
-              "name": "唐宣宗",
-              "role": "小太宗",
-              "note": "李忱，大中之治，晚唐最后的回光返照，驾崩后大乱旋即爆发。"
+              "name": "仇士良",
+              "role": "权宦",
+              "note": "甘露之变后诛杀朝臣上千，掌权十五年，自知不敌武宗乞归。"
             },
+            {
+              "name": "李训",
+              "role": "宰相",
+              "note": "策划甘露之变事败，全家被杀。"
+            }
+          ]
+        },
+        {
+          "label": "唐朝16",
+          "ruler": "李炎",
+          "rulerTitle": "唐武宗",
+          "start": 840,
+          "end": 846,
+          "blurb": "会昌灭佛，打击宦官藩镇，晚岁服丹而崩。",
+          "figures": []
+        },
+        {
+          "label": "唐朝17",
+          "ruler": "李忱",
+          "rulerTitle": "唐宣宗",
+          "start": 846,
+          "end": 859,
+          "blurb": "大中之治，晚唐回光返照，史称小太宗。",
+          "figures": [
             {
               "name": "李商隐",
               "role": "朦胧诗人",
-              "note": "\"此情可待成追忆，只是当时已惘然\"，牛李党争夹缝中的一身才情。"
+              "note": "此情可待成追忆，牛李党争夹缝中的一身才情。"
             }
           ]
         },
         {
-          "label": "唐末",
-          "ruler": null,
-          "start": 860,
-          "end": 907,
-          "blurb": "",
+          "label": "唐朝18",
+          "ruler": "李漼",
+          "rulerTitle": "唐懿宗",
+          "start": 859,
+          "end": 873,
+          "blurb": "宠信宦官、骄奢残暴，庞勋起义已露唐末乱象。",
+          "figures": []
+        },
+        {
+          "label": "唐朝19",
+          "ruler": "李儇",
+          "rulerTitle": "唐僖宗",
+          "start": 873,
+          "end": 888,
+          "blurb": "在位爆发黄巢之乱，奔蜀逃亡，藩镇彻底割据。",
           "figures": [
             {
               "name": "黄巢",
-              "role": "唐末起义领袖",
-              "note": "\"待到秋来九月八，我花开后百花杀\"，转战大半个唐朝。"
+              "role": "起义领袖",
+              "note": "待到秋来九月八，转战大半个唐朝，撼动根基。"
             },
+            {
+              "name": "田令孜",
+              "role": "权宦",
+              "note": "僖宗奔蜀时挟帝弄权，后不容于众被王建所杀。"
+            }
+          ]
+        },
+        {
+          "label": "唐朝20",
+          "ruler": "李晔",
+          "rulerTitle": "唐昭宗",
+          "start": 888,
+          "end": 904,
+          "blurb": "力图振作而大厦将倾，终为朱温所弑。",
+          "figures": []
+        },
+        {
+          "label": "唐朝21",
+          "ruler": "李柷",
+          "rulerTitle": "唐景宗",
+          "start": 904,
+          "end": 907,
+          "blurb": "末代皇帝，907年被迫禅位朱温，次年遭鸩杀。",
+          "figures": [
             {
               "name": "朱温",
               "role": "后梁开国",
-              "note": "降唐又叛唐，废唐哀帝建后梁，唐朝二百八十九年至此落幕。"
+              "note": "降唐又叛唐，废唐哀帝建后梁，唐朝至此落幕。"
             }
           ]
         }
@@ -1698,6 +2949,11 @@
           "name": "玄武门之变",
           "year": 626,
           "note": "李世民于玄武门诛杀建成元吉，夺嫡登基，开启贞观之治。"
+        },
+        {
+          "name": "武周代唐",
+          "year": 690,
+          "note": "武则天改唐为周，称圣神皇帝，定都洛阳，史称武周。"
         },
         {
           "name": "神龙政变",
@@ -1745,9 +3001,24 @@
           "note": "吐蕃借会盟设伏劫持唐朝使团，唐蕃关系再度恶化。"
         },
         {
+          "name": "牛李党争",
+          "year": 808,
+          "note": "牛僧孺、李德裕两党倾轧数十年，朝政为之疲敝。"
+        },
+        {
           "name": "甘露之变",
           "year": 835,
           "note": "唐文宗谋诛宦官失败，大批朝臣及家属遭到杀害。"
+        },
+        {
+          "name": "庞勋起义",
+          "year": 868,
+          "note": "桂林戍卒在庞勋率领下北返起义，唐廷发大兵镇压。"
+        },
+        {
+          "name": "王仙芝起义",
+          "year": 874,
+          "note": "王仙芝起于濮州，黄巢随之，唐末农民大起义爆发。"
         },
         {
           "name": "黄巢起义",
@@ -1767,78 +3038,451 @@
       "intro": "五十三年换了五个朝代，\"天子宁有种耶？兵强马壮者为之尔\"。乱世里冯道成了不倒翁，李煜写尽了亡国之愁。",
       "groups": [
         {
-          "label": "后梁",
+          "label": "后梁1",
           "ruler": "朱温",
           "rulerTitle": "后梁太祖",
           "start": 907,
-          "end": 923,
-          "blurb": "篡唐建国开启五代，荒淫暴虐，被亲儿子弑杀。",
+          "end": 912,
+          "blurb": "篡唐建梁，荒淫被弑",
           "figures": []
         },
         {
-          "label": "后唐",
+          "label": "后梁2",
+          "ruler": "朱友珪",
+          "rulerTitle": "后梁废帝",
+          "start": 912,
+          "end": 913,
+          "blurb": "弑父自立，旋被诛",
+          "figures": []
+        },
+        {
+          "label": "后梁3",
+          "ruler": "朱友贞",
+          "rulerTitle": "后梁末帝",
+          "start": 913,
+          "end": 923,
+          "blurb": "为后唐所灭",
+          "figures": []
+        },
+        {
+          "label": "后唐1",
           "ruler": "李存勖",
           "rulerTitle": "后唐庄宗",
           "start": 923,
-          "end": 936,
-          "blurb": "\"生子当如李亚子\"，灭梁复唐本可一统，宠伶人身死于兴教门之变。",
+          "end": 926,
+          "blurb": "灭梁复唐，宠伶人身死",
           "figures": []
         },
         {
-          "label": "后晋",
+          "label": "后唐2",
+          "ruler": "李嗣源",
+          "rulerTitle": "后唐明宗",
+          "start": 926,
+          "end": 933,
+          "blurb": "小康之世",
+          "figures": []
+        },
+        {
+          "label": "后唐3",
+          "ruler": "李从厚",
+          "rulerTitle": "后唐闵帝",
+          "start": 933,
+          "end": 934,
+          "blurb": "被李从珂逐",
+          "figures": []
+        },
+        {
+          "label": "后唐4",
+          "ruler": "李从珂",
+          "rulerTitle": "后唐末帝",
+          "start": 934,
+          "end": 936,
+          "blurb": "自焚死",
+          "figures": []
+        },
+        {
+          "label": "后晋1",
           "ruler": "石敬瑭",
           "rulerTitle": "后晋高祖",
           "start": 936,
-          "end": 947,
-          "blurb": "认契丹为父、割燕云十六州换皇位，\"儿皇帝\"遗祸中原四百年。",
+          "end": 942,
+          "blurb": "割燕云，儿皇帝",
           "figures": []
         },
         {
-          "label": "后汉",
+          "label": "后晋2",
+          "ruler": "石重贵",
+          "rulerTitle": "后晋出帝",
+          "start": 942,
+          "end": 947,
+          "blurb": "抗契丹，亡于辽",
+          "figures": []
+        },
+        {
+          "label": "后汉1",
           "ruler": "刘知远",
           "rulerTitle": "后汉高祖",
           "start": 947,
-          "end": 950,
-          "blurb": "契丹灭晋后乘乱入主中原，在位不足一年，是五代最短命的王朝。",
+          "end": 948,
+          "blurb": "乘契丹乱入主",
           "figures": []
         },
         {
-          "label": "后周",
-          "ruler": "柴荣",
-          "rulerTitle": "后周世宗",
-          "start": 951,
-          "end": 960,
-          "blurb": "\"十年开拓天下，十年养百姓，十年致太平\"，三十九岁早逝，为赵宋作嫁衣。",
-          "figures": [
-            {
-              "name": "郭威",
-              "role": "后周太祖",
-              "note": "后周开国皇帝，黄旗加身（后来赵匡胤陈桥兵变的预演），勤俭治国。"
-            }
-          ]
+          "label": "后汉2",
+          "ruler": "刘承祐",
+          "rulerTitle": "后汉隐帝",
+          "start": 948,
+          "end": 951,
+          "blurb": "杀郭威家属，败死",
+          "figures": []
         },
         {
-          "label": "南唐",
+          "label": "后周1",
+          "ruler": "郭威",
+          "rulerTitle": "后周太祖",
+          "start": 951,
+          "end": 954,
+          "blurb": "黄旗加身，勤俭开国",
+          "figures": []
+        },
+        {
+          "label": "后周2",
+          "ruler": "柴荣",
+          "rulerTitle": "后周世宗",
+          "start": 954,
+          "end": 959,
+          "blurb": "十年开拓，早逝",
+          "figures": []
+        },
+        {
+          "label": "后周3",
+          "ruler": "柴宗训",
+          "rulerTitle": "后周恭帝",
+          "start": 959,
+          "end": 960,
+          "blurb": "禅位赵匡胤",
+          "figures": []
+        },
+        {
+          "label": "前蜀1",
+          "ruler": "王建",
+          "rulerTitle": "前蜀高祖",
+          "start": 903,
+          "end": 918,
+          "blurb": "据蜀称帝",
+          "figures": []
+        },
+        {
+          "label": "前蜀2",
+          "ruler": "王衍",
+          "rulerTitle": "前蜀后主",
+          "start": 918,
+          "end": 925,
+          "blurb": "荒淫，为后唐所灭",
+          "figures": []
+        },
+        {
+          "label": "后蜀1",
+          "ruler": "孟知祥",
+          "rulerTitle": "后蜀高祖",
+          "start": 934,
+          "end": 935,
+          "blurb": "据蜀",
+          "figures": []
+        },
+        {
+          "label": "后蜀2",
+          "ruler": "孟昶",
+          "rulerTitle": "后蜀后主",
+          "start": 935,
+          "end": 965,
+          "blurb": "花蕊夫人，降宋",
+          "figures": []
+        },
+        {
+          "label": "吴1",
+          "ruler": "杨行密",
+          "rulerTitle": "吴武王",
+          "start": 902,
+          "end": 905,
+          "blurb": "据淮南，为吴王",
+          "figures": []
+        },
+        {
+          "label": "吴2",
+          "ruler": "杨渥",
+          "rulerTitle": "吴景帝",
+          "start": 905,
+          "end": 908,
+          "blurb": "被徐温所弑",
+          "figures": []
+        },
+        {
+          "label": "吴3",
+          "ruler": "杨隆演",
+          "rulerTitle": "吴宣帝",
+          "start": 908,
+          "end": 920,
+          "blurb": "徐温专政",
+          "figures": []
+        },
+        {
+          "label": "吴4",
+          "ruler": "杨溥",
+          "rulerTitle": "吴睿帝",
+          "start": 920,
+          "end": 937,
+          "blurb": "禅位徐知诰",
+          "figures": []
+        },
+        {
+          "label": "南唐1",
+          "ruler": "李昪",
+          "rulerTitle": "南唐烈祖",
+          "start": 937,
+          "end": 943,
+          "blurb": "保境安民，南唐富庶",
+          "figures": []
+        },
+        {
+          "label": "南唐2",
+          "ruler": "李璟",
+          "rulerTitle": "南唐元宗",
+          "start": 943,
+          "end": 961,
+          "blurb": "去帝号向后周称臣",
+          "figures": []
+        },
+        {
+          "label": "南唐3",
           "ruler": "李煜",
           "rulerTitle": "南唐后主",
-          "start": 937,
+          "start": 961,
           "end": 975,
-          "blurb": "\"问君能有几多愁，恰似一江春水向东流\"，词中之帝，亡国之君。",
-          "figures": [
-            {
-              "name": "李昪",
-              "role": "南唐烈祖",
-              "note": "南唐开国者，出身孤儿，保境安民，南唐在他治下最为富庶。"
-            },
-            {
-              "name": "李璟",
-              "role": "南唐元宗",
-              "note": "李煜之父，词亦佳，\"小楼吹彻玉笙寒\"，去帝号向后周称臣。"
-            }
-          ]
+          "blurb": "词中之帝，亡于宋",
+          "figures": []
+        },
+        {
+          "label": "吴越1",
+          "ruler": "钱镠",
+          "rulerTitle": "吴越武肃王",
+          "start": 907,
+          "end": 932,
+          "blurb": "保境安民，海龙王",
+          "figures": []
+        },
+        {
+          "label": "吴越2",
+          "ruler": "钱元瓘",
+          "rulerTitle": "吴越文穆王",
+          "start": 932,
+          "end": 941,
+          "blurb": "继守杭越",
+          "figures": []
+        },
+        {
+          "label": "吴越3",
+          "ruler": "钱弘俶",
+          "rulerTitle": "吴越忠懿王",
+          "start": 948,
+          "end": 978,
+          "blurb": "纳土归宋",
+          "figures": []
+        },
+        {
+          "label": "闽1",
+          "ruler": "王审知",
+          "rulerTitle": "闽太祖",
+          "start": 909,
+          "end": 925,
+          "blurb": "开闽王，保境",
+          "figures": []
+        },
+        {
+          "label": "闽2",
+          "ruler": "王延钧",
+          "rulerTitle": "闽惠宗",
+          "start": 926,
+          "end": 935,
+          "blurb": "称帝",
+          "figures": []
+        },
+        {
+          "label": "闽3",
+          "ruler": "王延羲",
+          "rulerTitle": "闽景宗",
+          "start": 939,
+          "end": 944,
+          "blurb": "兄弟相残",
+          "figures": []
+        },
+        {
+          "label": "闽4",
+          "ruler": "王延政",
+          "rulerTitle": "闽末帝",
+          "start": 944,
+          "end": 945,
+          "blurb": "为南唐所灭",
+          "figures": []
+        },
+        {
+          "label": "楚1",
+          "ruler": "马殷",
+          "rulerTitle": "楚武穆王",
+          "start": 927,
+          "end": 930,
+          "blurb": "据湖南，保境",
+          "figures": []
+        },
+        {
+          "label": "楚2",
+          "ruler": "马希声",
+          "rulerTitle": "楚衡阳王",
+          "start": 930,
+          "end": 932,
+          "blurb": "简奢",
+          "figures": []
+        },
+        {
+          "label": "楚3",
+          "ruler": "马希范",
+          "rulerTitle": "楚文昭王",
+          "start": 932,
+          "end": 947,
+          "blurb": "建会春园",
+          "figures": []
+        },
+        {
+          "label": "楚4",
+          "ruler": "马希崇",
+          "rulerTitle": "楚后主",
+          "start": 951,
+          "end": 951,
+          "blurb": "为南唐所灭",
+          "figures": []
+        },
+        {
+          "label": "南汉1",
+          "ruler": "刘䶮",
+          "rulerTitle": "南汉高祖",
+          "start": 917,
+          "end": 942,
+          "blurb": "据岭南称帝",
+          "figures": []
+        },
+        {
+          "label": "南汉2",
+          "ruler": "刘玢",
+          "rulerTitle": "南汉殇帝",
+          "start": 942,
+          "end": 943,
+          "blurb": "被弑",
+          "figures": []
+        },
+        {
+          "label": "南汉3",
+          "ruler": "刘晟",
+          "rulerTitle": "南汉中宗",
+          "start": 943,
+          "end": 958,
+          "blurb": "杀诸弟",
+          "figures": []
+        },
+        {
+          "label": "南汉4",
+          "ruler": "刘鋹",
+          "rulerTitle": "南汉后主",
+          "start": 958,
+          "end": 971,
+          "blurb": "荒嬉，降宋",
+          "figures": []
+        },
+        {
+          "label": "南平1",
+          "ruler": "高季兴",
+          "rulerTitle": "南平武信王",
+          "start": 924,
+          "end": 928,
+          "blurb": "据荆州，善事四邻",
+          "figures": []
+        },
+        {
+          "label": "南平2",
+          "ruler": "高从诲",
+          "rulerTitle": "南平文献王",
+          "start": 928,
+          "end": 948,
+          "blurb": "高赖子",
+          "figures": []
+        },
+        {
+          "label": "南平3",
+          "ruler": "高保融",
+          "rulerTitle": "南平贞懿王",
+          "start": 948,
+          "end": 960,
+          "blurb": "事中原",
+          "figures": []
+        },
+        {
+          "label": "南平4",
+          "ruler": "高继冲",
+          "rulerTitle": "南平末主",
+          "start": 962,
+          "end": 963,
+          "blurb": "归宋",
+          "figures": []
+        },
+        {
+          "label": "北汉1",
+          "ruler": "刘崇",
+          "rulerTitle": "北汉世祖",
+          "start": 951,
+          "end": 954,
+          "blurb": "据河东，附契丹",
+          "figures": []
+        },
+        {
+          "label": "北汉2",
+          "ruler": "刘钧",
+          "rulerTitle": "北汉睿宗",
+          "start": 954,
+          "end": 968,
+          "blurb": "事辽",
+          "figures": []
+        },
+        {
+          "label": "北汉3",
+          "ruler": "刘继元",
+          "rulerTitle": "北汉英武帝",
+          "start": 968,
+          "end": 979,
+          "blurb": "降宋，十国终",
+          "figures": []
         }
       ],
-      "events": []
+      "events": [
+        {
+          "name": "兴教门之变",
+          "year": 926,
+          "note": "伶人郭从谦兵变，后唐庄宗李存勖中箭而死，伶人焚尸。"
+        },
+        {
+          "name": "割让燕云十六州",
+          "year": 936,
+          "note": "石敬瑭割燕云十六州予契丹，自称儿皇帝，遗患数百年。"
+        },
+        {
+          "name": "中渡桥之战",
+          "year": 946,
+          "note": "杜重威率军降契丹，契丹南下灭后晋，石重贵出降。"
+        },
+        {
+          "name": "高平之战",
+          "year": 954,
+          "note": "后周柴荣大败北汉、契丹联军于巴公原，巩固新政。"
+        }
+      ]
     },
     {
       "key": "beisong",
@@ -2129,9 +3773,10 @@
       "intro": "洪武立国、永乐迁都下西洋，明初制度与文化奠定基调，天子守国门自永乐始。",
       "groups": [
         {
-          "label": "洪武",
+          "label": "明朝1",
           "ruler": "朱元璋",
           "rulerTitle": "明太祖",
+          "reign": "洪武",
           "start": 1368,
           "end": 1398,
           "blurb": "放牛娃、和尚、乞丐到开国皇帝，反贪最狠，也把皇权推到顶点。",
@@ -2174,18 +3819,20 @@
           ]
         },
         {
-          "label": "建文",
+          "label": "明朝2",
           "ruler": "朱允炆",
           "rulerTitle": "明惠帝",
+          "reign": "建文",
           "start": 1398,
           "end": 1402,
           "blurb": "建文新政宽刑省狱，仓促削藩引发靖难之役，城破后下落成千古之谜。",
           "figures": []
         },
         {
-          "label": "永乐",
+          "label": "明朝3",
           "ruler": "朱棣",
           "rulerTitle": "明成祖",
+          "reign": "永乐",
           "start": 1402,
           "end": 1424,
           "blurb": "靖难夺位、迁都北京、五征漠北，\"天子守国门\"自他始。",
@@ -2203,36 +3850,40 @@
           ]
         },
         {
-          "label": "洪熙",
+          "label": "明朝4",
           "ruler": "朱高炽",
           "rulerTitle": "明仁宗",
+          "reign": "洪熙",
           "start": 1424,
           "end": 1425,
           "blurb": "在位仅十月，平反靖难冤狱、停罢永乐冗役，为\"仁宣之治\"奠基。",
           "figures": []
         },
         {
-          "label": "宣德",
+          "label": "明朝5",
           "ruler": "朱瞻基",
           "rulerTitle": "明宣宗",
+          "reign": "宣德",
           "start": 1425,
           "end": 1435,
           "blurb": "平定朱高煦叛乱，\"仁宣之治\"的主角，促织天子，书画亦佳。",
           "figures": []
         },
         {
-          "label": "正统·天顺",
+          "label": "明朝6",
           "ruler": "朱祁镇",
           "rulerTitle": "明英宗",
+          "reign": "正统",
           "start": 1435,
           "end": 1464,
           "blurb": "土木堡之变被瓦剌俘虏，夺门之变复辟，临终废除宫妃殉葬。",
           "figures": []
         },
         {
-          "label": "景泰",
+          "label": "明朝7",
           "ruler": "朱祁钰",
           "rulerTitle": "明代宗",
+          "reign": "景泰",
           "start": 1449,
           "end": 1457,
           "blurb": "危局中即位、任于谦打赢北京保卫战，晚景凄凉，夺门之变后被废。",
@@ -2245,36 +3896,40 @@
           ]
         },
         {
-          "label": "成化",
+          "label": "明朝8",
           "ruler": "朱见深",
           "rulerTitle": "明宪宗",
+          "reign": "成化",
           "start": 1464,
           "end": 1487,
           "blurb": "平反于谦、恢复景帝尊号，却专宠万贵妃、设西厂，朝政渐紊。",
           "figures": []
         },
         {
-          "label": "弘治",
+          "label": "明朝9",
           "ruler": "朱祐樘",
           "rulerTitle": "明孝宗",
+          "reign": "弘治",
           "start": 1487,
           "end": 1505,
           "blurb": "弘治中兴，一生只娶一妻不近声色，明代罕见的贤君。",
           "figures": []
         },
         {
-          "label": "正德",
+          "label": "明朝10",
           "ruler": "朱厚照",
           "rulerTitle": "明武宗",
+          "reign": "正德",
           "start": 1505,
           "end": 1521,
           "blurb": "自封\"总督军务威武大将军\"，建豹房荒嬉无度，处事却也果决。",
           "figures": []
         },
         {
-          "label": "嘉靖",
+          "label": "明朝11",
           "ruler": "朱厚熜",
           "rulerTitle": "明世宗",
+          "reign": "嘉靖",
           "start": 1521,
           "end": 1566,
           "blurb": "大礼议、崇道修玄、二十余年不上朝，海瑞上《治安疏》骂的就是他。",
@@ -2307,18 +3962,20 @@
           ]
         },
         {
-          "label": "隆庆",
+          "label": "明朝12",
           "ruler": "朱载坖",
           "rulerTitle": "明穆宗",
+          "reign": "隆庆",
           "start": 1566,
           "end": 1572,
           "blurb": "隆庆开关、俺答封贡，垂拱而治用对人，为张居正改革铺路。",
           "figures": []
         },
         {
-          "label": "万历",
+          "label": "明朝13",
           "ruler": "朱翊钧",
           "rulerTitle": "明神宗",
+          "reign": "万历",
           "start": 1572,
           "end": 1620,
           "blurb": "前十年张居正改革国势大振，后三十年不上朝，\"明实亡于万历\"。",
@@ -2336,18 +3993,20 @@
           ]
         },
         {
-          "label": "泰昌",
+          "label": "明朝14",
           "ruler": "朱常洛",
           "rulerTitle": "明光宗",
+          "reign": "泰昌",
           "start": 1620,
           "end": 1620,
           "blurb": "在位仅一月，\"红丸案\"暴卒，明末三大案之一。",
           "figures": []
         },
         {
-          "label": "天启",
+          "label": "明朝15",
           "ruler": "朱由校",
           "rulerTitle": "明熹宗",
+          "reign": "天启",
           "start": 1620,
           "end": 1627,
           "blurb": "木工天才，手艺精湛，却任由魏忠贤与客氏专权，国势日颓。",
@@ -2360,9 +4019,10 @@
           ]
         },
         {
-          "label": "崇祯",
+          "label": "明朝16",
           "ruler": "朱由检",
           "rulerTitle": "明思宗",
+          "reign": "崇祯",
           "start": 1627,
           "end": 1644,
           "blurb": "勤政十七年步步皆错，煤山自缢\"勿伤百姓一人\"。",
@@ -2416,9 +4076,29 @@
       ],
       "events": [
         {
+          "name": "胡惟庸案",
+          "year": 1380,
+          "note": "朱元璋诛丞相胡惟庸，罢中书省，株连三万余人。"
+        },
+        {
+          "name": "蓝玉案",
+          "year": 1393,
+          "note": "凉国公蓝玉以谋反罪被诛，牵连一万五千余人。"
+        },
+        {
+          "name": "靖难之役",
+          "year": 1399,
+          "note": "燕王朱棣起兵靖难，1402年攻入南京，即位为永乐帝。"
+        },
+        {
           "name": "郑和下西洋",
           "year": 1405,
           "note": "宝船六十二艘七下西洋，最远抵达非洲东海岸，航海史上的壮举。"
+        },
+        {
+          "name": "永乐大典",
+          "year": 1408,
+          "note": "《永乐大典》编成，辑录古今典籍，规模空前。"
         },
         {
           "name": "迁都北京",
@@ -2441,9 +4121,34 @@
           "note": "石亨等人迎明英宗朱祁镇复位，景泰帝随即被废。"
         },
         {
+          "name": "壬寅宫变",
+          "year": 1542,
+          "note": "嘉靖帝遭宫女杨金英等勒弑未遂，十余宫女被凌迟。"
+        },
+        {
+          "name": "庚戌之变",
+          "year": 1550,
+          "note": "俺答汗兵临北京大肆掠夺，史称庚戌之变。"
+        },
+        {
+          "name": "万历援朝",
+          "year": 1592,
+          "note": "李如松等入朝抗倭，收复平壤，碧蹄馆血战。"
+        },
+        {
+          "name": "东林党争",
+          "year": 1604,
+          "note": "东林学派聚讲议政，与齐楚浙等党交攻，明末党争愈烈。"
+        },
+        {
           "name": "萨尔浒之战",
           "year": 1619,
           "note": "努尔哈赤五天破四路明军，明清攻守之势自此逆转。"
+        },
+        {
+          "name": "李自成入京",
+          "year": 1644,
+          "note": "李自成攻入北京，崇祯自缢煤山，明朝中央政权覆灭。"
         }
       ]
     },
@@ -2457,7 +4162,7 @@
       "intro": "后金崛起、清军入关，多尔衮摄政、顺治过渡，满汉融合艰难开局。",
       "groups": [
         {
-          "label": "天命",
+          "label": "清朝1",
           "ruler": "努尔哈赤",
           "rulerTitle": "清太祖",
           "start": 1616,
@@ -2466,7 +4171,7 @@
           "figures": []
         },
         {
-          "label": "天聪·崇德",
+          "label": "清朝2",
           "ruler": "皇太极",
           "rulerTitle": "清太宗",
           "start": 1626,
@@ -2475,7 +4180,7 @@
           "figures": []
         },
         {
-          "label": "顺治",
+          "label": "清朝3",
           "ruler": "顺治帝",
           "rulerTitle": "福临",
           "start": 1644,
@@ -2495,7 +4200,7 @@
           ]
         },
         {
-          "label": "康熙",
+          "label": "清朝4",
           "ruler": "康熙帝",
           "rulerTitle": "玄烨",
           "start": 1661,
@@ -2510,7 +4215,7 @@
           ]
         },
         {
-          "label": "雍正",
+          "label": "清朝5",
           "ruler": "雍正帝",
           "rulerTitle": "胤禛",
           "start": 1722,
@@ -2530,7 +4235,7 @@
           ]
         },
         {
-          "label": "乾隆",
+          "label": "清朝6",
           "ruler": "乾隆帝",
           "rulerTitle": "弘历",
           "start": 1735,
@@ -2555,7 +4260,7 @@
           ]
         },
         {
-          "label": "嘉庆",
+          "label": "清朝7",
           "ruler": "嘉庆帝",
           "rulerTitle": "颙琰",
           "start": 1796,
@@ -2564,7 +4269,7 @@
           "figures": []
         },
         {
-          "label": "道光",
+          "label": "清朝8",
           "ruler": "道光帝",
           "rulerTitle": "旻宁",
           "start": 1820,
@@ -2573,7 +4278,7 @@
           "figures": []
         },
         {
-          "label": "咸丰",
+          "label": "清朝9",
           "ruler": "咸丰帝",
           "rulerTitle": "奕詝",
           "start": 1850,
@@ -2593,7 +4298,7 @@
           ]
         },
         {
-          "label": "同治",
+          "label": "清朝10",
           "ruler": "同治帝",
           "rulerTitle": "载淳",
           "start": 1861,
@@ -2633,7 +4338,7 @@
           ]
         },
         {
-          "label": "光绪",
+          "label": "清朝11",
           "ruler": "光绪帝",
           "rulerTitle": "载湉",
           "start": 1875,
@@ -2663,7 +4368,7 @@
           ]
         },
         {
-          "label": "宣统",
+          "label": "清朝12",
           "ruler": "溥仪",
           "rulerTitle": "宣统帝",
           "start": 1908,
@@ -2673,6 +4378,11 @@
         }
       ],
       "events": [
+        {
+          "name": "清军入关",
+          "year": 1644,
+          "note": "多尔衮联合吴三桂山海关大败李自成，清军入主中原。"
+        },
         {
           "name": "扬州十日",
           "year": 1645,
@@ -2689,9 +4399,29 @@
           "note": "阎应元等率江阴军民抗清守城八十一日，城破后殉难。"
         },
         {
+          "name": "郑成功复台",
+          "year": 1662,
+          "note": "郑成功横渡台湾海峡，驱逐荷兰，收复台湾。"
+        },
+        {
           "name": "三藩之乱",
           "year": 1673,
           "note": "康熙用八年平定吴三桂等三藩，中央集权进一步巩固。"
+        },
+        {
+          "name": "九子夺嫡",
+          "year": 1722,
+          "note": "康熙诸子争储，胤禛即位为雍正，夺嫡之争落幕。"
+        },
+        {
+          "name": "白莲教起义",
+          "year": 1796,
+          "note": "嘉庆初年白莲教起事，历时九载，耗银两亿两。"
+        },
+        {
+          "name": "天理教起义",
+          "year": 1813,
+          "note": "天理教二百人教众攻入紫禁城，史称禁门之变。"
         },
         {
           "name": "太平天国起义",
@@ -2704,6 +4434,11 @@
           "note": "太平天国内部爆发惨烈冲突，杨秀清、韦昌辉等相继被杀。"
         },
         {
+          "name": "左宗棠复疆",
+          "year": 1878,
+          "note": "左宗棠收复新疆，设行省，巩固西北边陲。"
+        },
+        {
           "name": "戊戌变法",
           "year": 1898,
           "note": "光绪帝百日维新，六君子血洒菜市口，改良之路就此堵死。"
@@ -2712,6 +4447,11 @@
           "name": "东南互保",
           "year": 1900,
           "note": "东南督抚拒绝响应对外宣战，与各国议定互保章程。"
+        },
+        {
+          "name": "辛丑条约",
+          "year": 1901,
+          "note": "李鸿章签《辛丑条约》，赔款白银四亿五千万两。"
         }
       ]
     },

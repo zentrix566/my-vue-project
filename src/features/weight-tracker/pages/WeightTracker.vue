@@ -45,7 +45,7 @@
         <div class="panel-heading">
           <div>
             <h2>整体趋势</h2>
-            <p>2023 年 7 月至今，红色标注最重、绿色标注最轻、蓝色标注最新。鼠标移到任意点可看当月体重。</p>
+            <p>2023 年 7 月至今，红点为阶段最重、绿点为阶段最轻。鼠标移到任意点可看当月体重。</p>
           </div>
         </div>
         <div class="chart-shell">
@@ -70,11 +70,6 @@
               <circle :cx="overall.x(i)" :cy="overall.y(r.value)" r="11" fill="transparent" pointer-events="all" class="hit" @mouseenter="onOverallEnter(r,i)" @mouseleave="overallHover=null" />
               <circle :cx="overall.x(i)" :cy="overall.y(r.value)" r="2.4" class="dot" :class="{ 'dot-max': r.value===stats.max.value, 'dot-min': r.value===stats.min.value }" />
             </g>
-            <g v-for="m in overall.markers" :key="m.kind">
-              <circle :cx="m.x" :cy="m.y" r="5" :class="'marker-'+m.kind" />
-              <rect :x="m.bx" :y="m.by" :width="m.bw" :height="m.bh" rx="4" class="marker-bg" />
-              <text :x="m.tx" :y="m.ty" :text-anchor="m.anchor" font-size="12" font-weight="700" :class="'marker-text-'+m.kind">{{ m.text }}</text>
-            </g>
             <g v-if="overallHover" class="chart-tip">
               <rect :x="overallHover.tip.x" :y="overallHover.tip.y" :width="overallHover.tip.w" :height="overallHover.tip.h" rx="6" />
               <text v-for="(ln,li) in overallHover.tip.lines" :key="li" :x="overallHover.tip.textX" :y="overallHover.tip.y + overallHover.tip.padY + li*overallHover.tip.lineH + 11" font-size="12" font-weight="600">{{ ln }}</text>
@@ -87,7 +82,7 @@
         <div class="panel-heading">
           <div>
             <h2>分年度趋势</h2>
-            <p>每年一张图，标出该年内的最重与最轻节点。</p>
+            <p>每年一张图，鼠标移到任意点可看当月体重。</p>
           </div>
         </div>
         <div class="year-grid">
@@ -105,8 +100,6 @@
                 <g v-for="(p,i) in yc.points" :key="'p'+yc.year+p.label">
                   <circle :cx="p.x" :cy="p.y" r="9" fill="transparent" pointer-events="all" class="hit" @mouseenter="onYearEnter(yc.year, p)" @mouseleave="yearHover=null" />
                   <circle :cx="p.x" :cy="p.y" r="2.4" class="dot" :class="{ 'dot-max': p.kind==='max', 'dot-min': p.kind==='min' }" />
-                  <circle v-if="p.kind" :cx="p.x" :cy="p.y" r="5" :class="'marker-'+p.kind" />
-                  <text v-if="p.kind" :x="p.tx" :y="p.ty" :text-anchor="p.anchor" font-size="11" font-weight="700" :class="'marker-text-'+p.kind">{{ p.value }}</text>
                 </g>
                 <g v-if="yearHover && yearHover.year===yc.year" class="chart-tip">
                   <rect :x="yearHover.tip.x" :y="yearHover.tip.y" :width="yearHover.tip.w" :height="yearHover.tip.h" rx="6" />
@@ -297,7 +290,10 @@ const yearHover = ref({ year: null, tip: null })
 const deltaHover = ref(null)
 
 const onOverallEnter = (r, i) => {
-  overallHover.value = { tip: makeTip(overall.value.x(i), overall.value.y(r.value), [labelOf(r), `体重 ${formatJin(r.value)} 斤`]) }
+  const o = overall.value
+  overallHover.value = {
+    tip: makeTip(o.x(i), o.y(r.value), [labelOf(r), `体重 ${formatJin(r.value)} 斤`], { maxX: o.W - 4, minX: 0, minY: o.T })
+  }
 }
 
 const onYearEnter = (year, p) => {
@@ -335,7 +331,7 @@ const overall = computed(() => {
   const W = 1120
   const H = 420
   const L = 54
-  const R = 30
+  const R = 36
   const T = 50
   const B = 48
   const iW = W - L - R
@@ -343,7 +339,8 @@ const overall = computed(() => {
   const vMin = 148
   const vMax = 204
   const n = weightRecords.length
-  const x = (i) => L + (i / (n - 1)) * iW
+  const pointPad = 12
+  const x = (i) => L + pointPad + (i / (n - 1)) * (iW - pointPad * 2)
   const y = (v) => T + ((vMax - v) / (vMax - vMin)) * iH
 
   const yTicks = []
@@ -356,33 +353,7 @@ const overall = computed(() => {
     .map((r, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(r.value).toFixed(1)}`)
     .join(' ')
 
-  const markers = []
-  const addMarker = (kind, r, i, place) => {
-    const px = x(i)
-    const py = y(r.value)
-    const text = `${kind === 'max' ? '最重' : kind === 'min' ? '最轻' : '最新'} ${formatJin(r.value)} · ${labelOf(r)}`
-    const tw = textWidth(text, 12)
-    let tx = px
-    let ty = py
-    let anchor = 'start'
-    if (place === 'right-above') { tx = px + 12; ty = py - 10; anchor = 'start' }
-    if (place === 'right-below') { tx = px + 12; ty = py + 18; anchor = 'start' }
-    if (place === 'left-above') { tx = px - 12; ty = py - 10; anchor = 'end' }
-    if (anchor === 'start' && tx + tw > W - R) { tx = px - 12; anchor = 'end' }
-    if (anchor === 'end' && tx - tw < L) { tx = px + 12; anchor = 'start' }
-    if (ty < T + 14) ty = py + 18
-    if (ty > H - B) ty = py - 10
-    const bx = anchor === 'start' ? tx - 4 : tx - tw - 4
-    const by = ty - 12
-    markers.push({ kind, x: px, y: py, tx, ty, anchor, text, bx, by, bw: tw + 8, bh: 18 })
-  }
-  const maxIndex = weightRecords.indexOf(stats.value.max)
-  const minIndex = weightRecords.indexOf(stats.value.min)
-  addMarker('max', stats.value.max, maxIndex, 'right-above')
-  addMarker('min', stats.value.min, minIndex, 'right-below')
-  addMarker('current', stats.value.last, n - 1, 'left-above')
-
-  return { W, H, L, R, T, B, yTicks, xTicks, janTicks, path, markers, x, y }
+  return { W, H, L, R, T, B, yTicks, xTicks, janTicks, path, x, y }
 })
 
 const yearCharts = computed(() => {
@@ -668,12 +639,6 @@ const onCmpEnter = (b) => {
   font-weight: 600;
 }
 
-.marker-bg {
-  fill: rgba(255, 255, 255, 0.92);
-  stroke: var(--line);
-  stroke-width: 1;
-}
-
 .cmp-table {
   border-collapse: collapse;
   font-size: 0.9rem;
@@ -738,30 +703,6 @@ const onCmpEnter = (b) => {
 
 .wide-panel .panel-heading {
   align-items: flex-start;
-}
-
-.marker-max {
-  fill: var(--danger);
-}
-
-.marker-min {
-  fill: var(--accent);
-}
-
-.marker-current {
-  fill: var(--primary);
-}
-
-.marker-text-max {
-  fill: var(--danger);
-}
-
-.marker-text-min {
-  fill: var(--accent);
-}
-
-.marker-text-current {
-  fill: var(--primary);
 }
 
 .year-grid {

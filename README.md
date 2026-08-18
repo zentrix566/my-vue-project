@@ -27,6 +27,26 @@
 - **体重变化 · 趋势分析（`/weight`）**：按月记录体重，看整体走势、分年度变化和每月增减多少斤，**悬停任意节点**可见最重/最轻/最新等关键信息。
 - **端到端加密 · 云端密文存储（`/secure-storage`）**：本地用 ECIES（ECDH P-256 + AES-256-GCM）加密后再上云，云端只存密文；私钥本机保存仅用于解密，没有密钥连管理员也解不开你存了什么。可生成密钥对、加密生成密文、模拟云端只存密文、输入私钥还原明文，并演示"无密钥解不开"。
 - **当代人物追踪（`/contemporary-figures`）**：按领域收录当代人物，查看出生日期、年龄与距下次生日的天数，以时间轴呈现主要事迹；可为每个人撰写观察笔记、标记追踪状态（观察中/关注中/已搁置），数据存于浏览器本地。人物种子数据集中在 `src/features/contemporary-figures/data/figures.js`，改这一个文件即可增删人物。
+- **人物生平 · 纪年查询（`/biography`）**：输入历史人物姓名（如 苏武、王莽、苏轼），调用火山引擎方舟大模型整理输出可直接复制的纯文本年谱：首行「姓名（生卒年），朝代身份」，其后按时间由早到晚每行写主要事迹（时间、当时年纪、事件简述，相邻相关事件合并到同一行使排版饱满），末行单独写卒年死因与终年。纪年一律用数字年份（公元前写"前XXX年"），不使用年号；已知完整年月日的写完整。结果显示在可一键复制的文本框中。
+
+## 环境变量配置
+
+「人物生平 · 纪年查询」需要调用火山引擎方舟（Ark）接口，密钥通过环境变量注入，**不写进代码、不提交版本库**。
+
+在项目根目录复制 `.env.example` 为 `.env`，填入真实密钥：
+
+```bash
+cp .env.example .env
+```
+
+```ini
+# .env（已被 .gitignore 忽略，不会提交）
+ARK_API_KEY=你的火山引擎方舟 API Key
+```
+
+密钥采用不带 `VITE_` 前缀的变量名，仅在 `vite.config.js` 的开发/预览代理中读取，由 Vite 服务器在转发请求时注入 `Authorization` 头——前端代码与构建产物里都不包含密钥，同时绕开浏览器跨域限制。配置后直接 `npm run dev`（或 `npm run preview`）即可使用，前端请求 `/ark-api/chat/completions` 会被代理到方舟 OpenAI 兼容接口。
+
+> 注意：该代理仅在 Vite 开发/预览服务器下生效。若把 `dist/` 部署到纯静态主机，需另行配置一个等价的服务端代理（或 Serverless 函数）转发到 `https://ark.cn-beijing.volces.com/api/coding/v3` 并带上鉴权头。
 
 ## 运行方式
 
@@ -74,7 +94,7 @@ my-vue-project/
 │  ├─ App.vue             站点外壳（zentrix566 标识 + 路由出口）
 │  ├─ styles.css          全局样式与 CSS 变量
 │  ├─ global.css          间歇训练看板等组件的排版样式
-│  ├─ router/index.js     路由定义（二十一个功能懒加载）
+│  ├─ router/index.js     路由定义（二十二个功能懒加载）
 │  ├─ views/Home.vue      首页入口卡片
 │  └─ features/           各小游戏功能
 │     ├─ world-cup/          世界杯点球大战
@@ -97,6 +117,7 @@ my-vue-project/
 │     ├─ weight-tracker/     体重变化趋势分析看板
 │     ├─ subway/             北京地铁站站距离（线网数据 + 站站规划/线路浏览主页面）
 │     └─ contemporary-figures/  当代人物追踪（领域/人物种子数据 + 列表与详情页 + 观察记录 composable + 样式）
+│     └─ biography/             人物生平纪年查询（火山引擎方舟接口调用 + 提示词 + 结果页 + 样式）
 ├─ public/
 │  └─ jiangyin-map.png    江阴保卫战底图
 └─ README.md / LICENSE / .gitignore

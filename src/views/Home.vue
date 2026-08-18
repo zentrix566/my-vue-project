@@ -2,6 +2,11 @@
   <div class="home">
     <p class="subtitle">几个用 Vue 写的小玩具，点开即玩。</p>
     <div class="cards">
+      <RouterLink class="card" to="/biography">
+        <div class="emoji">📖</div>
+        <h2>人物生平 · 纪年查询</h2>
+        <p>输入历史人物姓名，输出可直接复制的纯文本年谱：生卒年、主要事迹及当时年纪、死因与终年，纪年一律用数字年份。</p>
+      </RouterLink>
       <RouterLink class="card" to="/weight">
         <div class="emoji">⚖️</div>
         <h2>体重变化 · 趋势分析</h2>

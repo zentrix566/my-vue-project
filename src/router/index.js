@@ -23,6 +23,7 @@ import {
   loadContemporaryFiguresPage,
   loadContemporaryFigureDetailPage
 } from '../features/contemporary-figures/index.js'
+import { loadBiographyPage } from '../features/biography/index.js'
 
 const Home = () => import('../views/Home.vue')
 const Changelog = () => import('../views/Changelog.vue')
@@ -52,7 +53,8 @@ const routes = [
   { path: '/countdown', name: 'countdown', component: loadCountdownPage, meta: { title: '人生倒计时 · 关键节点还剩多久' } },
   { path: '/weight', name: 'weight', component: loadWeightTrackerPage, meta: { title: '体重变化 · 趋势分析' } },
   { path: '/contemporary-figures', name: 'contemporary-figures', component: loadContemporaryFiguresPage, meta: { title: '当代人物追踪' } },
-  { path: '/contemporary-figures/:id', name: 'contemporary-figure-detail', component: loadContemporaryFigureDetailPage, props: true, meta: { title: '当代人物追踪 · 详情' } }
+  { path: '/contemporary-figures/:id', name: 'contemporary-figure-detail', component: loadContemporaryFigureDetailPage, props: true, meta: { title: '当代人物追踪 · 详情' } },
+  { path: '/biography', name: 'biography', component: loadBiographyPage, meta: { title: '人物生平 · 纪年查询' } }
 ]
 
 const router = createRouter({

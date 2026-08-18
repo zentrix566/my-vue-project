@@ -4,6 +4,7 @@
       <div class="countdown-capture">
         <div class="countdown-capture-header">
           <div>
+            <RouterLink to="/" class="back">← 返回主页</RouterLink>
             <p class="eyebrow">Countdown</p>
             <h1>人生倒计时</h1>
             <p>输入出生日期和性别，一屏查看几个关键节点还剩多久。</p>

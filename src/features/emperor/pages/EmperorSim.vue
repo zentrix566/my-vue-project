@@ -42,9 +42,11 @@
             <span class="fast-badge" v-if="fastMode">⚡ 快速</span>
             <span class="age-text">朕 {{ state.age }} 岁</span>
           </div>
-          <div class="fast-bar" v-if="fastMode">
-            <span class="fast-hint">⚡ 自动批阅中…</span>
-            <button class="btn ghost sm" @click="takeOver">✋ 接管</button>
+          <div class="fast-bar">
+            <span class="fast-hint" v-if="fastMode">⚡ 自动批阅中…</span>
+            <span class="fast-hint" v-else>🤚 手动批阅中</span>
+            <button v-if="fastMode" class="btn ghost sm" @click="takeOver">✋ 接管</button>
+            <button v-else class="btn ghost sm" @click="entrust">⚡ 托管</button>
             <button class="btn ghost sm" @click="simulateToEnd">⏭ 直接看结局</button>
           </div>
           <div class="stat-row" v-for="st in statList" :key="st.key">
@@ -371,6 +373,20 @@ function simulateToEnd() {
 function takeOver() {
   clearAllTimers()
   fastMode.value = false
+}
+
+// 手动批阅中途托管，切回自动批阅
+function entrust() {
+  fastMode.value = true
+  clearAllTimers()
+  // 当前停在奏折卡：自动朱批当前这道；停在结果/结算卡：自动进入下一步
+  if (cardMode.value === 'event' && currentEvent.value?.options?.length) {
+    autoPickTimer = setTimeout(() => {
+      choose(pick(currentEvent.value.options))
+    }, 450)
+  } else {
+    scheduleAdvance()
+  }
 }
 
 function continuePlay() {

@@ -735,6 +735,18 @@ a.content-card:hover {
   text-decoration: none;
 }
 
+.back {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--color-muted);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
 .content-card a,
 .card-cta {
   margin-top: auto;

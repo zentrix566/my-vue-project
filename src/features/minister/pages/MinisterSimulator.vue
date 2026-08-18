@@ -37,6 +37,9 @@
       <div class="status-row">
         <span class="date-chip">📅 景和{{ cnYear(meta.year) }}年 · {{ months[meta.month - 1] }}</span>
         <span class="office-chip">{{ meta.name }} · {{ rankText }}</span>
+        <button class="auto-btn" :class="{ on: entrusted }" @click="entrusted ? takeOver() : entrust()">
+          {{ entrusted ? '✋ 接管' : '⚡ 托管' }}
+        </button>
       </div>
 
       <div class="stat-grid">
@@ -126,7 +129,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onUnmounted } from 'vue'
 import { ministerEvents } from '../data/ministerEvents.js'
 
 // 四维属性：sj 圣眷 / zj 政绩 / mw 名望 / jc 家财，两端（0 或 100）都是绝路
@@ -229,6 +232,39 @@ const evaluation = ref(null)
 const log = ref([])
 const recentIds = ref([])
 
+// 托管 / 接管：托管时自动处置公务，可随时接管转回手动
+const entrusted = ref(false)
+let autoTimer = null
+function clearAutoTimer() {
+  if (autoTimer) { clearTimeout(autoTimer); autoTimer = null }
+}
+function pickOption(options) {
+  return options[Math.floor(Math.random() * options.length)]
+}
+// 根据当前阶段安排下一步自动动作
+function scheduleAuto() {
+  clearAutoTimer()
+  if (!entrusted.value) return
+  if (phase.value === 'choose' && current.value?.options?.length) {
+    autoTimer = setTimeout(() => {
+      if (entrusted.value && phase.value === 'choose') chooseOption(pickOption(current.value.options))
+    }, 600)
+  } else if (phase.value === 'result') {
+    autoTimer = setTimeout(() => {
+      if (entrusted.value && phase.value === 'result') finishTurn()
+    }, 900)
+  }
+}
+function entrust() {
+  entrusted.value = true
+  scheduleAuto()
+}
+function takeOver() {
+  entrusted.value = false
+  clearAutoTimer()
+}
+onUnmounted(clearAutoTimer)
+
 const rankText = computed(() => `${ranks[meta.rank].grade} · ${ranks[meta.rank].office}`)
 
 function cnYear(n) {
@@ -253,6 +289,8 @@ function clamp(v) {
 }
 
 function startGame(bg) {
+  clearAutoTimer()
+  entrusted.value = false
   Object.assign(stats, bg.stats)
   Object.assign(meta, {
     name: nameInput.value || '顾清源',
@@ -344,6 +382,7 @@ function nextEvent() {
   }
   phase.value = 'choose'
   chosen.value = null
+  scheduleAuto()
 }
 
 function chooseOption(opt) {
@@ -367,6 +406,7 @@ function chooseOption(opt) {
   if (log.value.length > 40) log.value.pop()
   const ext = extremeKey()
   if (ext) pendingEnd.value = ext
+  scheduleAuto()
 }
 
 function finishTurn() {
@@ -417,6 +457,8 @@ function applyEnding(key) {
 }
 
 function restart() {
+  clearAutoTimer()
+  entrusted.value = false
   stage.value = 'start'
   nameInput.value = ''
   current.value = null
@@ -570,6 +612,25 @@ function restart() {
   border-radius: 999px;
   padding: 5px 14px;
   font-size: 14px;
+}
+
+.auto-btn {
+  margin-left: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 5px 16px;
+  background: var(--color-card);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auto-btn.on {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-card));
+  color: var(--color-primary);
 }
 
 .office-chip {

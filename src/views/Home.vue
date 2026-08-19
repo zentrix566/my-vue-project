@@ -7,6 +7,11 @@
         <h2>历史 · 时间轴</h2>
         <p>默认中国历史；可在页面顶部选择国外国家与文明。人物、统治者和事件均支持按时间查看。</p>
       </RouterLink>
+      <RouterLink class="card" to="/dynasty-map">
+        <div class="emoji">🏯</div>
+        <h2>历代地图 · 疆域城邑</h2>
+        <p>下拉切换朝代，在今日中国地图上标注长安、洛阳、宛城等历代都城州郡的今址；点击省份可立体凸起，点城邑看说明。</p>
+      </RouterLink>
       <RouterLink class="card" to="/subway">
         <div class="emoji">🚇</div>
         <h2>北京地铁 · 站站距离</h2>

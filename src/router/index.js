@@ -25,6 +25,7 @@ import {
 } from '../features/contemporary-figures/index.js'
 import { loadBiographyPage } from '../features/biography/index.js'
 import { loadCareerRolesPage } from '../features/career-roles/index.js'
+import { loadDynastyMapPage } from '../features/dynasty-map/index.js'
 
 const Home = () => import('../views/Home.vue')
 const Changelog = () => import('../views/Changelog.vue')
@@ -56,7 +57,8 @@ const routes = [
   { path: '/contemporary-figures', name: 'contemporary-figures', component: loadContemporaryFiguresPage, meta: { title: '当代人物追踪' } },
   { path: '/contemporary-figures/:id', name: 'contemporary-figure-detail', component: loadContemporaryFigureDetailPage, props: true, meta: { title: '当代人物追踪 · 详情' } },
   { path: '/biography', name: 'biography', component: loadBiographyPage, meta: { title: '人物生平 · 纪年查询' } },
-  { path: '/career-roles', name: 'career-roles', component: loadCareerRolesPage, meta: { title: '现代职业 · 古代岗位' } }
+  { path: '/career-roles', name: 'career-roles', component: loadCareerRolesPage, meta: { title: '现代职业 · 古代岗位' } },
+  { path: '/dynasty-map', name: 'dynasty-map', component: loadDynastyMapPage, meta: { title: '历代地图 · 疆域城邑' } }
 ]
 
 const router = createRouter({

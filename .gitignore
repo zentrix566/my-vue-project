@@ -18,3 +18,6 @@ Thumbs.db
 # AI 助手工作区（本地记忆与临时文件，不入库）
 .workbuddy/
 .zcode/
+
+# 无头浏览器调试截图（本地测试产物）
+dynasty_*.png

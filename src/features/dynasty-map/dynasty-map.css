@@ -1,0 +1,328 @@
+.dynasty-map-container {
+  max-width: 1280px;
+}
+
+.dynasty-map-header h1 {
+  margin-bottom: 8px;
+}
+
+.dynasty-map-header p {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+/* 工具栏 */
+.dynasty-map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 0 16px;
+}
+
+.dynasty-map-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dynasty-map-field select {
+  min-width: 260px;
+  padding: 9px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dynasty-map-field select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.dynasty-map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.dynasty-map-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.dynasty-map-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* 状态浮层（覆盖在地图舞台上） */
+.dynasty-map-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  color: #cbd5e1;
+  text-align: center;
+  background: rgba(11, 18, 32, 0.82);
+  backdrop-filter: blur(2px);
+}
+
+.dynasty-map-overlay p {
+  margin: 0;
+}
+
+.dynasty-map-error {
+  color: #fca5a5;
+}
+
+.dynasty-map-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid rgba(148, 163, 184, 0.3);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: dynasty-spin 0.8s linear infinite;
+}
+
+@keyframes dynasty-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 主体布局 */
+.dynasty-map-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+  align-items: start;
+}
+
+.dynasty-map-stage {
+  position: relative;
+  height: 65vh;
+  min-height: 480px;
+  background: #0b1220;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.dynasty-map-chart {
+  position: absolute;
+  inset: 0;
+}
+
+.dynasty-map-legend {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 8px;
+  font-size: 12px;
+  color: #e2e8f0;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-item .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* 侧栏 */
+.dynasty-map-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 65vh;
+  min-height: 480px;
+}
+
+.dynasty-map-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent, var(--primary));
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 14px rgba(28, 39, 60, 0.06);
+}
+
+.dynasty-map-card h3 {
+  margin: 4px 0 6px;
+  font-size: 18px;
+}
+
+.dynasty-map-card .card-type {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.dynasty-map-card .card-modern {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dynasty-map-card .card-note {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.dynasty-map-hint {
+  border-left-color: var(--muted);
+}
+
+.card-city-list {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-city-list a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.card-city-list .modern {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.dynasty-map-list-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.dynasty-map-list-wrap h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.dynasty-map-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.dynasty-map-list li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.dynasty-map-list li a:hover {
+  background: var(--surface-soft);
+}
+
+.dynasty-map-list li.active a {
+  background: var(--surface-soft);
+  font-weight: 600;
+}
+
+.dynasty-map-list .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.dynasty-map-list .city-name {
+  flex: none;
+}
+
+.dynasty-map-list .city-modern {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.dynasty-map-foot {
+  margin-top: 14px;
+}
+
+@media (max-width: 920px) {
+  .dynasty-map-body {
+    grid-template-columns: 1fr;
+  }
+
+  .dynasty-map-stage,
+  .dynasty-map-side {
+    max-height: none;
+    height: auto;
+  }
+
+  .dynasty-map-stage {
+    height: 55vh;
+  }
+
+  .dynasty-map-side {
+    min-height: 0;
+  }
+
+  .dynasty-map-list-wrap {
+    max-height: 320px;
+  }
+}

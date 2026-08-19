@@ -1,8 +1,8 @@
 {
-  "name": "zentrix-vue-games",
+  "name": "zentrix566.github.io",
   "version": "1.0.0",
   "type": "module",
-  "description": "Zentrix 的个人小游戏合集：世界杯点球大战、江阴保卫战形势图、400 米间歇训练",
+  "description": "zentrix566 的个人主页与小玩具合集：世界杯点球大战、江阴保卫战形势图、400 米间歇训练等",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

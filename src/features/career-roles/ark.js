@@ -1,7 +1,8 @@
-// 火山引擎方舟（Ark）接口调用：输入现代职业，返回对应的古代岗位
-// 请求经由 Vite 代理 /ark-api 转发，鉴权头在服务端注入，前端不接触密钥
+// 大模型接口调用：输入现代职业，返回对应的古代岗位
+// 请求经由 Vite 代理 /ark-api 转发（DeepSeek 优先，回退火山方舟），鉴权头在服务端注入，前端不接触密钥
 
-const MODEL = 'ark-code-latest'
+// 模型名与提供方由 vite.config.js 构建期注入
+import { MODEL, PROVIDER } from 'virtual:llm-config'
 
 const SYSTEM_PROMPT = `你是一位精通中国古代社会职业与官制的历史学家。用户输入一个现代职业或行业，你需要找出中国古代最接近的对应职业，用 JSON 返回结果，不要输出 markdown 代码块或任何解释性文字。
 
@@ -57,8 +58,8 @@ export async function fetchAncientRole(modern) {
       ],
       temperature: 0.4,
       response_format: { type: 'json_object' },
-      // 关闭内部推理（thinking），否则该模型先生成数千 tokens reasoning，响应需 100 秒以上会触发代理超时
-      thinking: { type: 'disabled' }
+      // 方舟模型需关闭内部推理（thinking），否则先生成数千 tokens reasoning 触发代理超时；DeepSeek 无此参数
+      ...(PROVIDER === 'ark' ? { thinking: { type: 'disabled' } } : {})
     })
   })
 

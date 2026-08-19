@@ -210,9 +210,9 @@ function buildSeriesData() {
 
 function baseViewControl() {
   return {
-    alpha: 72, // 接近俯视，整体像一张平铺的平面图，而非倾斜的 3D 地球
+    alpha: 72,
     beta: 0,
-    distance: 100, // 初始拉近：原 115 偏远（地图只占视口 47% 宽），100 时占 54% 且顶部留有边距不裁边
+    distance: 90,
     center: [0, 0, 0],
     autoRotate: autoRotate.value,
     autoRotateAfterStill: false,

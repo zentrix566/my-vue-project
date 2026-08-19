@@ -4,6 +4,22 @@
 export const changelog = [
   {
     date: '2026-08-19',
+    title: '大模型接口接入 DeepSeek（优先）并保留方舟回退',
+    changes: [
+      '「人物生平 · 纪年查询」与「现代职业 · 古代岗位」的模型调用由火山引擎方舟切换为 DeepSeek 优先：配置 DEEPSEEK_KEY 后走 DeepSeek 官方接口（deepseek-v4-flash），未配置时自动回退方舟。',
+      '模型名与提供方经 Vite 虚拟模块 virtual:llm-config 构建期注入前端，dev 与 build 行为一致；方舟特有的 thinking 关闭参数仅在回退方舟时携带。'
+    ]
+  },
+  {
+    date: '2026-08-19',
+    title: '仓库升级为个人主页 zentrix566.github.io',
+    changes: [
+      '仓库由 my-vue-project 更名为 zentrix566.github.io，作为 GitHub 个人主页站点，访问地址 https://zentrix566.github.io 。',
+      '新增 GitHub Actions 工作流：推送到 main 分支自动构建并发布 dist 到 GitHub Pages，无需手动上传产物。'
+    ]
+  },
+  {
+    date: '2026-08-19',
     title: '新增「历代地图 · 疆域城邑」',
     changes: [
       '新增页面 /dynasty-map：以今日中国省级区划为底图，下拉切换西汉末年、东汉末年、三国、盛唐、北宋、南宋、元、明、清九个时期，标注历代都城、州郡与边关的今址。',

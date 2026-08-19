@@ -1,6 +1,6 @@
 import json, math, urllib.request, os
 
-OUT_DIR = 'E:/github/my-vue-project/src/features/subway/data'
+OUT_DIR = 'E:/github/zentrix566.github.io/src/features/subway/data'
 OUT = os.path.join(OUT_DIR, 'subwayData.json')
 AMAP = 'https://map.amap.com/service/subway?_1469083453978&srhdata=1100_drw_beijing.json'
 

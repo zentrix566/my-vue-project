@@ -1,6 +1,6 @@
-# 个人小游戏合集
+# 个人主页 · zentrix566.github.io
 
-几个用 Vue 3 写的个人小玩具，统一收拢在这个站点里，点开即玩。从原 `my-index` 个人索引站迁移而来，独立成仓库便于单独维护。
+几个用 Vue 3 写的个人小玩具，统一收拢在这个站点里，点开即玩。本仓库即 GitHub 个人主页仓库 `zentrix566.github.io`，推送到 `main` 后由 GitHub Actions 自动构建并发布到 Pages，访问地址 https://zentrix566.github.io 。从原 `my-index` 个人索引站迁移而来。
 
 ## 主要功能
 
@@ -33,7 +33,7 @@
 
 ## 环境变量配置
 
-「人物生平 · 纪年查询」需要调用火山引擎方舟（Ark）接口，密钥通过环境变量注入，**不写进代码、不提交版本库**。
+「人物生平 · 纪年查询」与「现代职业 · 古代岗位」需要调用大模型接口，支持两种提供方（**DeepSeek 优先**，未配置 DeepSeek 时自动回退火山引擎方舟），密钥通过环境变量注入，**不写进代码、不提交版本库**。
 
 在项目根目录复制 `.env.example` 为 `.env`，填入真实密钥：
 
@@ -43,12 +43,13 @@ cp .env.example .env
 
 ```ini
 # .env（已被 .gitignore 忽略，不会提交）
-ARK_API_KEY=你的火山引擎方舟 API Key
+DEEPSEEK_KEY=你的 DeepSeek API Key（优先）
+ARK_API_KEY=你的火山引擎方舟 API Key（回退）
 ```
 
-密钥采用不带 `VITE_` 前缀的变量名，仅在 `vite.config.js` 的开发/预览代理中读取，由 Vite 服务器在转发请求时注入 `Authorization` 头——前端代码与构建产物里都不包含密钥，同时绕开浏览器跨域限制。配置后直接 `npm run dev`（或 `npm run preview`）即可使用，前端请求 `/ark-api/chat/completions` 会被代理到方舟 OpenAI 兼容接口。
+密钥采用不带 `VITE_` 前缀的变量名，仅在 `vite.config.js` 的开发/预览代理中读取，由 Vite 服务器在转发请求时注入 `Authorization` 头——前端代码与构建产物里都不包含密钥，同时绕开浏览器跨域限制。当前使用的模型名与提供方通过虚拟模块 `virtual:llm-config` 在构建期注入前端（dev/build 行为一致）。配置后直接 `npm run dev`（或 `npm run preview`）即可使用，前端请求 `/ark-api/chat/completions` 会被代理到 DeepSeek 官方接口（`https://api.deepseek.com`）或方舟 OpenAI 兼容接口。
 
-> 注意：该代理仅在 Vite 开发/预览服务器下生效。若把 `dist/` 部署到纯静态主机，需另行配置一个等价的服务端代理（或 Serverless 函数）转发到 `https://ark.cn-beijing.volces.com/api/coding/v3` 并带上鉴权头。
+> 注意：该代理仅在 Vite 开发/预览服务器下生效。若把 `dist/` 部署到纯静态主机，需另行配置一个等价的服务端代理（或 Serverless 函数）转发到对应接口并带上鉴权头。
 
 ## 运行方式
 
@@ -76,6 +77,14 @@ npm run build
 npm run preview
 ```
 
+## 部署（GitHub Pages）
+
+本仓库已配置 GitHub Actions 工作流（`.github/workflows/deploy.yml`）：推送到 `main` 分支即自动 `npm run build` 并把 `dist/` 发布到 GitHub Pages，无需手动上传产物。
+
+首次启用需在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**（只设一次）。
+
+> 注意：「人物生平 · 纪年查询」与「现代职业 · 古代岗位」依赖 Vite 开发服务器的密钥代理，在线版（GitHub Pages）不可用，仅本地 `npm run dev` 可用，其余功能均为纯前端、线上正常。
+
 ## 常用命令
 
 | 命令 | 说明 |
@@ -88,7 +97,7 @@ npm run preview
 ## 目录结构
 
 ```
-my-vue-project/
+zentrix566.github.io/
 ├─ index.html              页面入口
 ├─ vite.config.js         Vite 配置
 ├─ src/

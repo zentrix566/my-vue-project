@@ -1,7 +1,8 @@
-// 火山引擎方舟（Ark）接口调用：输入人名，返回纯文本年谱
-// 请求经由 Vite 代理 /ark-api 转发，鉴权头在服务端注入，前端不接触密钥
+// 大模型接口调用：输入人名，返回纯文本年谱
+// 请求经由 Vite 代理 /ark-api 转发（DeepSeek 优先，回退火山方舟），鉴权头在服务端注入，前端不接触密钥
 
-const MODEL = 'ark-code-latest'
+// 模型名与提供方由 vite.config.js 构建期注入
+import { MODEL, PROVIDER } from 'virtual:llm-config'
 
 const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手。用户输入一个人名，你按下面固定的纯文本格式整理其生平。只输出这几行纯文本，不要输出 markdown、代码块、标题或任何额外说明。
 
@@ -60,10 +61,10 @@ export async function fetchBiography(name) {
         { role: 'user', content: name }
       ],
       temperature: 0.1,
-      // 关闭内部推理（thinking），否则该模型先生成数千 tokens reasoning，响应需 100 秒以上会触发代理超时
-      thinking: { type: 'disabled' },
       // 硬上限：5 行密集事迹约 600-800 tokens，留足余量；防止模型失控写十几行
-      max_tokens: 1500
+      max_tokens: 1500,
+      // 方舟模型需关闭内部推理（thinking），否则先生成数千 tokens reasoning 触发代理超时；DeepSeek 无此参数
+      ...(PROVIDER === 'ark' ? { thinking: { type: 'disabled' } } : {})
     })
   })
 

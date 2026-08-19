@@ -76,7 +76,12 @@
       </select>
       <select class="fab-ruler" v-model="fabRulerId" @change="jumpToRuler(fabRulerId)" :disabled="!fabRulers.length" aria-label="选择皇帝跳转（二级）">
         <option value="">选择皇帝…</option>
-        <option v-for="r in fabRulers" :key="r.id" :value="r.id">{{ r.label }}</option>
+        <template v-for="r in fabRulers" :key="r.options ? 'g-' + r.regime : r.id">
+          <optgroup v-if="r.options" :label="r.regime">
+            <option v-for="opt in r.options" :key="opt.id" :value="opt.id">{{ opt.label }}</option>
+          </optgroup>
+          <option v-else :value="r.id">{{ r.label }}</option>
+        </template>
       </select>
       <input class="fab-search" v-model.trim="query" placeholder="搜索人物、事件、典故…" aria-label="搜索人物、事件或典故" />
       <button class="fab-top" @click="scrollTop" aria-label="回到顶部选择朝代">Top ↑</button>
@@ -120,9 +125,12 @@ function description(name, fallback = '') {
   const summary = personDetails[name]?.summary || ''
   return summary.includes('…') ? fallback : (summary || fallback)
 }
+// 时间轴上按政权整块排列的朝代（南北朝南北两条线较清晰，保留分块）；
+// 东晋十六国、五代十国政权繁多，分块会让时间线来回跳，故改为纯年份排序
+const PARALLEL = new Set(['nanbeichao'])
+// 右下角皇帝跳转下拉里按政权分组的朝代（即便时间轴按年份排，下拉仍把同朝皇帝聚在一起方便选择）
+const REGIME_DROPDOWN = new Set(['dongjin', 'nanbeichao', 'wudai'])
 const allItems = computed(() => {
-  // 多政权并存的朝代：按政权分组，组内按即位年排序，便于看清继承关系
-  const PARALLEL = new Set(['dongjin', 'nanbeichao', 'wudai'])
   const regimeRank = {}
   for (const era of timelineEras.value) {
     if (!PARALLEL.has(era.key)) continue
@@ -346,12 +354,28 @@ function scrollTop() { window.scrollTo({ top: 0, behavior: 'smooth' }) }
 const fabRulers = computed(() => {
   const era = timelineEras.value.find((e) => e.key === activeEraKey.value)
   if (!era) return []
-  // 按皇帝序位排序（reign 起始年优先，label 内序号兜底，最后用原顺序保证稳定），避免 JSON 存储乱序导致下拉乱序
-  return era.groups
+  const entries = era.groups
     .map((g, gi) => ({ g, gi }))
     .filter(({ g }) => g.ruler)
     .sort((x, y) => (x.g.start - y.g.start) || (labelOrder(x.g.label) - labelOrder(y.g.label)) || (x.gi - y.gi))
-    .map(({ g, gi }) => ({ id: `${era.key}-${gi}-r`, name: g.ruler, label: rulerOptionLabel(g.ruler, g.rulerTitle, g.reign) }))
+    .map(({ g, gi }) => ({ id: `${era.key}-${gi}-r`, label: rulerOptionLabel(g.ruler, g.rulerTitle, g.reign), regime: regimeOf(g.label), start: g.start }))
+  // 多政权朝代按政权分组，下拉里用 <optgroup> 把同朝皇帝聚在一起；其余朝代保持扁平列表
+  if (!REGIME_DROPDOWN.has(era.key)) {
+    return entries.map(({ id, label }) => ({ id, label }))
+  }
+  const groups = []
+  const byRegime = new Map()
+  for (const entry of entries) {
+    if (!byRegime.has(entry.regime)) { const arr = []; byRegime.set(entry.regime, arr); groups.push({ regime: entry.regime, options: arr }) }
+    byRegime.get(entry.regime).push({ id: entry.id, label: entry.label })
+  }
+  // 政权按各自最早皇帝即位年排序，与时间轴顺序一致
+  const regimeStart = {}
+  for (const g of era.groups) {
+    const r = regimeOf(g.label)
+    if (regimeStart[r] === undefined || g.start < regimeStart[r]) regimeStart[r] = g.start
+  }
+  return groups.sort((a, b) => (regimeStart[a.regime] - regimeStart[b.regime]) || a.regime.localeCompare(b.regime, 'zh-CN'))
 })
 function jumpToEra(key) {
   query.value = ''

@@ -2,8 +2,8 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // LLM 接入地址（均为 OpenAI 兼容协议）：
-// - DeepSeek 官方接口（配置了 DEEPSEEK_KEY 时优先使用）
-// - 火山引擎方舟（Ark）Coding Plan 接口（回退方案）
+// - 火山引擎方舟（Ark）Coding Plan 接口（配置了 HUOSHAN_KEY 时优先使用）
+// - DeepSeek 官方接口（回退方案）
 const DEEPSEEK_TARGET = 'https://api.deepseek.com/v1'
 const ARK_TARGET = 'https://ark.cn-beijing.volces.com/api/coding/v3'
 
@@ -31,16 +31,16 @@ function llmConfigPlugin(model, provider) {
 export default defineConfig(({ mode }) => {
   // 读取不带 VITE_ 前缀的密钥：只在配置内使用，不会打包进前端产物
   const env = loadEnv(mode, process.cwd(), '')
+  const huoshanKey = env.HUOSHAN_KEY || env.ARK_API_KEY || ''
   const deepseekKey = env.DEEPSEEK_KEY || env.DEEPSEEK_API_KEY || ''
-  const arkApiKey = env.ARK_API_KEY || ''
-  // DeepSeek 优先；两者都没配时保留 Ark 目标（请求会 401，页面会给出错误提示）
-  const useDeepseek = !!deepseekKey
+  // 火山方舟优先；两者都没配时保留 DeepSeek 目标（请求会 401，页面会给出错误提示）
+  const useArk = !!huoshanKey
 
-  const target = useDeepseek ? DEEPSEEK_TARGET : ARK_TARGET
-  const apiKey = useDeepseek ? deepseekKey : arkApiKey
-  const model = useDeepseek ? 'deepseek-v4-flash' : 'ark-code-latest'
-  const provider = useDeepseek ? 'deepseek' : 'ark'
-  console.log(`[vite] LLM 代理：${useDeepseek ? 'DeepSeek' : '火山方舟'}，模型 ${model}${apiKey ? '' : '（未配置密钥）'}`)
+  const target = useArk ? ARK_TARGET : DEEPSEEK_TARGET
+  const apiKey = useArk ? huoshanKey : deepseekKey
+  const model = useArk ? 'ark-code-latest' : 'deepseek-v4-flash'
+  const provider = useArk ? 'ark' : 'deepseek'
+  console.log(`[vite] LLM 代理：${useArk ? '火山方舟' : 'DeepSeek'}，模型 ${model}${apiKey ? '' : '（未配置密钥）'}`)
 
   // 把 /ark-api/* 代理到对应接口，并在服务端注入鉴权头，避免密钥暴露到浏览器
   const llmProxy = {

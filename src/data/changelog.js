@@ -4,9 +4,9 @@
 export const changelog = [
   {
     date: '2026-08-19',
-    title: '大模型接口接入 DeepSeek（优先）并保留方舟回退',
+    title: '大模型接口切换为火山方舟优先',
     changes: [
-      '「人物生平 · 纪年查询」与「现代职业 · 古代岗位」的模型调用由火山引擎方舟切换为 DeepSeek 优先：配置 DEEPSEEK_KEY 后走 DeepSeek 官方接口（deepseek-v4-flash），未配置时自动回退方舟。',
+      '「人物生平 · 纪年查询」与「现代职业 · 古代岗位」的模型调用切换为火山引擎方舟优先（HUOSHAN_KEY，模型 ark-code-latest），未配置方舟时回退 DeepSeek（deepseek-v4-flash）。',
       '模型名与提供方经 Vite 虚拟模块 virtual:llm-config 构建期注入前端，dev 与 build 行为一致；方舟特有的 thinking 关闭参数仅在回退方舟时携带。'
     ]
   },

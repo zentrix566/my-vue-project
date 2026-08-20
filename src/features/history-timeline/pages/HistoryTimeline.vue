@@ -129,7 +129,7 @@ function description(name, fallback = '') {
 // 东晋十六国、五代十国政权繁多，分块会让时间线来回跳，故改为纯年份排序
 const PARALLEL = new Set(['nanbeichao'])
 // 右下角皇帝跳转下拉里按政权分组的朝代（即便时间轴按年份排，下拉仍把同朝皇帝聚在一起方便选择）
-const REGIME_DROPDOWN = new Set(['dongjin', 'nanbeichao', 'wudai'])
+const REGIME_DROPDOWN = new Set(['shiliuguo', 'nanbeichao', 'wudai'])
 const allItems = computed(() => {
   const regimeRank = {}
   for (const era of timelineEras.value) {
@@ -369,7 +369,16 @@ const fabRulers = computed(() => {
     if (!byRegime.has(entry.regime)) { const arr = []; byRegime.set(entry.regime, arr); groups.push({ regime: entry.regime, options: arr }) }
     byRegime.get(entry.regime).push({ id: entry.id, label: entry.label })
   }
-  // 政权按各自最早皇帝即位年排序，与时间轴顺序一致
+  // 政权排序：若 era 定义了 regimeOrder（如五代十国先列五代后列十国），按该顺序；
+  // 否则按各自最早皇帝即位年排序，与时间轴顺序一致
+  if (Array.isArray(era.regimeOrder)) {
+    const orderIndex = new Map(era.regimeOrder.map((r, i) => [r, i]))
+    return groups.sort((a, b) => {
+      const ai = orderIndex.has(a.regime) ? orderIndex.get(a.regime) : 999
+      const bi = orderIndex.has(b.regime) ? orderIndex.get(b.regime) : 999
+      return (ai - bi) || a.regime.localeCompare(b.regime, 'zh-CN')
+    })
+  }
   const regimeStart = {}
   for (const g of era.groups) {
     const r = regimeOf(g.label)

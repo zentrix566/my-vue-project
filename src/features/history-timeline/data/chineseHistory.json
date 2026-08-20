@@ -805,6 +805,30 @@
           "blurb": "刘婴（号孺子）为西汉末代皇帝；王莽废其太子之位后，西汉灭亡。",
           "figures": [],
           "last": true
+        },
+        {
+          "label": "新莽",
+          "ruler": "王莽",
+          "rulerTitle": "新朝皇帝",
+          "start": 9,
+          "end": 23,
+          "blurb": "谦恭未篡时一路表演到位，托古改制四面楚歌，身死渐台被分尸。",
+          "figures": []
+        },
+        {
+          "label": "玄汉",
+          "ruler": "刘玄",
+          "rulerTitle": "更始帝",
+          "start": 23,
+          "end": 25,
+          "blurb": "绿林军拥立，灭王莽新朝，后降赤眉军被杀",
+          "figures": [
+            {
+              "name": "刘盆子",
+              "role": "赤眉所立皇帝",
+              "note": "赤眉军拥立的牧童皇帝，后降刘秀，以荥阳租税奉养终身"
+            }
+          ]
         }
       ],
       "events": [
@@ -847,6 +871,16 @@
           "name": "王莽篡汉",
           "year": 8,
           "note": "外戚王莽篡位建\"新\"朝，托古改制，西汉灭亡。"
+        },
+        {
+          "name": "绿林赤眉起义",
+          "year": 17,
+          "note": "王莽改制激化矛盾，绿林军、赤眉军先后起义，天下大乱。"
+        },
+        {
+          "name": "昆阳之战",
+          "year": 23,
+          "note": "刘秀以少胜多大破王莽四十二万大军，新朝主力覆灭，王莽旋即被杀。"
         }
       ]
     },
@@ -860,15 +894,6 @@
       "minW": 460,
       "intro": "夹在中间的王莽新朝（9–23）托古改制而亡于绿林赤眉。光武帝柔道治国，造纸术与《说文解字》诞生；汉末外戚宦官交替专权，黄巾一起，群雄逐鹿。",
       "groups": [
-        {
-          "label": "新莽",
-          "ruler": "王莽",
-          "rulerTitle": "新朝皇帝",
-          "start": 9,
-          "end": 25,
-          "blurb": "谦恭未篡时一路表演到位，托古改制四面楚歌，身死渐台被分尸。",
-          "figures": []
-        },
         {
           "label": "东汉1",
           "ruler": "刘秀",
@@ -1047,16 +1072,6 @@
         }
       ],
       "events": [
-        {
-          "name": "绿林赤眉起义",
-          "year": 17,
-          "note": "绿林、赤眉相继起义，新莽统治瓦解，天下大乱。"
-        },
-        {
-          "name": "昆阳之战",
-          "year": 23,
-          "note": "刘秀以两万破王莽四十余万，一战成名，中兴汉室。"
-        },
         {
           "name": "诛灭梁冀",
           "year": 159,
@@ -1381,18 +1396,18 @@
     },
     {
       "key": "dongjin",
-      "name": "东晋·十六国",
+      "name": "东晋",
       "tagline": "衣冠南渡",
       "start": 317,
       "end": 420,
       "color": "#00838f",
       "minW": 440,
-      "intro": "北方进入十六国割据，东晋偏安江左百年。\"书圣\"\"田园诗祖\"皆出此世，淝水一战保住了江南半壁的汉文明。",
+      "intro": "西晋亡后司马睿南渡建康，王与马共天下。东晋偏安江左百年，淝水一战保住江南半壁汉文明，末年桓温、刘裕相继掌权，终为刘宋所代。",
       "groups": [
         {
           "label": "东晋1",
           "ruler": "司马睿",
-          "rulerTitle": "晋元帝",
+          "rulerTitle": "东晋第1位皇帝·晋元帝",
           "start": 317,
           "end": 322,
           "blurb": "衣冠南渡，王与马共天下",
@@ -1411,13 +1426,18 @@
               "name": "陶侃",
               "role": "东晋名臣",
               "note": "平苏峻之乱，搬砖自励警逸乐"
+            },
+            {
+              "name": "王敦",
+              "role": "东晋叛臣",
+              "note": "与王导共辅司马睿立国，后举兵攻破建康，病死军中"
             }
           ]
         },
         {
           "label": "东晋2",
           "ruler": "司马绍",
-          "rulerTitle": "晋明帝",
+          "rulerTitle": "东晋第2位皇帝·晋明帝",
           "start": 322,
           "end": 325,
           "blurb": "平王敦之乱，在位仅三年",
@@ -1426,7 +1446,7 @@
         {
           "label": "东晋3",
           "ruler": "司马衍",
-          "rulerTitle": "晋成帝",
+          "rulerTitle": "东晋第3位皇帝·晋成帝",
           "start": 325,
           "end": 342,
           "blurb": "苏峻之乱，庾亮执政",
@@ -1435,7 +1455,7 @@
         {
           "label": "东晋4",
           "ruler": "司马岳",
-          "rulerTitle": "晋康帝",
+          "rulerTitle": "东晋第4位皇帝·晋康帝",
           "start": 342,
           "end": 344,
           "blurb": "短祚",
@@ -1444,16 +1464,22 @@
         {
           "label": "东晋5",
           "ruler": "司马聃",
-          "rulerTitle": "晋穆帝",
+          "rulerTitle": "东晋第5位皇帝·晋穆帝",
           "start": 344,
           "end": 361,
           "blurb": "桓温崛起，殷浩北伐",
-          "figures": []
+          "figures": [
+            {
+              "name": "王羲之",
+              "role": "书圣",
+              "note": "东晋书法家，《兰亭集序》天下第一行书，官至右军将军"
+            }
+          ]
         },
         {
           "label": "东晋6",
           "ruler": "司马丕",
-          "rulerTitle": "晋哀帝",
+          "rulerTitle": "东晋第6位皇帝·晋哀帝",
           "start": 361,
           "end": 365,
           "blurb": "沉迷丹药",
@@ -1462,7 +1488,7 @@
         {
           "label": "东晋7",
           "ruler": "司马奕",
-          "rulerTitle": "晋废帝",
+          "rulerTitle": "东晋第7位皇帝·晋废帝",
           "start": 365,
           "end": 372,
           "blurb": "被桓温废为海西公",
@@ -1471,7 +1497,7 @@
         {
           "label": "东晋8",
           "ruler": "司马昱",
-          "rulerTitle": "晋简文帝",
+          "rulerTitle": "东晋第8位皇帝·晋简文帝",
           "start": 372,
           "end": 372,
           "blurb": "被桓温所立，当年忧死",
@@ -1480,7 +1506,7 @@
         {
           "label": "东晋9",
           "ruler": "司马曜",
-          "rulerTitle": "晋孝武帝",
+          "rulerTitle": "东晋第9位皇帝·晋孝武帝",
           "start": 372,
           "end": 396,
           "blurb": "淝水主政，后期溺于酒",
@@ -1494,28 +1520,72 @@
               "name": "谢玄",
               "role": "北府兵帅",
               "note": "率八万北府兵大破前秦"
+            },
+            {
+              "name": "桓温",
+              "role": "东晋权臣",
+              "note": "灭成汉、三度北伐，晚年废帝立威，欲加九锡而未成"
             }
           ]
         },
         {
           "label": "东晋10",
           "ruler": "司马德宗",
-          "rulerTitle": "晋安帝",
+          "rulerTitle": "东晋第10位皇帝·晋安帝",
           "start": 396,
           "end": 418,
           "blurb": "愚痴，桓玄篡位、刘裕掌权",
+          "figures": [
+            {
+              "name": "刘裕",
+              "role": "东晋权臣",
+              "note": "北府兵将领，灭南燕后秦，代晋建宋"
+            }
+          ]
+        },
+        {
+          "label": "桓楚",
+          "ruler": "桓玄",
+          "rulerTitle": "桓楚皇帝",
+          "start": 403,
+          "end": 404,
+          "blurb": "桓温之子，逼晋安帝禅位建国楚，半年后被刘裕击败身死",
           "figures": []
         },
         {
           "label": "东晋11",
           "ruler": "司马德文",
-          "rulerTitle": "晋恭帝",
+          "rulerTitle": "东晋第11位·末代皇帝",
           "start": 418,
           "end": 420,
           "blurb": "禅位刘裕，旋被杀",
           "figures": [],
           "last": true
+        }
+      ],
+      "events": [
+        {
+          "name": "淝水之战",
+          "year": 383,
+          "note": "谢安指挥八万北府兵大破苻坚百万大军，保住江南半壁。"
         },
+        {
+          "name": "刘裕北伐",
+          "year": 409,
+          "note": "刘裕北伐灭南燕（410）、破长安灭后秦（417），威震江左。"
+        }
+      ]
+    },
+    {
+      "key": "shiliuguo",
+      "name": "十六国",
+      "tagline": "五胡乱华",
+      "start": 304,
+      "end": 439,
+      "color": "#4e342e",
+      "minW": 440,
+      "intro": "匈奴、鲜卑、羯、氐、羌五胡入主中原，先后建立二十余个政权。汉赵灭西晋，后赵一度统一北方，前秦苻坚盛极而衰于淝水，终由北魏统一北方。",
+      "groups": [
         {
           "label": "汉赵1",
           "ruler": "刘渊",
@@ -1527,21 +1597,46 @@
         },
         {
           "label": "汉赵2",
-          "ruler": "刘聪",
-          "rulerTitle": "汉昭武帝",
+          "ruler": "刘和",
+          "rulerTitle": "汉赵废帝",
           "start": 310,
-          "end": 318,
-          "blurb": "虏晋怀愍二帝",
+          "end": 310,
+          "blurb": "即位数日攻兄弟，反被刘聪所杀",
           "figures": []
         },
         {
           "label": "汉赵3",
+          "ruler": "刘聪",
+          "rulerTitle": "汉昭武帝",
+          "start": 310,
+          "end": 318,
+          "blurb": "虏晋怀愍二帝，灭亡西晋",
+          "figures": []
+        },
+        {
+          "label": "汉赵4",
+          "ruler": "刘粲",
+          "rulerTitle": "汉赵隐帝",
+          "start": 318,
+          "end": 318,
+          "blurb": "荒淫无道，被靳准叛乱所杀",
+          "figures": [
+            {
+              "name": "靳准",
+              "role": "汉赵叛臣",
+              "note": "弑刘粲，屠灭平阳刘氏皇族，掘汉赵皇陵，后被堂弟靳明所杀"
+            }
+          ]
+        },
+        {
+          "label": "汉赵5",
           "ruler": "刘曜",
           "rulerTitle": "前赵昭文帝",
           "start": 318,
           "end": 329,
           "blurb": "改国号赵，为后赵所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "成汉1",
@@ -1568,28 +1663,66 @@
           "start": 343,
           "end": 347,
           "blurb": "荒淫，为桓温所灭",
+          "figures": [],
+          "last": true
+        },
+        {
+          "label": "代国1",
+          "ruler": "拓跋猗卢",
+          "rulerTitle": "代王",
+          "start": 315,
+          "end": 316,
+          "blurb": "统一鲜卑三部，与长子反目被杀",
           "figures": []
         },
         {
+          "label": "代国2",
+          "ruler": "拓跋什翼犍",
+          "rulerTitle": "代王",
+          "start": 338,
+          "end": 376,
+          "blurb": "代国全盛，376年被前秦苻坚所灭",
+          "figures": [],
+          "last": true
+        },
+        {
           "label": "前凉1",
-          "ruler": "张寔",
-          "rulerTitle": "前凉昭公",
-          "start": 320,
-          "end": 324,
-          "blurb": "保据河西",
+          "ruler": "张轨",
+          "rulerTitle": "前凉武穆王",
+          "start": 301,
+          "end": 314,
+          "blurb": "任凉州刺史，保据河西，前凉奠基者",
           "figures": []
         },
         {
           "label": "前凉2",
-          "ruler": "张骏",
-          "rulerTitle": "前凉文王",
-          "start": 324,
-          "end": 346,
-          "blurb": "拓境西域",
+          "ruler": "张寔",
+          "rulerTitle": "前凉昭公",
+          "start": 314,
+          "end": 320,
+          "blurb": "继父保据河西，仍奉晋朝正朔",
           "figures": []
         },
         {
           "label": "前凉3",
+          "ruler": "张茂",
+          "rulerTitle": "前凉成王",
+          "start": 320,
+          "end": 324,
+          "blurb": "称藩前赵，筑灵钧台",
+          "figures": []
+        },
+        {
+          "label": "前凉4",
+          "ruler": "张骏",
+          "rulerTitle": "前凉文王",
+          "start": 324,
+          "end": 346,
+          "blurb": "拓境西域，前凉鼎盛",
+          "figures": []
+        },
+        {
+          "label": "前凉5",
           "ruler": "张重华",
           "rulerTitle": "前凉桓王",
           "start": 346,
@@ -1598,13 +1731,41 @@
           "figures": []
         },
         {
-          "label": "前凉4",
+          "label": "前凉6",
+          "ruler": "张耀灵",
+          "rulerTitle": "前凉哀公",
+          "start": 353,
+          "end": 354,
+          "blurb": "十岁嗣位，旋被张祚废杀",
+          "figures": []
+        },
+        {
+          "label": "前凉7",
+          "ruler": "张祚",
+          "rulerTitle": "前凉威王",
+          "start": 354,
+          "end": 355,
+          "blurb": "称帝改元，荒淫无道，被斩首示众",
+          "figures": []
+        },
+        {
+          "label": "前凉8",
+          "ruler": "张玄靓",
+          "rulerTitle": "前凉冲王",
+          "start": 355,
+          "end": 363,
+          "blurb": "幼主嗣位，被张天锡所杀",
+          "figures": []
+        },
+        {
+          "label": "前凉9",
           "ruler": "张天锡",
           "rulerTitle": "前凉末主",
           "start": 363,
           "end": 376,
-          "blurb": "降于前秦",
-          "figures": []
+          "blurb": "降于前秦，前凉亡",
+          "figures": [],
+          "last": true
         },
         {
           "label": "后赵1",
@@ -1630,17 +1791,55 @@
           "rulerTitle": "后赵武帝",
           "start": 334,
           "end": 349,
-          "blurb": "残暴嗜杀",
+          "blurb": "残暴嗜杀，笃信佛教",
           "figures": []
         },
         {
           "label": "后赵4",
+          "ruler": "石世",
+          "rulerTitle": "后赵谯王",
+          "start": 349,
+          "end": 349,
+          "blurb": "石虎幼子，在位三十三日被石遵废杀",
+          "figures": []
+        },
+        {
+          "label": "后赵5",
+          "ruler": "石遵",
+          "rulerTitle": "后赵彭城王",
+          "start": 349,
+          "end": 349,
+          "blurb": "在位一百八十三日，被石鉴所杀",
+          "figures": []
+        },
+        {
+          "label": "后赵6",
+          "ruler": "石鉴",
+          "rulerTitle": "后赵义阳王",
+          "start": 349,
+          "end": 350,
+          "blurb": "被冉闵所杀",
+          "figures": []
+        },
+        {
+          "label": "后赵7",
           "ruler": "石祗",
           "rulerTitle": "后赵末帝",
-          "start": 349,
+          "start": 350,
           "end": 351,
-          "blurb": "为冉闵所灭",
-          "figures": []
+          "blurb": "为部将刘显所杀，后赵亡",
+          "figures": [],
+          "last": true
+        },
+        {
+          "label": "冉魏1",
+          "ruler": "冉闵",
+          "rulerTitle": "冉魏平帝",
+          "start": 350,
+          "end": 352,
+          "blurb": "颁布杀胡令，三天杀二十万胡人，兵败被前燕所擒",
+          "figures": [],
+          "last": true
         },
         {
           "label": "前燕1",
@@ -1667,7 +1866,8 @@
           "start": 360,
           "end": 370,
           "blurb": "为前秦所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "前秦1",
@@ -1727,7 +1927,8 @@
           "start": 394,
           "end": 394,
           "blurb": "为西秦所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "后秦1",
@@ -1760,7 +1961,8 @@
           "start": 416,
           "end": 417,
           "blurb": "为刘裕所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "后燕1",
@@ -1796,7 +1998,91 @@
           "start": 401,
           "end": 407,
           "blurb": "为冯跋所杀",
+          "figures": [],
+          "last": true
+        },
+        {
+          "label": "西燕1",
+          "ruler": "慕容泓",
+          "rulerTitle": "西燕烈文帝",
+          "start": 384,
+          "end": 384,
+          "blurb": "西燕开国之君，被谋臣高盖所杀",
           "figures": []
+        },
+        {
+          "label": "西燕2",
+          "ruler": "慕容冲",
+          "rulerTitle": "西燕威帝",
+          "start": 385,
+          "end": 386,
+          "blurb": "入据长安，不愿东归，被部下所杀",
+          "figures": []
+        },
+        {
+          "label": "西燕3",
+          "ruler": "段随",
+          "rulerTitle": "西燕燕王",
+          "start": 386,
+          "end": 386,
+          "blurb": "被慕容恒等所杀",
+          "figures": []
+        },
+        {
+          "label": "西燕4",
+          "ruler": "慕容凯",
+          "rulerTitle": "西燕燕王",
+          "start": 386,
+          "end": 386,
+          "blurb": "被慕容韬所杀",
+          "figures": []
+        },
+        {
+          "label": "西燕5",
+          "ruler": "慕容瑶",
+          "rulerTitle": "西燕燕王",
+          "start": 386,
+          "end": 386,
+          "blurb": "被慕容永所杀",
+          "figures": []
+        },
+        {
+          "label": "西燕6",
+          "ruler": "慕容忠",
+          "rulerTitle": "西燕燕王",
+          "start": 386,
+          "end": 386,
+          "blurb": "被刁云等人所杀",
+          "figures": []
+        },
+        {
+          "label": "西燕7",
+          "ruler": "慕容永",
+          "rulerTitle": "西燕末主",
+          "start": 386,
+          "end": 394,
+          "blurb": "西燕末主，被慕容垂击败擒杀",
+          "figures": [],
+          "last": true
+        },
+        {
+          "label": "翟魏1",
+          "ruler": "翟辽",
+          "rulerTitle": "翟魏天王",
+          "start": 388,
+          "end": 391,
+          "blurb": "丁零族，据黎阳建国",
+          "figures": []
+        },
+        {
+          "label": "翟魏2",
+          "ruler": "翟钊",
+          "rulerTitle": "翟魏末主",
+          "start": 391,
+          "end": 392,
+          "blurb": "被慕容垂所灭，逃西燕后被杀",
+          "figures": [],
+          "last": true
         },
         {
           "label": "西秦1",
@@ -1832,7 +2118,8 @@
           "start": 428,
           "end": 431,
           "blurb": "为夏所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "后凉1",
@@ -1868,7 +2155,8 @@
           "start": 401,
           "end": 403,
           "blurb": "降于后秦",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "南凉1",
@@ -1895,7 +2183,8 @@
           "start": 402,
           "end": 414,
           "blurb": "为西秦所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "南燕1",
@@ -1913,7 +2202,8 @@
           "start": 405,
           "end": 410,
           "blurb": "为刘裕所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "西凉1",
@@ -1940,7 +2230,18 @@
           "start": 420,
           "end": 421,
           "blurb": "为北凉所灭",
-          "figures": []
+          "figures": [],
+          "last": true
+        },
+        {
+          "label": "谯蜀1",
+          "ruler": "谯纵",
+          "rulerTitle": "成都王",
+          "start": 405,
+          "end": 413,
+          "blurb": "据蜀称帝，被刘裕军击败自杀",
+          "figures": [],
+          "last": true
         },
         {
           "label": "北凉1",
@@ -1967,25 +2268,36 @@
           "start": 433,
           "end": 439,
           "blurb": "为北魏所灭",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "北燕1",
-          "ruler": "冯跋",
-          "rulerTitle": "北燕文成帝",
+          "ruler": "慕容云",
+          "rulerTitle": "北燕惠懿帝",
           "start": 407,
-          "end": 430,
-          "blurb": "灭后燕自立",
+          "end": 409,
+          "blurb": "原名高云，冯跋拥立，被宠臣所杀",
           "figures": []
         },
         {
           "label": "北燕2",
+          "ruler": "冯跋",
+          "rulerTitle": "北燕文成帝",
+          "start": 409,
+          "end": 430,
+          "blurb": "灭后燕自立，维持辽西安定二十余年",
+          "figures": []
+        },
+        {
+          "label": "北燕3",
           "ruler": "冯弘",
           "rulerTitle": "北燕昭成帝",
           "start": 430,
           "end": 436,
-          "blurb": "为北魏所灭",
-          "figures": []
+          "blurb": "逼太子自立，逃高句丽被杀",
+          "figures": [],
+          "last": true
         },
         {
           "label": "夏1",
@@ -2012,7 +2324,8 @@
           "start": 428,
           "end": 431,
           "blurb": "为吐谷浑所虏",
-          "figures": []
+          "figures": [],
+          "last": true
         }
       ],
       "events": [
@@ -2022,19 +2335,9 @@
           "note": "东晋桓温伐成汉，攻破成都，李势投降，成汉亡。"
         },
         {
-          "name": "淝水之战",
-          "year": 383,
-          "note": "谢安指挥八万北府兵大破苻坚百万大军，保住江南半壁。"
-        },
-        {
           "name": "参合陂之战",
           "year": 395,
-          "note": "北魏拓跋珪大败后燕慕容宝，坑杀五万，后燕自此分裂。"
-        },
-        {
-          "name": "刘裕北伐",
-          "year": 409,
-          "note": "刘裕北伐灭南燕（410）、破长安灭后秦（417），威震江左。"
+          "note": "北魏拓跋珪大败后燕慕容宝，坑杀五万燕兵，后燕自此分裂。"
         }
       ]
     },
@@ -2059,66 +2362,76 @@
         },
         {
           "label": "宋2",
-          "ruler": "刘义隆",
-          "rulerTitle": "宋文帝",
-          "start": 424,
-          "end": 453,
-          "blurb": "元嘉之治，仓皇北顾",
+          "ruler": "刘义符",
+          "rulerTitle": "宋少帝",
+          "start": 422,
+          "end": 424,
+          "blurb": "嬉戏无度，被徐羡之等废杀",
           "figures": []
         },
         {
           "label": "宋3",
-          "ruler": "刘劭",
-          "rulerTitle": "宋元凶",
-          "start": 453,
+          "ruler": "刘义隆",
+          "rulerTitle": "宋文帝",
+          "start": 424,
           "end": 453,
-          "blurb": "弑父自立，旋被诛",
+          "blurb": "元嘉之治，元嘉草草仓皇北顾",
           "figures": []
         },
         {
           "label": "宋4",
-          "ruler": "刘骏",
-          "rulerTitle": "宋孝武帝",
+          "ruler": "刘劭",
+          "rulerTitle": "宋元凶",
           "start": 453,
-          "end": 464,
-          "blurb": "猜忌宗室",
+          "end": 453,
+          "blurb": "弑父自立，旋被刘骏诛杀",
           "figures": []
         },
         {
           "label": "宋5",
-          "ruler": "刘子业",
-          "rulerTitle": "宋前废帝",
-          "start": 464,
-          "end": 466,
-          "blurb": "暴虐被弑",
+          "ruler": "刘骏",
+          "rulerTitle": "宋孝武帝",
+          "start": 453,
+          "end": 464,
+          "blurb": "前期有为之主，后期荒淫",
           "figures": []
         },
         {
           "label": "宋6",
-          "ruler": "刘彧",
-          "rulerTitle": "宋明帝",
-          "start": 466,
-          "end": 472,
-          "blurb": "残杀诸弟",
+          "ruler": "刘子业",
+          "rulerTitle": "宋前废帝",
+          "start": 464,
+          "end": 466,
+          "blurb": "狂悖无道，被湘东王刘彧弑杀",
           "figures": []
         },
         {
           "label": "宋7",
-          "ruler": "刘昱",
-          "rulerTitle": "宋后废帝",
-          "start": 473,
-          "end": 477,
-          "blurb": "苍梧王，被萧道成弑",
+          "ruler": "刘彧",
+          "rulerTitle": "宋明帝",
+          "start": 466,
+          "end": 472,
+          "blurb": "擅杀功臣，南朝宋由盛转衰",
           "figures": []
         },
         {
           "label": "宋8",
+          "ruler": "刘昱",
+          "rulerTitle": "宋后废帝",
+          "start": 473,
+          "end": 477,
+          "blurb": "残暴嗜杀，被萧道成所杀",
+          "figures": []
+        },
+        {
+          "label": "宋9",
           "ruler": "刘准",
           "rulerTitle": "宋顺帝",
           "start": 477,
           "end": 479,
-          "blurb": "禅位萧道成",
-          "figures": []
+          "blurb": "末代皇帝，禅位萧道成",
+          "figures": [],
+          "last": true
         },
         {
           "label": "齐1",
@@ -2144,35 +2457,45 @@
           "rulerTitle": "齐郁林王",
           "start": 493,
           "end": 494,
-          "blurb": "荒淫无度",
+          "blurb": "肆意挥霍，被萧鸾弑杀",
           "figures": []
         },
         {
           "label": "齐4",
-          "ruler": "萧鸾",
-          "rulerTitle": "齐明帝",
+          "ruler": "萧昭文",
+          "rulerTitle": "齐海陵王",
           "start": 494,
-          "end": 498,
-          "blurb": "大杀宗室",
+          "end": 494,
+          "blurb": "在位仅两月，被萧鸾废杀",
           "figures": []
         },
         {
           "label": "齐5",
-          "ruler": "萧宝卷",
-          "rulerTitle": "齐东昏侯",
-          "start": 498,
-          "end": 501,
-          "blurb": "荒嬉被弑",
+          "ruler": "萧鸾",
+          "rulerTitle": "齐明帝",
+          "start": 494,
+          "end": 498,
+          "blurb": "得位不正，大杀宗室",
           "figures": []
         },
         {
           "label": "齐6",
+          "ruler": "萧宝卷",
+          "rulerTitle": "齐东昏侯",
+          "start": 498,
+          "end": 501,
+          "blurb": "奢侈荒淫，萧衍起兵围建康被杀",
+          "figures": []
+        },
+        {
+          "label": "齐7",
           "ruler": "萧宝融",
           "rulerTitle": "齐和帝",
           "start": 501,
           "end": 502,
-          "blurb": "禅位萧衍",
-          "figures": []
+          "blurb": "末代皇帝，禅位萧衍",
+          "figures": [],
+          "last": true
         },
         {
           "label": "梁1",
@@ -2200,26 +2523,55 @@
           "rulerTitle": "梁简文帝",
           "start": 549,
           "end": 551,
-          "blurb": "被侯景所立旋弑",
+          "blurb": "被侯景杀害",
           "figures": []
         },
         {
           "label": "梁3",
-          "ruler": "萧绎",
-          "rulerTitle": "梁元帝",
-          "start": 552,
-          "end": 554,
-          "blurb": "江陵焚书",
+          "ruler": "萧栋",
+          "rulerTitle": "梁豫章王",
+          "start": 551,
+          "end": 552,
+          "blurb": "被侯景拥立，后被萧绎沉杀于江",
           "figures": []
         },
         {
+          "label": "侯汉",
+          "ruler": "侯景",
+          "rulerTitle": "侯汉皇帝",
+          "start": 551,
+          "end": 552,
+          "blurb": "宇宙大将军，篡位称帝，兵败被部下所杀",
+          "figures": [],
+          "last": true
+        },
+        {
           "label": "梁4",
+          "ruler": "萧绎",
+          "rulerTitle": "梁元帝",
+          "start": 552,
+          "end": 555,
+          "blurb": "平定侯景之乱，江陵城破焚书被杀",
+          "figures": []
+        },
+        {
+          "label": "梁5",
+          "ruler": "萧渊明",
+          "rulerTitle": "梁贞阳侯",
+          "start": 555,
+          "end": 555,
+          "blurb": "北齐扶植，在位四月被陈霸先废黜",
+          "figures": []
+        },
+        {
+          "label": "梁6",
           "ruler": "萧方智",
           "rulerTitle": "梁敬帝",
           "start": 555,
           "end": 557,
-          "blurb": "禅位陈霸先",
-          "figures": []
+          "blurb": "末代皇帝，禅位陈霸先",
+          "figures": [],
+          "last": true
         },
         {
           "label": "陈1",
@@ -2270,7 +2622,7 @@
         {
           "label": "北魏1",
           "ruler": "拓跋珪",
-          "rulerTitle": "魏道武帝",
+          "rulerTitle": "北魏道武帝",
           "start": 386,
           "end": 409,
           "blurb": "复国称帝，建魏",
@@ -2279,7 +2631,7 @@
         {
           "label": "北魏2",
           "ruler": "拓跋嗣",
-          "rulerTitle": "魏明元帝",
+          "rulerTitle": "北魏明元帝",
           "start": 409,
           "end": 423,
           "blurb": "南征刘宋",
@@ -2288,7 +2640,7 @@
         {
           "label": "北魏3",
           "ruler": "拓跋焘",
-          "rulerTitle": "魏太武帝",
+          "rulerTitle": "北魏太武帝",
           "start": 423,
           "end": 452,
           "blurb": "统一北方，国史之狱",
@@ -2296,26 +2648,35 @@
         },
         {
           "label": "北魏4",
+          "ruler": "拓跋余",
+          "rulerTitle": "北魏南安王",
+          "start": 452,
+          "end": 452,
+          "blurb": "在位八月，被宦官宗爱所杀",
+          "figures": []
+        },
+        {
+          "label": "北魏5",
           "ruler": "拓跋濬",
-          "rulerTitle": "魏文成帝",
+          "rulerTitle": "北魏文成帝",
           "start": 452,
           "end": 465,
           "blurb": "复兴佛教",
           "figures": []
         },
         {
-          "label": "北魏5",
+          "label": "北魏6",
           "ruler": "拓跋弘",
-          "rulerTitle": "魏献文帝",
+          "rulerTitle": "北魏献文帝",
           "start": 465,
           "end": 471,
           "blurb": "禅位孝文",
           "figures": []
         },
         {
-          "label": "北魏6",
+          "label": "北魏7",
           "ruler": "元宏",
-          "rulerTitle": "魏孝文帝",
+          "rulerTitle": "北魏孝文帝",
           "start": 471,
           "end": 499,
           "blurb": "汉化改革，迁都洛阳",
@@ -2328,40 +2689,86 @@
           ]
         },
         {
-          "label": "北魏7",
+          "label": "北魏8",
           "ruler": "元恪",
-          "rulerTitle": "魏宣武帝",
+          "rulerTitle": "北魏宣武帝",
           "start": 499,
           "end": 515,
           "blurb": "佛寺兴盛",
           "figures": []
         },
         {
-          "label": "北魏8",
+          "label": "北魏9",
           "ruler": "元诩",
-          "rulerTitle": "魏孝明帝",
+          "rulerTitle": "北魏孝明帝",
           "start": 515,
           "end": 528,
           "blurb": "胡太后乱政，河阴之变",
           "figures": []
         },
         {
-          "label": "北魏9",
+          "label": "北魏10",
+          "ruler": "元姑娘",
+          "rulerTitle": "北魏女帝",
+          "start": 528,
+          "end": 528,
+          "blurb": "胡太后所立，在位仅一日即被废",
+          "figures": []
+        },
+        {
+          "label": "北魏11",
+          "ruler": "元钊",
+          "rulerTitle": "北魏幼主",
+          "start": 528,
+          "end": 528,
+          "blurb": "三岁被胡太后拥立，河阴之变中被沉入黄河",
+          "figures": []
+        },
+        {
+          "label": "北魏12",
           "ruler": "元子攸",
-          "rulerTitle": "魏孝庄帝",
+          "rulerTitle": "北魏孝庄帝",
           "start": 528,
           "end": 530,
           "blurb": "杀尔朱荣",
           "figures": []
         },
         {
-          "label": "北魏10",
+          "label": "北魏13",
+          "ruler": "元晔",
+          "rulerTitle": "北魏长广王",
+          "start": 530,
+          "end": 531,
+          "blurb": "尔朱世隆所立，后被废杀",
+          "figures": []
+        },
+        {
+          "label": "北魏14",
+          "ruler": "元恭",
+          "rulerTitle": "北魏节闵帝",
+          "start": 531,
+          "end": 532,
+          "blurb": "被高欢废杀",
+          "figures": []
+        },
+        {
+          "label": "北魏15",
+          "ruler": "元朗",
+          "rulerTitle": "北魏安定王",
+          "start": 531,
+          "end": 532,
+          "blurb": "被高欢先立后废，赐死",
+          "figures": []
+        },
+        {
+          "label": "北魏16",
           "ruler": "元修",
-          "rulerTitle": "魏孝武帝",
+          "rulerTitle": "北魏孝武帝",
           "start": 532,
           "end": 534,
           "blurb": "奔关中，魏分裂",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "东魏1",
@@ -2376,7 +2783,8 @@
               "role": "东魏权臣",
               "note": "怀朔镇戍卒，韩陵破二十万，奠基北齐"
             }
-          ]
+          ],
+          "last": true
         },
         {
           "label": "西魏1",
@@ -2389,12 +2797,22 @@
         },
         {
           "label": "西魏2",
+          "ruler": "元钦",
+          "rulerTitle": "西魏废帝",
+          "start": 551,
+          "end": 554,
+          "blurb": "欲诛宇文泰，事泄被毒杀",
+          "figures": []
+        },
+        {
+          "label": "西魏3",
           "ruler": "元廓",
           "rulerTitle": "魏恭帝",
           "start": 554,
           "end": 557,
           "blurb": "禅位北周",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "北齐1",
@@ -2454,7 +2872,8 @@
           "start": 577,
           "end": 577,
           "blurb": "禅位被杀，齐亡",
-          "figures": []
+          "figures": [],
+          "last": true
         },
         {
           "label": "北周1",
@@ -2505,7 +2924,8 @@
           "start": 579,
           "end": 581,
           "blurb": "禅位杨坚",
-          "figures": []
+          "figures": [],
+          "last": true
         }
       ],
       "events": [
@@ -3574,6 +3994,23 @@
           "year": 954,
           "note": "后周柴荣大败北汉、契丹联军于巴公原，巩固新政。"
         }
+      ],
+      "regimeOrder": [
+        "后梁",
+        "后唐",
+        "后晋",
+        "后汉",
+        "后周",
+        "前蜀",
+        "后蜀",
+        "吴",
+        "南唐",
+        "吴越",
+        "闽",
+        "楚",
+        "南汉",
+        "南平",
+        "北汉"
       ]
     },
     {
@@ -4017,11 +4454,6 @@
           "name": "金灭辽",
           "year": 1125,
           "note": "金军俘获辽天祚帝，立国二百一十年的辽朝灭亡；残余势力西迁建立西辽，而金随即把兵锋指向北宋。"
-        },
-        {
-          "name": "蔡州之战",
-          "year": 1234,
-          "note": "宋蒙联军围攻蔡州，金哀宗自缢、末帝战死，金朝灭亡；南宋收复部分故土，却也直接面对蒙古铁骑。"
         }
       ]
     },
@@ -4256,6 +4688,78 @@
           "start": 1294,
           "end": 1307,
           "blurb": "停止对外征伐、减免赋税，社会矛盾缓和；元曲杂剧正于此时在市井怒放。",
+          "figures": []
+        },
+        {
+          "label": "武宗立极",
+          "ruler": "海山",
+          "rulerTitle": "元武宗",
+          "start": 1307,
+          "end": 1311,
+          "blurb": "统军北边封怀宁王，即位后滥赏诸王、大建佛寺，财政入不敷出。",
+          "figures": []
+        },
+        {
+          "label": "仁宗崇文",
+          "ruler": "爱育黎拔力八达",
+          "rulerTitle": "元仁宗",
+          "start": 1311,
+          "end": 1320,
+          "blurb": "推崇儒术，恢复科举取士，编撰《风宪宏纲》，在位九年较为清明。",
+          "figures": []
+        },
+        {
+          "label": "英宗新政",
+          "ruler": "硕德八剌",
+          "rulerTitle": "元英宗",
+          "start": 1320,
+          "end": 1323,
+          "blurb": "推行改革、起用儒臣，触动蒙古保守贵族利益，南坡之变中被铁失等弑杀。",
+          "figures": []
+        },
+        {
+          "label": "泰定帝",
+          "ruler": "也孙铁木儿",
+          "rulerTitle": "元泰定帝",
+          "start": 1323,
+          "end": 1328,
+          "blurb": "南坡之变后被拥立为帝，在位五年，政局相对稳定。",
+          "figures": []
+        },
+        {
+          "label": "天顺帝",
+          "ruler": "阿速吉八",
+          "rulerTitle": "元天顺帝",
+          "start": 1328,
+          "end": 1328,
+          "blurb": "九岁即位，两都之战中上都一方战败，阿速吉八不知所终，在位仅一个月。",
+          "figures": []
+        },
+        {
+          "label": "明宗",
+          "ruler": "和世瓎",
+          "rulerTitle": "元明宗",
+          "start": 1329,
+          "end": 1329,
+          "blurb": "和世瓎在和林即位，旋即被弟图帖睦尔与燕帖木儿毒杀，在位仅八个月。",
+          "figures": []
+        },
+        {
+          "label": "文宗崇文",
+          "ruler": "图帖睦尔",
+          "rulerTitle": "元文宗",
+          "start": 1328,
+          "end": 1332,
+          "blurb": "两次在位，崇文治、编《经世大典》，但与明宗争位之事为后世诟病。",
+          "figures": []
+        },
+        {
+          "label": "宁宗",
+          "ruler": "懿璘质班",
+          "rulerTitle": "元宁宗",
+          "start": 1332,
+          "end": 1332,
+          "blurb": "七岁即位，在位仅五十三日便病逝。",
           "figures": []
         },
         {

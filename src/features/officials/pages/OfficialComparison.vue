@@ -321,12 +321,6 @@ function categoryLabel(key) {
   padding: 40px 24px 64px;
 }
 
-.back {
-  display: inline-block;
-  margin-bottom: 16px;
-  font-size: 14px;
-}
-
 .head h1 {
   margin: 0 0 10px;
   font-size: 30px;

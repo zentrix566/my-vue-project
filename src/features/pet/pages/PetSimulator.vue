@@ -601,12 +601,6 @@ watch(petName, () => { /* 输入时不立即保存，由 @change 触发 */ })
   padding: 28px 20px 60px;
 }
 
-.back {
-  color: var(--primary, #2563eb);
-  text-decoration: none;
-  font-weight: 650;
-}
-
 .title {
   font-size: clamp(1.6rem, 3.5vw, 2.2rem);
   margin: 10px 0 6px;

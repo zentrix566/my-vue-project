@@ -475,13 +475,6 @@ function restart() {
   padding: 40px 20px;
 }
 
-.back {
-  display: inline-block;
-  color: var(--color-muted);
-  font-size: 14px;
-  margin-bottom: 12px;
-}
-
 .title {
   margin: 0 0 8px;
 }

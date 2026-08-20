@@ -168,12 +168,6 @@ function setStatus(key) {
 </template>
 
 <style scoped>
-.back {
-  display: inline-block;
-  margin-bottom: 16px;
-  font-size: 13px;
-  text-decoration: none;
-}
 .head {
   display: flex;
   justify-content: space-between;

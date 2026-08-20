@@ -526,11 +526,6 @@ onUnmounted(clearAllTimers)
   color: #f0e6cf;
 }
 
-.back {
-  color: #d4a017;
-  font-size: 14px;
-}
-
 .title {
   margin: 18px 0 10px;
   font-size: 28px;

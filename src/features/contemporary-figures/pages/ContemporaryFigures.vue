@@ -87,13 +87,6 @@ const fieldCounts = computed(() => {
 </template>
 
 <style scoped>
-.back {
-  display: inline-block;
-  margin-bottom: 14px;
-  color: var(--color-muted);
-  font-size: 14px;
-  text-decoration: none;
-}
 
 .intro h2 {
   margin: 0 0 6px;

@@ -1,30 +1,17 @@
 <template>
   <main class="china-page">
-    <section class="changelog-banner" :class="{ open: changelogOpen }">
-      <button class="changelog-toggle" type="button" @click="changelogOpen = !changelogOpen" :aria-expanded="changelogOpen">
-        <span class="changelog-flag">📜 更新日志</span>
-        <span class="changelog-latest">最近更新 · {{ changelog[0]?.date }}</span>
-        <span class="changelog-count">{{ changelog.length }} 条</span>
-        <span class="changelog-chevron">{{ changelogOpen ? '收起 ▲' : '展开 ▼' }}</span>
-      </button>
-      <div v-if="changelogOpen" class="changelog-body">
-        <div v-for="entry in changelog" :key="entry.date" class="cl-entry">
-          <div class="cl-head">
-            <span class="cl-date">{{ entry.date }}</span>
-            <span class="cl-title">{{ entry.title }}</span>
-          </div>
-          <ul class="cl-list">
-            <li v-for="(c, i) in entry.changes" :key="i">{{ c }}</li>
-          </ul>
-        </div>
-      </div>
-    </section>
     <header class="china-header">
-      <RouterLink to="/" class="back">← 返回主页</RouterLink>
-      <label class="history-picker">历史 <select v-model="scope" @change="switchScope"><option value="中国">中国历史</option><option v-for="item in worldRegions" :key="item" :value="item">{{ item }}</option></select></label>
-      <div class="title-row"><div><p class="eyebrow">资料来源：你的历史目录与「历史.md」</p><h1>历史 · 中国</h1><p class="intro">皇帝卡居中突出，大臣以 2–3 列并排展示；点击卡片查看详情。</p></div><button class="add-button" @click="formOpen = !formOpen">{{ formOpen ? '收起添加' : '添加人物' }}</button></div>
-      <form v-if="formOpen" class="add-form" @submit.prevent="addPerson"><label>姓名<input v-model.trim="draft.name" required /></label><label>归属时期<select v-model="draft.eraKey"><option v-for="era in eras" :key="era.key" :value="era.key">{{ era.name }}</option></select></label><label>年份<input v-model.number="draft.year" type="number" required /></label><label>身份<input v-model.trim="draft.role" placeholder="如：大臣" /></label><label class="note-field">简评<textarea v-model.trim="draft.note" rows="2" /></label><button class="submit-button" type="submit">保存到本机</button><p v-if="formMessage" class="form-message">{{ formMessage }}</p></form>
-      <div class="toolbar"><label>快速跳转 <select v-model="activeEraKey" @change="jumpToEra(activeEraKey)"><option v-for="era in eras" :key="era.key" :value="era.key">{{ era.name }} · {{ rangeText(era) }}</option></select></label><span>自动记住上次浏览时期</span><input v-model.trim="query" type="search" placeholder="搜索人物、事件或典故" /></div>
+      <div class="header-row">
+        <RouterLink to="/" class="back">← 返回主页</RouterLink>
+        <label class="history-picker">历史
+          <select v-model="scope" @change="switchScope"><option value="中国">中国历史</option><option v-for="item in worldRegions" :key="item" :value="item">{{ item }}</option></select>
+        </label>
+      </div>
+      <h1 class="china-title">历史 · 中国</h1>
+      <div class="toolbar">
+        <label class="toolbar-jump">快速跳转 <select v-model="activeEraKey" @change="jumpToEra(activeEraKey)"><option v-for="era in eras" :key="era.key" :value="era.key">{{ era.name }} · {{ rangeText(era) }}</option></select></label>
+        <input v-model.trim="query" type="search" placeholder="搜索人物、事件或典故" />
+      </div>
     </header>
     <section class="timeline" :class="{ searching: !!query.trim() }" aria-label="中国历史时间轴"><div class="timeline-axis"></div>
       <template v-for="item in visibleItems" :key="item.id">
@@ -97,21 +84,16 @@ import { RouterLink, useRouter } from 'vue-router'
 import { eras } from '../data/chineseHistory.json'
 import personDetails from '../data/personDetails.json'
 import { items as worldItems } from '../data/worldHistory.json'
-import { changelog } from '../../../data/changelog.js'
 
 const ERA_KEY = 'history-timeline:last-era'
 const REACTION_KEY = 'history-timeline:person-reactions'
 const CUSTOM_KEY = 'history-timeline:custom-people'
 const router = useRouter()
 const scope = ref('中国')
-const changelogOpen = ref(false)
 const activeEraKey = ref(window.localStorage.getItem(ERA_KEY) || eras[0]?.key)
 const query = ref('')
 const fabRulerId = ref('')
 const selected = ref(null)
-const formOpen = ref(false)
-const formMessage = ref('')
-const draft = ref({ name: '', eraKey: 'dangdai', year: 2026, role: '', note: '' })
 const worldRegions = [...new Set(worldItems.map((item) => item.region))].sort((a, b) => a.localeCompare(b, 'zh-CN'))
 function readJson(key, fallback) { try { return JSON.parse(window.localStorage.getItem(key) || '') ?? fallback } catch { return fallback } }
 const reactions = ref(readJson(REACTION_KEY, {}))
@@ -405,7 +387,6 @@ function jumpToRuler(id) {
 }
 function reactionFor(name) { return reactions.value[name] || '' }
 function toggleReaction(name, value) { const next = { ...reactions.value }; if (next[name] === value) delete next[name]; else next[name] = value; reactions.value = next; window.localStorage.setItem(REACTION_KEY, JSON.stringify(next)) }
-function addPerson() { if (!draft.value.name || !Number.isFinite(Number(draft.value.year))) { formMessage.value = '请填写姓名和年份。'; return }; customPeople.value = [...customPeople.value, { ...draft.value, id: `custom-${Date.now()}`, year: Number(draft.value.year) }]; window.localStorage.setItem(CUSTOM_KEY, JSON.stringify(customPeople.value)); formMessage.value = `已保存「${draft.value.name}」。`; draft.value = { name: '', eraKey: draft.value.eraKey, year: draft.value.year, role: '', note: '' } }
 function removePerson(id) { customPeople.value = customPeople.value.filter((item) => item.id !== id); window.localStorage.setItem(CUSTOM_KEY, JSON.stringify(customPeople.value)); selected.value = null }
 watch(activeEraKey, (key) => window.localStorage.setItem(ERA_KEY, key))
 // 搜索时跳转到首个命中项（保留完整时间轴，便于上下浏览上下文），输入过程中防抖避免频繁滚动
@@ -431,39 +412,20 @@ watch(query, () => {
 <style scoped>
 /* 保持中国与国外时间轴使用相同的卡片式中轴视觉语言。 */
 .china-page{max-width:1220px;margin:0 auto;padding:28px 20px 56px}
-/* 顶部更新日志面板：默认折叠，点击展开 */
-.changelog-banner{border:1px solid var(--color-border);border-radius:14px;overflow:hidden;background:var(--color-card)}
-.changelog-toggle{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;padding:13px 18px;border:0;background:transparent;color:var(--color-text);font:inherit;cursor:pointer;text-align:left}
-.changelog-flag{font-weight:800;font-size:15px;color:var(--color-primary);white-space:nowrap}
-.changelog-latest{color:var(--color-muted);font-size:13px;white-space:nowrap}
-.changelog-count{margin-left:auto;padding:2px 9px;border-radius:999px;background:var(--color-bg);color:var(--color-muted);font-size:12px;font-weight:700}
-.changelog-chevron{color:var(--color-muted);font-size:13px;font-weight:700;white-space:nowrap}
-.changelog-body{padding:0 18px 18px;border-top:1px solid var(--color-border)}
-.cl-entry{padding:16px 0;border-bottom:1px dashed var(--color-border)}
-.cl-entry:last-child{border-bottom:0;padding-bottom:0}
-.cl-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-.cl-date{color:var(--color-primary);font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
-.cl-title{font-size:16px;font-weight:700;color:var(--color-text)}
-.cl-list{margin:0;padding-left:18px;color:var(--color-muted);font-size:13.5px;line-height:1.8}
-.cl-list li{margin-bottom:4px}
-
-.back{color:var(--color-primary);font-size:14px}
-.history-picker{display:inline-flex;gap:7px;align-items:center;margin-left:14px;color:var(--color-primary);font-size:13px;font-weight:700}
-.history-picker select,.toolbar select{border:1px solid var(--color-border);border-radius:7px;padding:5px 8px;color:var(--color-text);background:var(--color-card);font:inherit}
-.title-row{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-top:12px}
-.eyebrow{margin:0 0 4px;color:var(--color-muted);font-size:12px}
-h1{margin:0;font-size:32px;letter-spacing:.04em}
-.intro{margin:8px 0 0;color:var(--color-muted)}
-.add-button,.submit-button,.delete-button{min-height:42px;border:0;border-radius:9px;padding:9px 16px;color:#fff;background:var(--color-primary);font:inherit;font-weight:700;cursor:pointer}
-.add-form{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px;padding:16px;border:1px solid var(--color-border);border-radius:12px;background:var(--color-card)}
-.add-form label{display:grid;gap:5px;color:var(--color-muted);font-size:12px;font-weight:700}
-.add-form input,.add-form select,.add-form textarea,.toolbar input{width:100%;box-sizing:border-box;border:1px solid var(--color-border);border-radius:7px;padding:8px;background:var(--color-bg);color:var(--color-text);font:inherit}
-.note-field{grid-column:span 2}
-.form-message{align-self:center;margin:0;color:#247348}
-.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px;color:var(--color-muted);font-size:13px}
-.toolbar label{display:inline-flex;align-items:center;gap:7px;font-weight:700}
-.toolbar input{width:min(280px,100%)}
-.timeline{position:relative;margin:28px auto 0;padding:12px 0}
+/* 顶部：返回/历史选择一行，标题，工具栏一行 */
+.china-header{margin-bottom:8px}
+.header-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.header-row .back{margin-bottom:0}
+.back:hover{text-decoration:underline}
+.history-picker{display:inline-flex;gap:7px;align-items:center;color:var(--color-muted);font-size:13px;font-weight:700;white-space:nowrap}
+.history-picker select{border:1px solid var(--color-border);border-radius:7px;padding:5px 8px;color:var(--color-text);background:var(--color-card);font:inherit}
+.china-title{margin:14px 0 12px;font-size:30px;letter-spacing:.02em}
+.toolbar{display:flex;flex-wrap:nowrap;align-items:center;gap:10px}
+.toolbar-jump{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--color-muted);white-space:nowrap;flex:0 0 auto}
+.toolbar-jump select{min-width:180px;max-width:46vw;border:1px solid var(--color-border);border-radius:7px;padding:6px 8px;color:var(--color-text);background:var(--color-card);font:inherit}
+.toolbar input{flex:1 1 auto;min-width:0;box-sizing:border-box;border:1px solid var(--color-border);border-radius:7px;padding:7px 10px;background:var(--color-card);color:var(--color-text);font:inherit}
+.delete-button{min-height:38px;margin-top:16px;border:0;border-radius:9px;padding:8px 16px;color:#fff;background:#9f3a36;font:inherit;font-weight:700;cursor:pointer}
+.timeline{position:relative;margin:24px auto 0;padding:12px 0}
 .timeline-axis{position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);background:linear-gradient(#40679c,#a88647)}
 .timeline-item{position:relative;width:50%;box-sizing:border-box;padding-bottom:22px}
 .timeline-item.left{margin-right:50%;padding-left:24px;padding-right:84px}
@@ -541,13 +503,10 @@ h1{margin:0;font-size:32px;letter-spacing:.04em}
 .reaction-actions{display:flex;gap:8px;margin-top:16px}
 .reaction-actions button{min-height:38px;border:1px solid var(--color-border);border-radius:8px;padding:6px 12px;background:var(--color-bg);cursor:pointer}
 .reaction-actions button.active{border-color:var(--era);background:color-mix(in srgb,var(--era) 15%,#fff)}
-.delete-button{margin-top:16px;background:#9f3a36}
 @media(max-width:760px){
   .china-page{padding-bottom:150px}
-  .title-row{align-items:start;flex-direction:column}
-  .add-form{grid-template-columns:1fr}
-  .note-field{grid-column:auto}
-  .toolbar{flex-direction:column;align-items:flex-start}
+  .toolbar{flex-wrap:wrap}
+  .toolbar input{flex:1 1 100%}
   .timeline-axis{left:22px}
   .timeline-item,.timeline-item.left,.timeline-item.right{width:100%;margin:0;padding:0 0 18px 52px;text-align:left}
   .group-block{margin:0!important;max-width:100%;align-items:stretch!important}

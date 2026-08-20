@@ -239,11 +239,6 @@ const mapBackgroundStyle = {
   flex-wrap: wrap;
 }
 
-.back {
-  font-size: 13px;
-  color: var(--color-muted);
-}
-
 .topbar h1 {
   margin: 0;
   font-size: 22px;

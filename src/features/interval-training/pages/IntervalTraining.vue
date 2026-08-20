@@ -409,11 +409,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.back {
-  display: inline-block;
-  margin-bottom: 14px;
-  color: var(--color-muted);
-  font-size: 14px;
-  text-decoration: none;
-}
 </style>

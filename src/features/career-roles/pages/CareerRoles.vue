@@ -155,12 +155,6 @@ async function onAsk() {
   padding: 32px 20px 60px;
 }
 
-.back {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-size: 14px;
-}
-
 .back:hover {
   text-decoration: underline;
 }

@@ -577,11 +577,6 @@ function fmt(m) {
   margin: 8px 0 4px;
   font-size: 26px;
 }
-.back {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-size: 14px;
-}
 .desc {
   color: var(--color-muted);
   font-size: 14px;

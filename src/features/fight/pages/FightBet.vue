@@ -595,8 +595,6 @@ addLog('欢迎来到擂台，初始本金 ' + bankroll.value, 'info')
   margin: 0 auto;
   padding: 28px 20px 60px;
 }
-
-.back { color: var(--color-muted); font-size: 14px; }
 .title { margin: 8px 0 4px; }
 .subtitle { color: var(--color-muted); margin-top: 0; font-size: 14px; }
 

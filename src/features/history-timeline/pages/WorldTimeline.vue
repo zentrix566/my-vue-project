@@ -182,7 +182,6 @@ function removePerson(id) {
 
 <style scoped>
 .world-page { max-width: 1220px; margin: 0 auto; padding: 28px 20px 56px; }
-.back { color: var(--color-primary); font-size: 14px; }
 .history-picker { display: inline-flex; align-items: center; gap: 7px; margin-left: 14px; color: var(--color-primary); font-size: 13px; font-weight: 700; }
 .history-picker select { max-width: 180px; border: 1px solid var(--color-border); border-radius: 7px; padding: 5px 8px; color: var(--color-text); background: var(--color-card); font: inherit; }
 .title-row { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-top: 12px; }

@@ -541,14 +541,6 @@ const onCmpEnter = (b) => {
   padding-top: 60px;
 }
 
-.back {
-  display: inline-block;
-  margin-bottom: 14px;
-  color: var(--color-muted);
-  font-size: 14px;
-  text-decoration: none;
-}
-
 .page-head h1 {
   font-size: clamp(2rem, 4vw, 3rem);
   margin: 8px 0 12px;

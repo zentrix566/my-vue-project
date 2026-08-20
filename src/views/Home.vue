@@ -1,6 +1,9 @@
 <template>
   <div class="page home">
-    <h1 class="page-title">zentrix566 的小玩具</h1>
+    <h1 class="page-title">
+      zentrix566 的小玩具
+      <span class="count-badge">{{ homeCards.length }}</span>
+    </h1>
     <p class="page-subtitle">几个用 Vue 写的小玩具，点开即玩。</p>
     <div class="cards">
       <RouterLink
@@ -30,6 +33,24 @@ import { homeCards } from '../features/registry.js'
 </script>
 
 <style scoped>
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

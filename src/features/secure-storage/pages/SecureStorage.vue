@@ -434,12 +434,6 @@ async function onAuto() {
   margin: 0 auto;
   padding: 28px 20px 64px;
 }
-.back {
-  display: inline-block;
-  font-size: 13px;
-  color: var(--color-muted);
-  margin-bottom: 8px;
-}
 .head h1 {
   font-size: 24px;
   margin: 0 0 6px;

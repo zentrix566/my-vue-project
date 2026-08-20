@@ -273,10 +273,6 @@ const conclusion = computed(() => {
   padding: 40px 24px 64px;
 }
 
-.back {
-  font-size: 14px;
-}
-
 .top h1 {
   margin: 14px 0 8px;
   font-size: 30px;

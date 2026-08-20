@@ -423,8 +423,6 @@ onUnmounted(() => {
   margin: 0 auto;
   padding: 28px 20px 60px;
 }
-
-.back { color: var(--color-muted); font-size: 14px; }
 .title {
   margin: 8px 0 4px;
   font-family: 'STKaiti', 'KaiTi', '楷体', 'Songti SC', serif;

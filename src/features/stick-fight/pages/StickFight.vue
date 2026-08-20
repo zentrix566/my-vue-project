@@ -2271,12 +2271,6 @@ onBeforeUnmount(() => {
   margin-bottom: 18px;
 }
 
-.back {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-size: 14px;
-}
-
 .top h1 {
   margin: 10px 0 6px;
   font-size: 26px;

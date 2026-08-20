@@ -1272,12 +1272,6 @@ const rankHint = computed(() => {
   font-size: 13px;
 }
 
-.back {
-  color: var(--color-text);
-  text-decoration: none;
-  font-size: 14px;
-}
-
 .back:hover {
   text-decoration: underline;
 }

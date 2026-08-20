@@ -645,12 +645,6 @@ onUnmounted(() => {
   flex-wrap: wrap;
 }
 
-.back {
-  font-size: 14px;
-  color: var(--color-primary);
-  white-space: nowrap;
-}
-
 .header h1 {
   margin: 0;
   font-size: 20px;

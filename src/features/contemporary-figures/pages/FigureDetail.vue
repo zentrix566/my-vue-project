@@ -10,6 +10,7 @@ import {
   statusLabel,
   moodLabel
 } from '../composables/useObservations'
+import '../style.css'
 
 const props = defineProps({
   id: { type: String, required: true }

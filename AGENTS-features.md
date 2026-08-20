@@ -70,7 +70,7 @@ export default {
      - `src/lib/llm.js`；
      - 环境变量 `HUOSHAN_KEY`/`ARK_API_KEY` 或 `DEEPSEEK_KEY`/`DEEPSEEK_API_KEY`（目标项目需有 `.env` 与 `.env.example`，**密钥绝不进版本库**）。
      缺任何一项，把对应文件 / 配置一并搬过去。
-   - **共享模块依赖**：若 `import` 了本文件夹之外的东西（`src/data/`、`src/lib/`（非 llm）、其它 feature 的组件、`src/styles.css` / `src/global.css` 的 CSS 变量）。把这些也一并复制或在目标项目里补齐；全局样式变量（如 `--muted`）来自 `src/styles.css` / `src/global.css`，目标项目需保留。
+   - **共享模块依赖**：若 `import` 了本文件夹之外的东西（`src/data/`、`src/lib/`（非 llm）、其它 feature 的组件、`src/styles.css` 的共享组件类/CSS 变量）。把这些也一并复制或在目标项目里补齐；全局设计 token（如 `--muted`、`--surface`）和共享类（`.page`/`.card`/`.btn`）都来自 `src/styles.css`，目标项目需保留。
    - 其余情况（纯自包含、只用到 `vue` / `echarts` 等顶层依赖）：直接复制即可。
 3. 改 `slug`：确认目标项目 `src/features/` 下没有同名，避免冲突；必要时改文件夹名 + manifest 的 `slug` + 路由 `path` / `name`。
 4. 目标项目必须也有 `src/features/registry.js` 且 router / Home 走自动聚合（见下「目标项目尚无 registry 时的移植」）。若没有，把本仓库的 `registry.js` + router / Home 的两行自动加载逻辑搬过去。

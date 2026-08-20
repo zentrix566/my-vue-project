@@ -512,15 +512,14 @@ h1{margin:0;font-size:32px;letter-spacing:.04em}
 .timeline-item.event .year{top:-7px;left:50%;transform:translateX(-50%)}
 .timeline-item.event .year i{display:none}
 .empty{position:relative;text-align:center;color:var(--color-muted)}
-.jump-fab{position:fixed;right:18px;bottom:18px;z-index:15;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;align-items:center;padding:8px 10px;max-width:min(580px,calc(100vw - 24px));border:1px solid var(--color-border);border-radius:22px;background:var(--color-card);box-shadow:0 8px 24px rgba(19,25,38,.18)}
+.jump-fab{position:fixed;right:18px;bottom:18px;z-index:15;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;align-items:center;padding:8px 10px;width:min(560px,calc(100vw - 24px));border:1px solid var(--color-border);border-radius:22px;background:var(--color-card);box-shadow:0 8px 24px rgba(19,25,38,.18)}
 .jump-fab select{border:1px solid var(--color-border);border-radius:7px;padding:5px 8px;background:var(--color-bg);color:var(--color-text);font:inherit;max-width:120px}
 .jump-fab .fab-ruler{max-width:130px}
 .jump-fab button{min-height:34px;border:0;border-radius:8px;padding:6px 12px;font:inherit;font-weight:700;color:#fff;background:var(--color-primary);cursor:pointer}
-.jump-fab .fab-search{border:1px solid var(--color-border);border-radius:7px;padding:6px 10px;background:var(--color-bg);color:var(--color-text);font:inherit;width:148px}
+.jump-fab .fab-search{border:1px solid var(--color-border);border-radius:7px;padding:6px 10px;background:var(--color-bg);color:var(--color-text);font:inherit;flex:1 1 160px;min-width:140px;width:auto}
 .jump-fab .fab-search::placeholder{color:var(--color-muted)}
 .jump-fab .fab-top{background:#2c3e68}
 .jump-fab .fab-era{border:1px solid var(--color-border);border-radius:7px;padding:6px 8px;background:var(--color-bg);color:var(--color-text);font:inherit;max-width:120px}
-.jump-fab .fab-search{width:160px}
 @keyframes flashHighlight{0%{box-shadow:0 0 0 4px var(--era)}100%{box-shadow:0 4px 12px rgba(35,48,76,.08)}}
 .person-card.flash{animation:flashHighlight 1.5s ease-out}
 /* 搜索时：命中项高亮描边，非命中项轻微变淡但保留可见，便于上下浏览上下文 */
@@ -544,6 +543,7 @@ h1{margin:0;font-size:32px;letter-spacing:.04em}
 .reaction-actions button.active{border-color:var(--era);background:color-mix(in srgb,var(--era) 15%,#fff)}
 .delete-button{margin-top:16px;background:#9f3a36}
 @media(max-width:760px){
+  .china-page{padding-bottom:150px}
   .title-row{align-items:start;flex-direction:column}
   .add-form{grid-template-columns:1fr}
   .note-field{grid-column:auto}
@@ -555,5 +555,11 @@ h1{margin:0;font-size:32px;letter-spacing:.04em}
   .year,.left .year,.right .year,.timeline-item.event .year{left:0;right:auto;width:auto;transform:none;flex-direction:row}
   .figure-cards{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
   .detail{top:auto;right:16px;bottom:16px;left:16px;width:auto}
+  /* 窄屏浮动栏：两侧贴边、两行排列（两个下拉一行，搜索+Top 一行），避免遮挡正文 */
+  .jump-fab{left:12px;right:12px;bottom:12px;width:auto;gap:6px;padding:7px 8px;border-radius:16px}
+  .jump-fab select{max-width:none;flex:1 1 calc(50% - 6px);min-width:0}
+  .jump-fab .fab-ruler{max-width:none}
+  .jump-fab .fab-search{flex:1 1 auto;min-width:0}
+  .jump-fab .fab-top{flex:0 0 auto}
 }
 </style>

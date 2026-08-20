@@ -18,6 +18,12 @@
 
 `personDetails.json` 里的 `source` 字段就是这些文件名（如 `"汉朝.md"`、`"历史.md"`），新增条目时按史料来源填写。
 
+---
+
+## 八、与通用 feature 约定的关系
+
+本文件只讲 `history-timeline` 这一支的**数据结构**。新增一个**全新子项目**（feature）的通用接入约定（manifest 契约、自动注册、复制到别的项目）见 **`AGENTS-features.md`**。往 history-timeline 里加人物 / 皇帝 / 典故 / 朝代走本文件；新建 feature 走 `AGENTS-features.md`。
+
 ## 二、数据结构
 
 ### 2.1 朝代（era）

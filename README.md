@@ -105,9 +105,10 @@ zentrix566.github.io/
 │  ├─ App.vue             站点外壳（zentrix566 标识 + 路由出口）
 │  ├─ styles.css          全局样式与 CSS 变量
 │  ├─ global.css          间歇训练看板等组件的排版样式
-│  ├─ router/index.js     路由定义（各功能懒加载）
-│  ├─ views/Home.vue      首页入口卡片
+│  ├─ router/index.js     路由由 registry 自动聚合各 feature 的 manifest（新增功能无需改动此文件）
+│  ├─ views/Home.vue      首页入口卡片（由 registry 的 homeCards 自动生成）
 │  └─ features/           各小游戏功能
+│     ├─ registry.js         自动发现并聚合各 feature 的 manifest（生成路由与首页卡片）
 │     ├─ world-cup/          世界杯点球大战
 │     ├─ jiangyin/           江阴保卫战形势图
 │     ├─ interval-training/  400 米间歇训练
@@ -133,8 +134,10 @@ zentrix566.github.io/
 │     └─ career-roles/         现代职业古代岗位对照（方舟接口调用 + 结果页 + 样式）
 ├─ public/
 │  └─ jiangyin-map.png    江阴保卫战底图
-└─ README.md / LICENSE / .gitignore
+└─ README.md / LICENSE / .gitignore / AGENTS.md / AGENTS-features.md
 ```
+
+> 约定文档：`AGENTS.md` 记录「历史时间轴」数据结构；`AGENTS-features.md` 记录**新增/复制子项目（feature）**的通用接入约定（manifest 契约、自动注册、跨项目依赖排查）。新增功能只改 `src/features/<slug>/`，不碰目录外文件。
 
 > 说明：江阴保卫战的底图放在 `public/jiangyin-map.png`，前端以 `/jiangyin-map.png` 直接引用；缺图时组件会自动回退到纯色衬底，互动箭头与事件仍可正常使用。
 

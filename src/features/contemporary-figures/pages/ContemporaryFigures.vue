@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { figures, fields } from '../data/figures'
 import { useObservations } from '../composables/useObservations'
 import FigureCard from '../components/FigureCard.vue'
+import '../style.css'
 
 const keyword = ref('')
 const activeField = ref('all')

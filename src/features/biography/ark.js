@@ -1,8 +1,6 @@
 // 大模型接口调用：输入人名，返回纯文本年谱
-// 请求经由 Vite 代理 /ark-api 转发（DeepSeek 优先，回退火山方舟），鉴权头在服务端注入，前端不接触密钥
-
-// 模型名与提供方由 vite.config.js 构建期注入
-import { MODEL, PROVIDER } from 'virtual:llm-config'
+// 请求经由 Vite 代理 /ark-api 转发（火山方舟优先，回退 DeepSeek），鉴权头在服务端注入，前端不接触密钥
+import { chatCompletion } from '../../lib/llm.js'
 
 const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手。用户输入一个人名，你按下面固定的纯文本格式整理其生平。只输出这几行纯文本，不要输出 markdown、代码块、标题或任何额外说明。
 
@@ -51,46 +49,14 @@ const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手。
 6. 不空行、不加序号、不加 markdown 符号，每行就是一个自然段落。第一行末尾不加句号；中间事迹行末尾加句号（一行内多个事件各自以句号结尾）；最后一行不加句号。`
 
 export async function fetchBiography(name) {
-  const res = await fetch('/ark-api/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: name }
-      ],
-      temperature: 0.1,
-      // 硬上限：5 行密集事迹约 600-800 tokens，留足余量；防止模型失控写十几行
-      max_tokens: 1500,
-      // 方舟模型需关闭内部推理（thinking），否则先生成数千 tokens reasoning 触发代理超时；DeepSeek 无此参数
-      ...(PROVIDER === 'ark' ? { thinking: { type: 'disabled' } } : {})
-    })
+  // 硬上限：5 行密集事迹约 600-800 tokens，留足余量；防止模型失控写十几行
+  const content = await chatCompletion({
+    system: SYSTEM_PROMPT,
+    user: name,
+    temperature: 0.1,
+    maxTokens: 1500
   })
-
-  // 响应体只能读一次：先统一读成文本，再尝试按 JSON 解析
-  const raw = await res.text()
-  let data = null
-  try {
-    data = raw ? JSON.parse(raw) : null
-  } catch {
-    // 不是 JSON（可能是代理返回的 HTML 错误页），保留原始文本
-  }
-
-  if (!res.ok) {
-    const detail = data?.error?.message || data?.message || raw || '无响应内容'
-    throw new Error(`接口请求失败（HTTP ${res.status}）：${detail}`)
-  }
-
-  if (!data) {
-    throw new Error(`接口返回了非 JSON 内容：${raw.slice(0, 200)}`)
-  }
-
-  const content = data?.choices?.[0]?.message?.content
-  if (!content) {
-    throw new Error('接口未返回有效内容')
-  }
-  return normalize(content.trim())
+  return normalize(content)
 }
 
 // 对模型输出做轻量规范化，纠正它偶尔不遵守格式的小问题

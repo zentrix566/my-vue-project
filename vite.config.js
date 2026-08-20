@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { webSearchMiddleware } from './server/websearch.js'
 
 // LLM 接入地址（均为 OpenAI 兼容协议）：
 // - 火山引擎方舟（Ark）Coding Plan 接口（配置了 HUOSHAN_KEY 时优先使用）
@@ -60,11 +61,21 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5173,
       host: true,
-      proxy: llmProxy
+      proxy: llmProxy,
+      // 服务端网页检索（/websearch）：让 biography 等 feature 能基于实时网页资料生成
+      configureServer(server) {
+        // 插到栈顶，避免被 Vite SPA fallback 截获
+        server.middlewares.stack.unshift({ route: '', handle: webSearchMiddleware })
+        console.log('[websearch] dev 中间件已挂载')
+      }
     },
     preview: {
       port: 4173,
-      proxy: llmProxy
+      proxy: llmProxy,
+      configurePreviewServer(server) {
+        server.middlewares.stack.unshift({ route: '', handle: webSearchMiddleware })
+        console.log('[websearch] preview 中间件已挂载')
+      }
     }
   }
 })

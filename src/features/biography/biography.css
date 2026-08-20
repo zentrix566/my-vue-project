@@ -160,6 +160,115 @@
   outline: none;
 }
 
+/* 检索来源折叠面板 */
+.biography-sources {
+  margin-top: 14px;
+}
+
+.biography-sources-toggle {
+  align-items: center;
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, rgba(128, 128, 128, 0.22));
+  border-radius: 8px;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  font-size: 0.88rem;
+  font-weight: 750;
+  justify-content: space-between;
+  padding: 10px 14px;
+  width: 100%;
+}
+
+.biography-sources-toggle:hover {
+  border-color: var(--primary, #2563eb);
+  color: var(--primary, #2563eb);
+}
+
+.biography-sources-caret {
+  display: inline-block;
+  transition: transform 0.2s;
+  transform: rotate(0deg);
+}
+
+.biography-sources-caret.open {
+  transform: rotate(90deg);
+}
+
+.biography-sources-list {
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, rgba(128, 128, 128, 0.22));
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 12px 16px;
+}
+
+.biography-source-item {
+  border-bottom: 1px dashed var(--line, rgba(128, 128, 128, 0.22));
+  padding: 10px 0;
+}
+
+.biography-source-item:last-child {
+  border-bottom: none;
+}
+
+.biography-source-title {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.biography-source-title a {
+  color: var(--primary, #2563eb);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.biography-source-title a:hover {
+  text-decoration: underline;
+}
+
+.biography-source-tag {
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 4px;
+  color: var(--primary, #2563eb);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  text-transform: uppercase;
+}
+
+.biography-source-snippet {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 6px 0 0;
+}
+
+/* 检索失败提示（不影响主结果展示） */
+.biography-search-error {
+  background: rgba(234, 179, 8, 0.08);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  border-radius: 8px;
+  color: var(--text);
+  margin-top: 14px;
+  padding: 12px 14px;
+}
+
+.biography-search-error strong {
+  color: #a16207;
+  font-size: 0.9rem;
+}
+
+.biography-search-error p {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
 @media (max-width: 600px) {
   .biography-search {
     flex-direction: column;

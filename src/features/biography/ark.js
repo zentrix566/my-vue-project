@@ -2,7 +2,7 @@
 // 请求经由 Vite 代理 /ark-api 转发（火山方舟优先，回退 DeepSeek），鉴权头在服务端注入，前端不接触密钥
 import { chatCompletion } from '../../lib/llm.js'
 
-const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手。用户输入一个人名，你按下面固定的纯文本格式整理其生平。只输出这几行纯文本，不要输出 markdown、代码块、标题或任何额外说明。
+const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手，依据「百度百科」（baike.baidu.com）人物词条进行整理。用户输入一个人名，你按下面固定的纯文本格式整理其生平。只输出这几行纯文本，不要输出 markdown、代码块、标题或任何额外说明。
 
 格式模板：
 姓名（出生年—死亡年），朝代身份
@@ -33,6 +33,7 @@ const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手。
 23年被杀，终年67岁
 
 规则：
+0. **资料来源限定（最高优先级之一）**：用户消息中会附上检索到的网页资料（优先为百度百科词条内容）。你必须以这些资料为依据整理年谱——生卒年、身份、事迹一律以资料内容为准，不要凭记忆自作主张；若多条资料冲突，以百度百科条目内容优先。若资料确实缺失某关键信息，再按通行说法补充，但正文里不写来源注释或争议。当检索资料为空时，才完全按你的记忆并优先以百度百科口径整理。
 1. 第一行：姓名（出生年—死亡年），朝代+身份（如"西汉外交家""北宋文学家"）。生卒年用破折号"—"连接。
 2. **纪年一律用数字年份，全文严禁出现年号字样**：所有时间必须写成"前XXX年"（公元前）或"XXX年"（公元后），已知月日的补在年后（如 1037年1月8日、23年10月6日、1368年正月）。**绝对禁止以年号纪年或在正文提及年号**，例如"始建国元年""天凤四年""建安十三年""年号洪武""建元洪武""改元居摄"等一律不允许——把年号换算成对应公元年份后直接写事，正文里也绝不留年号二字（如称帝就写"称帝，国号大明"，不要写"年号洪武"）。提到皇帝时用姓名或庙号，**不要用年号代指**（不要写"洪武借此废丞相"，写"朱元璋借此废丞相"）。公元前的"前"字不能漏也不能多：公元3年写"3年"，公元前3年写"前3年"。不可考写"不详"，绝不用问号"?"或波浪号"~"。不要用"——"连接两个年份表示时间范围，跨多年的事件只写起始年份，跨度在正文里用文字说明（如"留居匈奴十九年"）。同一行内的多个事件也必须按年份由早到晚排列，不要把早年的事写到晚年后面。
    年号换算示例：王莽"始建国元年"=9年，"天凤四年"=17年，"地皇四年"=23年；汉武帝"元狩四年"=前119年；"洪武元年"=1368年。
@@ -48,15 +49,59 @@ const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手。
 5. 生卒年有争议时取通行说法，正文里不写争议或注释，也不要编造没有史料依据的细节。**不要把庙号、谥号、陵号、追赠等身后名单独列为事迹行**（这些不是生平事迹，一概不写）。
 6. 不空行、不加序号、不加 markdown 符号，每行就是一个自然段落。第一行末尾不加句号；中间事迹行末尾加句号（一行内多个事件各自以句号结尾）；最后一行不加句号。`
 
+// 调用本地 /websearch 代理，抓取人物相关的网页摘要（优先百度百科）。
+// 失败或返回空都安全降级：返回空数组，由调用方回退为「模型凭记忆整理」。
+async function fetchWebContext(name) {
+  try {
+    const res = await fetch(`/websearch?q=${encodeURIComponent(name)}`)
+    const text = await res.text()
+    // 如果中间件没生效，Vite 会返回 index.html，这里直接识别并给出明确提示
+    if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+      throw new Error('检索服务未启动，请重启 npm run dev 后再试')
+    }
+    let data
+    try {
+      data = JSON.parse(text)
+    } catch {
+      throw new Error(`检索服务返回异常: ${text.slice(0, 80)}`)
+    }
+    return Array.isArray(data?.results) ? data.results : []
+  } catch (e) {
+    // 把错误继续向上抛，让 UI 能提示用户，而不是静默降级
+    throw e
+  }
+}
+
 export async function fetchBiography(name) {
+  // 先去服务端检索实时网页资料，作为模型整理的权威上下文
+  let context = []
+  let searchError = ''
+  try {
+    context = await fetchWebContext(name)
+  } catch (e) {
+    searchError = e.message || String(e)
+  }
+
+  let user = name
+  if (context.length) {
+    const ctx = context
+      .map((r, i) => `[${i + 1}] ${r.title}\n${r.snippet}\n来源: ${r.url}`)
+      .join('\n\n')
+    user = `人物姓名：${name}\n\n以下是检索到的网页资料（优先采用百度百科条目内容），请据此整理其年谱：\n\n${ctx}`
+  }
+
   // 硬上限：5 行密集事迹约 600-800 tokens，留足余量；防止模型失控写十几行
   const content = await chatCompletion({
     system: SYSTEM_PROMPT,
-    user: name,
+    user,
     temperature: 0.1,
     maxTokens: 1500
   })
-  return normalize(content)
+  return {
+    result: normalize(content),
+    sources: context,
+    searchError
+  }
 }
 
 // 对模型输出做轻量规范化，纠正它偶尔不遵守格式的小问题

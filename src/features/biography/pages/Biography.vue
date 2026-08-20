@@ -45,10 +45,31 @@
           class="biography-text"
           rows="6"
         ></textarea>
+
+        <div v-if="searchError" class="biography-search-error">
+          <strong>⚠ 检索来源失败</strong>
+          <p>{{ searchError }}</p>
+        </div>
+
+        <div v-else-if="sources.length" class="biography-sources">
+          <button type="button" class="biography-sources-toggle" @click="sourcesOpen = !sourcesOpen">
+            <span>参考来源（{{ sources.length }} 条）</span>
+            <span class="biography-sources-caret" :class="{ open: sourcesOpen }">▸</span>
+          </button>
+          <ul v-show="sourcesOpen" class="biography-sources-list">
+            <li v-for="(s, i) in sources" :key="i" class="biography-source-item">
+              <div class="biography-source-title">
+                <span class="biography-source-tag">{{ s.source }}</span>
+                <a :href="s.url" target="_blank" rel="noopener noreferrer">{{ s.title }}</a>
+              </div>
+              <p class="biography-source-snippet">{{ s.snippet }}</p>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <p class="form-hint biography-hint">
-        内容由大模型整理，文字简略，重要史实请以权威史料为准。
+        内容由大模型基于实时检索整理，重要史实请以权威史料为准。
       </p>
     </div>
   </section>
@@ -63,6 +84,9 @@ const name = ref('')
 const loading = ref(false)
 const error = ref('')
 const result = ref('')
+const sources = ref([])
+const searchError = ref('')
+const sourcesOpen = ref(false)
 const copied = ref(false)
 const resultText = ref(null)
 
@@ -73,8 +97,16 @@ async function onSearch() {
   loading.value = true
   error.value = ''
   result.value = ''
+  sources.value = []
+  searchError.value = ''
+  sourcesOpen.value = false
   try {
-    result.value = await fetchBiography(query)
+    const data = await fetchBiography(query)
+    result.value = data.result || ''
+    sources.value = data.sources || []
+    searchError.value = data.searchError || ''
+    // 默认展开，方便用户一眼看到依据
+    sourcesOpen.value = sources.value.length > 0
   } catch (err) {
     error.value = err.message || String(err)
   } finally {

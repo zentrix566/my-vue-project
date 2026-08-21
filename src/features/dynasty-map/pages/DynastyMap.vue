@@ -119,9 +119,9 @@ import { dynasties } from '../data/dynasties.js'
 import '../dynasty-map.css'
 
 const GEO_URL = 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json'
-const BASE_HEIGHT = 1 // 未选中时近乎贴地，整体呈现「平视图」的平面感
-const RAISE_HEIGHT = 16 // 点击省份后向上凸出（挤出）的高度，越大越明显
-const MARKER_Z = 9 // 城邑标记悬浮高度，需略高于凸起的省份
+const BASE_HEIGHT = 2 // 未选中时近乎贴地，整体呈现「平视图」的平面感
+const RAISE_HEIGHT = 60 // 点击省份后向上凸出（挤出）的高度，越大越明显
+const MARKER_Z = 65 // 城邑标记悬浮高度，需高于凸起的省份（RAISE_HEIGHT）
 
 const typeMeta = {
   capital: { label: '都城', color: '#f4b740', size: 18 },
@@ -193,7 +193,7 @@ function buildRegions(provinceName) {
       name,
       regionHeight: name === provinceName ? RAISE_HEIGHT : BASE_HEIGHT,
       itemStyle: name === provinceName
-        ? { color: dynasty.value.color, borderColor: '#ffffff', borderWidth: 1.4 }
+        ? { color: dynasty.value.color, borderColor: '#ffffff', borderWidth: 2.2 }
         : { opacity: 0.96 }
     }))
 }
@@ -210,10 +210,12 @@ function buildSeriesData() {
 
 function baseViewControl() {
   return {
-    alpha: 72,
+    alpha: 76,
     beta: 0,
-    distance: 90,
+    distance: 108,
     center: [0, 0, 0],
+    minAlpha: 55,
+    maxAlpha: 90,
     autoRotate: autoRotate.value,
     autoRotateAfterStill: false,
     panMouseButton: 'left',
@@ -259,8 +261,8 @@ function buildOption({ resetCamera = false } = {}) {
         itemStyle: { color: '#6b8fb5' }
       },
       light: {
-        main: { intensity: 1.5, shadow: true, alpha: 45, beta: -30 },
-        ambient: { intensity: 0.6 }
+        main: { intensity: 1.4, shadow: true, alpha: 45, beta: -30 },
+        ambient: { intensity: 0.85 }
       },
       postEffect: { enable: false }
     },
@@ -313,7 +315,7 @@ function selectCity(c) {
   chart.value.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: idx })
   chart.value.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex: idx })
   // 切城邑时复位省份凸起，让视角中的点不被遮挡
-  renderChart(false)
+  renderChart(true)
 }
 
 function onDynastyChange() {
@@ -370,7 +372,8 @@ function handleMapClick(offsetX, offsetY) {
     if (name && geoJson.features.some((f) => f.properties && f.properties.name === name)) {
       selectedProvince.value = name
       selectedCity.value = null
-      renderChart(false)
+      // 用 notMerge 全量重建，确保 regionHeight 变化生效（merge 模式下 echarts-gl 不更新已存在网格的挤出高度）
+      renderChart(true)
     }
   } else if (mesh.seriesIndex === 0) {
     // scatter3D 城邑标记

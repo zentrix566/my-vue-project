@@ -21,6 +21,17 @@
         </button>
       </form>
 
+      <div v-if="!loading && recentNames.length" class="biography-recent">
+        <span class="biography-recent-label">最近查询：</span>
+        <button
+          v-for="item in recentNames"
+          :key="item.key"
+          type="button"
+          class="biography-recent-chip"
+          @click="searchName(item.name)"
+        >{{ item.name }}</button>
+      </div>
+
       <div v-if="loading" class="biography-loading">
         <span class="biography-spinner"></span>
         <p>正在翻检史料，请稍候…</p>
@@ -41,7 +52,13 @@
 
         <template v-if="result">
           <div class="biography-result-head">
-            <span class="biography-result-label">生平年谱（可直接复制）</span>
+            <span class="biography-result-label">
+              生平年谱（可直接复制）
+              <span v-if="fromCache" class="biography-cache-hint">
+                · 本地缓存（{{ formatTime(cachedAt) }}）
+                <button type="button" class="biography-refresh-btn" @click="onSearch(true)">重新查询</button>
+              </span>
+            </span>
             <button type="button" class="button biography-copy-btn" @click="copyResult">
               {{ copied ? '已复制 ✓' : '复制全文' }}
             </button>
@@ -94,9 +111,12 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, watch } from 'vue'
+import { ref, computed, nextTick, watch, onMounted } from 'vue'
 import { fetchBiography } from '../ark.js'
+import { useBiographyCache, normalizeKey } from '../composables/useBiographyCache.js'
 import '../biography.css'
+
+const cache = useBiographyCache()
 
 const name = ref('')
 const loading = ref(false)
@@ -111,12 +131,29 @@ const resultText = ref(null)
 const debug = ref(null)
 const debugOpen = ref(false)
 const debugText = computed(() => (debug.value ? JSON.stringify(debug.value, null, 2) : ''))
+const fromCache = ref(false)
+const cachedAt = ref(null)
+const recentNames = ref([])
 
-async function onSearch() {
-  const query = name.value.trim()
-  if (!query || loading.value) return
+function refreshRecent() {
+  recentNames.value = cache.recent(8)
+}
 
-  loading.value = true
+// 把缓存条目灌进当前界面状态
+function applyCached(entry) {
+  result.value = entry.result || ''
+  sources.value = entry.sources || []
+  searchError.value = entry.searchError || ''
+  modelError.value = entry.modelError || ''
+  debug.value = entry.debug || null
+  fromCache.value = true
+  cachedAt.value = entry.savedAt
+  sourcesOpen.value = sources.value.length > 0
+  debugOpen.value = false
+  error.value = ''
+}
+
+function resetResultState() {
   error.value = ''
   result.value = ''
   sources.value = []
@@ -125,6 +162,27 @@ async function onSearch() {
   sourcesOpen.value = false
   debug.value = null
   debugOpen.value = false
+  fromCache.value = false
+  cachedAt.value = null
+}
+
+async function onSearch(force = false) {
+  const query = name.value.trim()
+  if (!query || loading.value) return
+  const key = normalizeKey(query)
+
+  // 非强制刷新时优先读本地缓存，命中则瞬时展示、不发请求
+  if (!force) {
+    const hit = cache.get(key)
+    if (hit) {
+      applyCached(hit)
+      refreshRecent()
+      return
+    }
+  }
+
+  loading.value = true
+  resetResultState()
   try {
     const data = await fetchBiography(query)
     result.value = data.result || ''
@@ -132,13 +190,30 @@ async function onSearch() {
     searchError.value = data.searchError || ''
     modelError.value = data.modelError || ''
     debug.value = data.debug || null
+    fromCache.value = false
     // 默认展开，方便用户一眼看到依据
     sourcesOpen.value = sources.value.length > 0
+    // 缓存本次结果（含模型被拦截但来源已拿到的情况）
+    cache.save(key, data)
+    refreshRecent()
   } catch (err) {
     error.value = err.message || String(err)
   } finally {
     loading.value = false
   }
+}
+
+// 从最近查询 chip 进入：填入名字并查询（命中缓存瞬时显示）
+function searchName(n) {
+  name.value = n
+  onSearch()
+}
+
+function formatTime(ts) {
+  if (!ts) return ''
+  const d = new Date(ts)
+  const pad = (x) => String(x).padStart(2, '0')
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}`
 }
 
 async function copyResult() {
@@ -163,6 +238,19 @@ watch(result, async () => {
   if (ta) {
     ta.style.height = 'auto'
     ta.style.height = ta.scrollHeight + 'px'
+  }
+})
+
+// 挂载时恢复最近一次查询结果（离开页面再回来或刷新后仍可见）
+onMounted(() => {
+  refreshRecent()
+  const last = recentNames.value[0]
+  if (last) {
+    const hit = cache.get(last.key)
+    if (hit) {
+      name.value = last.name
+      applyCached(hit)
+    }
   }
 })
 </script>

@@ -56,6 +56,33 @@
   opacity: 0.6;
 }
 
+.biography-recent {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.biography-recent-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.biography-recent-chip {
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, rgba(128, 128, 128, 0.22));
+  border-radius: 999px;
+  color: var(--primary, #2563eb);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px 14px;
+}
+
+.biography-recent-chip:hover {
+  background: var(--surface-soft, #eef4f6);
+}
+
 .biography-hint {
   color: var(--muted);
   font-size: 0.9rem;
@@ -139,6 +166,27 @@
 
 .biography-copy-btn:hover {
   background: var(--surface-soft, #eef4f6);
+}
+
+.biography-cache-hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.biography-refresh-btn {
+  background: none;
+  border: none;
+  color: var(--primary, #2563eb);
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.biography-refresh-btn:hover {
+  opacity: 0.8;
 }
 
 .biography-text {

@@ -31,27 +31,36 @@
         <p>{{ error }}</p>
       </div>
 
-      <div v-else-if="result" class="biography-result">
-        <div class="biography-result-head">
-          <span class="biography-result-label">生平年谱（可直接复制）</span>
-          <button type="button" class="button biography-copy-btn" @click="copyResult">
-            {{ copied ? '已复制 ✓' : '复制全文' }}
-          </button>
+      <div v-else-if="result || sources.length || modelError" class="biography-result">
+        <!-- 模型生成被拦截提示（检索数据正常时也要展示来源） -->
+        <div v-if="modelError" class="biography-model-error">
+          <strong>⚠ 年谱生成被拦截</strong>
+          <p>{{ modelError }}</p>
+          <p class="biography-model-error-hint">检索数据已正常获取（见下方参考来源），点击标题可查看原始词条全文。</p>
         </div>
-        <textarea
-          ref="resultText"
-          readonly
-          :value="result"
-          class="biography-text"
-          rows="6"
-        ></textarea>
+
+        <template v-if="result">
+          <div class="biography-result-head">
+            <span class="biography-result-label">生平年谱（可直接复制）</span>
+            <button type="button" class="button biography-copy-btn" @click="copyResult">
+              {{ copied ? '已复制 ✓' : '复制全文' }}
+            </button>
+          </div>
+          <textarea
+            ref="resultText"
+            readonly
+            :value="result"
+            class="biography-text"
+            rows="6"
+          ></textarea>
+        </template>
 
         <div v-if="searchError" class="biography-search-error">
           <strong>⚠ 检索来源失败</strong>
           <p>{{ searchError }}</p>
         </div>
 
-        <div v-else-if="sources.length" class="biography-sources">
+        <div v-if="sources.length" class="biography-sources">
           <button type="button" class="biography-sources-toggle" @click="sourcesOpen = !sourcesOpen">
             <span>参考来源（{{ sources.length }} 条）</span>
             <span class="biography-sources-caret" :class="{ open: sourcesOpen }">▸</span>
@@ -66,6 +75,15 @@
             </li>
           </ul>
         </div>
+
+        <!-- 调试面板：展示检索原始 JSON / 喂给模型的 prompt / 模型原始输出 -->
+        <div v-if="debug" class="biography-debug">
+          <button type="button" class="biography-sources-toggle" @click="debugOpen = !debugOpen">
+            <span>🔧 调试信息（原始数据）</span>
+            <span class="biography-sources-caret" :class="{ open: debugOpen }">▸</span>
+          </button>
+          <pre v-show="debugOpen" class="biography-debug-pre">{{ debugText }}</pre>
+        </div>
       </div>
 
       <p class="form-hint biography-hint">
@@ -76,7 +94,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, watch } from 'vue'
+import { ref, computed, nextTick, watch } from 'vue'
 import { fetchBiography } from '../ark.js'
 import '../biography.css'
 
@@ -86,9 +104,13 @@ const error = ref('')
 const result = ref('')
 const sources = ref([])
 const searchError = ref('')
+const modelError = ref('')
 const sourcesOpen = ref(false)
 const copied = ref(false)
 const resultText = ref(null)
+const debug = ref(null)
+const debugOpen = ref(false)
+const debugText = computed(() => (debug.value ? JSON.stringify(debug.value, null, 2) : ''))
 
 async function onSearch() {
   const query = name.value.trim()
@@ -99,12 +121,17 @@ async function onSearch() {
   result.value = ''
   sources.value = []
   searchError.value = ''
+  modelError.value = ''
   sourcesOpen.value = false
+  debug.value = null
+  debugOpen.value = false
   try {
     const data = await fetchBiography(query)
     result.value = data.result || ''
     sources.value = data.sources || []
     searchError.value = data.searchError || ''
+    modelError.value = data.modelError || ''
+    debug.value = data.debug || null
     // 默认展开，方便用户一眼看到依据
     sourcesOpen.value = sources.value.length > 0
   } catch (err) {

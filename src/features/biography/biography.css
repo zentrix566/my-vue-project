@@ -248,6 +248,47 @@
   margin: 6px 0 0;
 }
 
+/* 调试面板：展示原始数据 */
+.biography-debug {
+  margin-top: 14px;
+}
+
+.biography-debug-pre {
+  background: rgba(128, 128, 128, 0.08);
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 6px;
+  color: var(--text, #1f2937);
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin: 8px 0 0;
+  max-height: 420px;
+  overflow: auto;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* 模型生成被拦截提示（检索数据仍正常展示） */
+.biography-model-error {
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 8px;
+  color: var(--text);
+  margin-top: 14px;
+  padding: 12px 14px;
+}
+
+.biography-model-error strong {
+  color: #dc2626;
+}
+
+.biography-model-error-hint {
+  font-size: 0.8rem;
+  margin: 6px 0 0;
+  opacity: 0.75;
+}
+
 /* 检索失败提示（不影响主结果展示） */
 .biography-search-error {
   background: rgba(234, 179, 8, 0.08);

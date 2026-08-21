@@ -55,7 +55,14 @@ export async function chatCompletion({ system, user, temperature = 0.3, maxToken
     throw new Error(`接口返回了非 JSON 内容：${raw.slice(0, 200)}`)
   }
 
+  const finishReason = data?.choices?.[0]?.finish_reason
   const content = data?.choices?.[0]?.message?.content
+
+  // 模型安全审核拦截（content_filter）：输出被平台内容安全策略截断或替换为固定拒绝文案
+  if (finishReason === 'content_filter' || /无法给到相关内容|无法回答|不能回答|拒绝回答/.test(content || '')) {
+    throw new Error('该人物内容被模型安全审核拦截，无法生成年谱。可能涉及敏感话题，请更换查询对象。')
+  }
+
   if (!content) {
     throw new Error('接口未返回有效内容')
   }

@@ -56,26 +56,31 @@ export default defineConfig(({ mode }) => {
     }
   }
 
+  // 网页检索插件：在 dev / preview 阶段真正挂载 /websearch 中间件
+  // 注意：configureServer / configurePreviewServer 是「插件钩子」，必须放在 plugins 数组里，
+  // 之前误写在 server / preview 配置对象下，Vite 不会调用，导致中间件从未挂载。
+  const webSearchPlugin = {
+    name: 'web-search-middleware',
+    configureServer(server) {
+      server.middlewares.use(webSearchMiddleware)
+      console.log('[websearch] dev 中间件已挂载')
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(webSearchMiddleware)
+      console.log('[websearch] preview 中间件已挂载')
+    }
+  }
+
   return {
-    plugins: [vue(), llmConfigPlugin(model, provider)],
+    plugins: [vue(), llmConfigPlugin(model, provider), webSearchPlugin],
     server: {
       port: 5173,
       host: true,
-      proxy: llmProxy,
-      // 服务端网页检索（/websearch）：让 biography 等 feature 能基于实时网页资料生成
-      configureServer(server) {
-        // 插到栈顶，避免被 Vite SPA fallback 截获
-        server.middlewares.stack.unshift({ route: '', handle: webSearchMiddleware })
-        console.log('[websearch] dev 中间件已挂载')
-      }
+      proxy: llmProxy
     },
     preview: {
       port: 4173,
-      proxy: llmProxy,
-      configurePreviewServer(server) {
-        server.middlewares.stack.unshift({ route: '', handle: webSearchMiddleware })
-        console.log('[websearch] preview 中间件已挂载')
-      }
+      proxy: llmProxy
     }
   }
 })

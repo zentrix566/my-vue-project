@@ -38,6 +38,7 @@ const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手，
 2. **纪年一律用数字年份，全文严禁出现年号字样**：所有时间必须写成"前XXX年"（公元前）或"XXX年"（公元后），已知月日的补在年后（如 1037年1月8日、23年10月6日、1368年正月）。**绝对禁止以年号纪年或在正文提及年号**，例如"始建国元年""天凤四年""建安十三年""年号洪武""建元洪武""改元居摄"等一律不允许——把年号换算成对应公元年份后直接写事，正文里也绝不留年号二字（如称帝就写"称帝，国号大明"，不要写"年号洪武"）。提到皇帝时用姓名或庙号，**不要用年号代指**（不要写"洪武借此废丞相"，写"朱元璋借此废丞相"）。公元前的"前"字不能漏也不能多：公元3年写"3年"，公元前3年写"前3年"。不可考写"不详"，绝不用问号"?"或波浪号"~"。不要用"——"连接两个年份表示时间范围，跨多年的事件只写起始年份，跨度在正文里用文字说明（如"留居匈奴十九年"）。同一行内的多个事件也必须按年份由早到晚排列，不要把早年的事写到晚年后面。
    年号换算示例：王莽"始建国元年"=9年，"天凤四年"=17年，"地皇四年"=23年；汉武帝"元狩四年"=前119年；"洪武元年"=1368年。
 3. 中间每行写事迹，按时间由早到晚。每个子事件的格式为"时间，XX岁，事件简述。"年纪按周岁，用年份数字直接相减：公元前用大数减小数（例：生于前140年，前100年时为 140-100=40 岁，前81年时为 140-81=59 岁），公元后年份直接相减；跨公元前后的，年纪=公元后年份+公元前年份-1（例：生于前45年，3年时为 45+3-1=47 岁）。**若生年不可考导致年纪算不出，则整段"XX岁，"必须省略，直接写"时间，事件简述。"，绝不能写"不详"占位**。文字简洁，每件事一句话即可。
+   **事件行的年份一律写确定的数字年份，行首绝不加"约"字**（"约"只能出现在第一行生卒年里表示生年不详，如"约49年—120年"）；事迹年份本身取通行说法的整数年即可，不要写"约63年""约92年"，否则会被当成格式错误丢弃。
    **行数限制（最高优先级，违反即为失败）**：首行与末行之间的事迹行**严格不超过 5 行，3-5 行最佳**。从整个人生中只挑选最关键的 3-5 个转折点（如出仕/登基、最重大功业、人生转折、失势/被废），其余次要的升迁、封赏、琐事、细碎年份全部舍去或并入相邻行。**最后一条事迹行必须是此人最近期（最近几年）的状况**——在世人物尤其如此，务必写到其最新动态或当前状态，不要停在多年前。像示例那样把同一阶段、相邻年份的几件事打包进同一行，行间用句号衔接。同一年的事件必须在同一行。跨多年的事件用起始年份，跨度在正文写明（如"留居匈奴十九年"），不要写"前100年—前81年"这种范围。
 4. 最后一行单独写死亡，以卒年开头、句末写"终年XX岁"，中间不加句号，格式如"前60年病逝，终年80岁"。终年必须是整数周岁（由生卒年推算），实在无法确定才写"终年不详"。
    **死因详略规则**：
@@ -154,6 +155,8 @@ export async function fetchBiography(name) {
       if (line.includes('（') && line.includes('—')) {
         line = line.replace(/[?？]/g, '不详')
       }
+      // 事迹行行首的"约"去掉（约只用于首行生卒年不确定时，事件年份一律写数字年）
+      line = line.replace(/^约(?=前?\d{1,4}年)/, '')
       // 删掉正文中残留的年号字样（如"年号洪武""改元居摄""神龙元年"）
       line = line
         .replace(/[，、；。]?\s*(?:年号|建元|改元)\s*[\u4e00-\u9fa5]{1,6}/g, '')
@@ -229,7 +232,7 @@ export async function fetchBiography(name) {
   // 若末行漏写"终年"，但首行有生卒年，自动计算补全
   if (lines.length >= 2) {
     const header = lines[0]
-    const lifeMatch = header.match(/\uff08\s*(前?\d+年)\s*[\u2014\u2013\u002d\uff0d\u007e\uff5e]\s*(前?\d+年|[\u4e0d\u8be6\uff1f?]+)\s*\uff09/)
+    const lifeMatch = header.match(/\uff08\s*(约?前?\d+年)\s*[\u2014\u2013\u002d\uff0d\u007e\uff5e]\s*(约?前?\d+年|[\u4e0d\u8be6\uff1f?]+)\s*\uff09/)
     if (lifeMatch) {
       const deathLine = lines[lines.length - 1]
       if (!deathLine.includes('终年')) {
@@ -268,10 +271,10 @@ export async function fetchBiography(name) {
 function calcLifeAge(birthStr, deathStr) {
   if (!birthStr || !deathStr) return null
   if (/不详|？|\?/.test(birthStr) || /不详|？|\?/.test(deathStr)) return null
-  const bcBirth = /^前/.test(birthStr)
-  const bcDeath = /^前/.test(deathStr)
-  const b = parseInt(birthStr.replace(/^前/, ''), 10)
-  const d = parseInt(deathStr.replace(/^前/, ''), 10)
+  const bcBirth = /前/.test(birthStr)
+  const bcDeath = /前/.test(deathStr)
+  const b = parseInt(birthStr.replace(/^约?前?/, ''), 10)
+  const d = parseInt(deathStr.replace(/^约?前?/, ''), 10)
   if (Number.isNaN(b) || Number.isNaN(d)) return null
   if (!bcBirth && !bcDeath) return d - b          // 都公元后
   if (bcBirth && bcDeath) return b - d            // 都公元前

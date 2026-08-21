@@ -3,6 +3,18 @@
 // 渲染层可参考 E:\github\my-index\src\data\changelog.js 与 Changelog.vue。
 export const changelog = [
   {
+    date: '2026-08-21',
+    title: '人物生平检索升级：百度百科 API、在世人物识别与安全审核兜底',
+    changes: [
+      '「人物生平 · 纪年查询」的实时检索优先调用百度百科开放 API（结构化 JSON，含信息卡与摘要），命中后并行补充维基百科作为第二来源；百度百科未命中时再降级 Bing/百度/DuckDuckGo 搜索引擎。维基百科改走本地 HTTP 代理（WIKI_PROXY，默认 127.0.0.1:10808）访问，代理不通快速失败。',
+      '新增在世人物检测：百度百科词条无「逝世日期」时标记为疑似在世，提示词增加规则 7 禁止编造死亡年份、死因与终年，首行生卒年写「出生年—至今」、末行写「至今在世」；规范化阶段对模型偷写的死亡行做强制兜底。',
+      '模型内容安全审核拦截不再导致整页失败：检索错误（searchError）与模型错误（modelError）分离，年谱被拦截时参考来源仍正常展示，并给出明确提示。llm.js 识别 finish_reason=content_filter 与常见拒绝文案并抛出可读错误。',
+      '修复 /websearch 中间件在 dev/preview 下从未挂载的 bug：configureServer/configurePreviewServer 从 server/preview 配置对象移至 Vite 插件 hooks。',
+      '事迹行超限时由「截取前 5 条」改为均匀采样（始终保留首条人生起点与末条最新状况）；末行漏写终年时根据首行生卒年自动计算补全（含跨公元前/公元扣减）。',
+      '结果页新增可折叠调试面板，展示检索原始 JSON、喂给模型的完整 prompt 与模型原始输出，方便排查。'
+    ]
+  },
+  {
     date: '2026-08-20',
     title: '历史时间轴大改版：东晋十六国拆分、割据政权补全、元朝皇帝补全',
     changes: [

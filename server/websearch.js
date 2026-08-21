@@ -214,7 +214,7 @@ async function baikeApi(name) {
       console.log(`[websearch] 百度百科API「${name}」: 返回非JSON（${Date.now() - t0}ms）`)
       return null
     }
-    if (!j?.title || !j?.abstract) {
+    if (!j?.title || !j.abstract) {
       console.log(`[websearch] 百度百科API「${name}」: 词条「${j?.title || '?'}」无摘要或不存在（${Date.now() - t0}ms）`)
       return null
     }
@@ -224,10 +224,10 @@ async function baikeApi(name) {
       .map((c) => `${c.name}：${stripHtml(c.value.join('、')).slice(0, 80)}`)
       .join('；')
     const abstractLen = stripHtml(j.abstract).length
-    // 在世检测：卡片有"出生日期"但无"逝世日期" → 疑似在世
-    const hasDeathDate = (j.card || []).some((c) => c.name === '逝世日期')
-    const alive = !hasDeathDate
-    console.log(`[websearch] 百度百科API「${name}」: ✅ 命中词条「${j.title}」（${j.desc || '无简介'}），摘要 ${abstractLen} 字${alive ? '，⚠ 无逝世日期（疑似在世）' : ''}，耗时 ${Date.now() - t0}ms`)
+    // 在世检测：卡片缺「逝世日期」字段不足以判定在世——古代人物卡片常无此字段，
+    // 但摘要开头往往有生卒年（如「卓文君（前175年～前121年）」）。综合判断。
+    const alive = detectAlive(j)
+    console.log(`[websearch] 百度百科API「${name}」: ✅ 命中词条「${j.title}」（${j.desc || '无简介'}），摘要 ${abstractLen} 字${alive ? '，⚠ 判定为在世' : ''}，耗时 ${Date.now() - t0}ms`)
     return {
       title: `${j.title}（百度百科）`,
       url: j.url || `https://baike.baidu.com/item/${encodeURIComponent(name)}`,
@@ -239,6 +239,55 @@ async function baikeApi(name) {
     console.log(`[websearch] 百度百科API「${name}」: 请求异常 ${e.message || e}（${Date.now() - t0}ms）`)
     return null
   }
+}
+
+// 把「约前175年」「公元前221年」「1958年10月」等文本解析成整数年份（公元前为负数）。
+function parseEraYear(s) {
+  if (!s) return null
+  const t = String(s).replace(/约|公元/g, '')
+  const bc = /前/.test(t)
+  const m = t.match(/(\d+)年/)
+  if (!m) return null
+  const y = parseInt(m[1], 10)
+  return bc ? -y : y
+}
+
+// 综合判断百度百科词条人物是否在世。
+// 判定为已故的充分条件（任一即可）：
+//   1. 卡片「逝世日期」有真实值（非空/非至今/非不详）
+//   2. 摘要开头括号里的生卒年范围含明确卒年
+//   3. 出生于公元前或 1900 年以前（2026 年已逾 126 岁，不可能在世）
+// 只有当存在近现代（≥1900）生年、且全文找不到死亡证据时，才判为在世。
+function detectAlive(j) {
+  const card = j.card || []
+  const getCard = (n) => {
+    const c = card.find((x) => x.name === n)
+    return c && Array.isArray(c.value) ? stripHtml(c.value.join(' ')) : ''
+  }
+  const deathCard = getCard('逝世日期')
+  if (deathCard && !/至今|在世|不详|？|\?/.test(deathCard)) return false
+  const birthCard = getCard('出生日期')
+
+  const abstract = stripHtml(j.abstract || '')
+  // 摘要开头括号里的生卒年范围，如：（前175年～前121年）、（约49年—120年）、（1958年—至今）
+  const lifeM = abstract.match(
+    /（[^）]*?((?:前|公元前|约)?\d{1,4}年)[^）\d]*?[—–\-～~至到]+[^）\d]*?((?:前|公元前|约)?\d{1,4}年|至今|现在|今)?[^）]*?）/
+  )
+  let birthYear = null
+  if (lifeM) {
+    birthYear = parseEraYear(lifeM[1])
+    if (lifeM[2] && !/^(?:至今|现在|今)$/.test(lifeM[2])) {
+      if (parseEraYear(lifeM[2]) != null) return false // 有明确卒年
+    }
+  }
+  if (birthYear == null && birthCard) birthYear = parseEraYear(birthCard)
+  // 公元前出生，或 1900 年以前出生，不可能在世
+  if (birthYear != null && birthYear < 1900) return false
+  // 摘要前段出现明确死亡叙述（近现代人物的兜底）
+  if (/(?:病逝|病世|去世|逝世|过世|身亡|死于|遇害|被杀|猝死|殉职|\d+年卒)/.test(abstract.slice(0, 250))) return false
+  // 连出生年代都没有时，保守判为已故（避免把无卡片字段的古代人物误标为在世）
+  if (birthYear == null) return false
+  return true
 }
 
 // 编排：优先百度百科开放 API，失败时依次尝试搜索引擎；全失败回退维基百科

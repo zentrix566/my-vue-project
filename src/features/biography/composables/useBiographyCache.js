@@ -2,7 +2,7 @@
 // 结构：{ [key]: { result, sources, searchError, modelError, debug, name, savedAt } }
 // key 为规范化后的人名（trim + 折叠多余空白）；上限 MAX_ENTRIES 条，按最旧 savedAt 淘汰。
 
-const STORAGE_KEY = 'biography:results-v2'
+const STORAGE_KEY = 'biography:results-v3'
 const MAX_ENTRIES = 20
 
 function loadAll() {

@@ -79,8 +79,8 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { eras } from '../data/chineseHistory.json'
 import personDetails from '../data/personDetails.json'
 import { items as worldItems } from '../data/worldHistory.json'
@@ -89,6 +89,7 @@ const ERA_KEY = 'history-timeline:last-era'
 const REACTION_KEY = 'history-timeline:person-reactions'
 const CUSTOM_KEY = 'history-timeline:custom-people'
 const router = useRouter()
+const route = useRoute()
 const scope = ref('中国')
 const activeEraKey = ref(window.localStorage.getItem(ERA_KEY) || eras[0]?.key)
 const query = ref('')
@@ -385,6 +386,13 @@ function jumpToRuler(id) {
     setTimeout(() => el.classList.remove('flash'), 1500)
   })
 }
+// 深链：从其它页面带 #era-<key> 进入时自动定位到对应朝代（如虚拟博物馆的「去时间轴看这个朝代」）
+onMounted(() => {
+  const m = route.hash.match(/^#era-([a-z0-9-]+)$/i)
+  if (!m || !eras.some((e) => e.key === m[1])) return
+  activeEraKey.value = m[1]
+  setTimeout(() => jumpToEra(m[1]), 80)
+})
 function reactionFor(name) { return reactions.value[name] || '' }
 function toggleReaction(name, value) { const next = { ...reactions.value }; if (next[name] === value) delete next[name]; else next[name] = value; reactions.value = next; window.localStorage.setItem(REACTION_KEY, JSON.stringify(next)) }
 function removePerson(id) { customPeople.value = customPeople.value.filter((item) => item.id !== id); window.localStorage.setItem(CUSTOM_KEY, JSON.stringify(customPeople.value)); selected.value = null }

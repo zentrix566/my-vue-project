@@ -120,7 +120,7 @@ zentrix566.github.io/
 │     ├─ nexus/              炉石魔网脸伤计算器
 │     ├─ fight/              擂台投注小人打架
 │     ├─ history-timeline/   中国/国外历史时间轴（数据 + 时间轴页，含 /world-history）
-│     ├─ virtual-museum/     虚拟博物馆文物编年（16 座朝代展厅 46 件文物的原境/流传数据 + 深色沉浸展厅页，只读复用 history-timeline 的朝代与人物数据）
+│     ├─ virtual-museum/     虚拟博物馆文物编年（17 座朝代展厅 50 件文物的原境/流传数据 + 深色沉浸展厅页，只读复用 history-timeline 的朝代与人物数据）
 │     ├─ dynasty-map/        历代地图疆域城邑（echarts + echarts-gl 3D 地图，点击省份凸起）
 │     ├─ canghai/            沧海一声笑古琴和曲
 │     ├─ minister/           大臣模拟器宦海沉浮（事件数据 + 主页面）

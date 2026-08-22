@@ -1,80 +1,542 @@
-.dynasty-map-container {
-  max-width: 1280px;
+/* ============================================================
+   历代疆域 · 3D 地图 —— 暗色沉浸式舞台 + 玻璃拟态面板
+   ============================================================ */
+
+.dynasty-map-page {
+  --dm-glass: rgba(9, 16, 31, 0.68);
+  --dm-line: rgba(140, 180, 235, 0.16);
+  --dm-text: #dbe5f3;
+  --dm-muted: #8ea3c0;
 }
 
-.dynasty-map-header h1 {
+.dm-header h1 {
   margin-bottom: 8px;
 }
 
-.dynasty-map-header p {
+.dm-sub {
   color: var(--muted);
   margin-top: 0;
+  max-width: 760px;
 }
 
-/* 工具栏 */
-.dynasty-map-toolbar {
+/* ---------- 舞台 ---------- */
+
+.dm-stage {
+  position: relative;
+  margin-top: 22px;
+  height: clamp(520px, calc(100vh - 230px), 880px);
+  border-radius: 20px;
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 8%, #101d36 0%, #0a1224 45%, #060b16 100%);
+  border: 1px solid color-mix(in srgb, var(--accent, #4a7dd6) 40%, rgba(140, 180, 235, 0.18));
+  box-shadow:
+    0 30px 90px -28px color-mix(in srgb, var(--accent, #4a7dd6) 45%, transparent),
+    0 6px 24px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.dm-chart {
+  position: absolute;
+  inset: 0;
+}
+
+/* 暗角与星点覆盖层：不拦截鼠标 */
+.dm-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(140% 110% at 50% 45%, transparent 55%, rgba(2, 5, 12, 0.5) 100%),
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 28% 12%, rgba(255, 255, 255, 0.28) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 66% 8%, rgba(255, 255, 255, 0.22) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 18%, rgba(255, 255, 255, 0.3) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 76% 30%, rgba(255, 255, 255, 0.18) 50%, transparent 51%);
+}
+
+/* 切换朝代时的一道主题色扫光 */
+.dm-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 55% at 50% 45%, color-mix(in srgb, var(--accent, #4a7dd6) 26%, transparent), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.dm-stage.is-switching::after {
+  opacity: 1;
+}
+
+.glass {
+  background: var(--dm-glass);
+  backdrop-filter: blur(14px) saturate(1.35);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
+  border: 1px solid var(--dm-line);
+  border-radius: 14px;
+  box-shadow: 0 10px 34px rgba(2, 6, 16, 0.45);
+}
+
+/* ---------- 左上：朝代信息 ---------- */
+
+.dm-info {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: min(330px, calc(100% - 32px));
+  padding: 14px 16px 12px;
+  z-index: 4;
+}
+
+.dm-info-head {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 20px 0 16px;
-}
-
-.dynasty-map-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.dynasty-map-field select {
-  min-width: 260px;
-  padding: 9px 12px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.dynasty-map-field select:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.dynasty-map-actions {
-  display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
 }
 
-.dynasty-map-toggle {
+.dm-info-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent, #4a7dd6);
+  box-shadow: 0 0 10px var(--accent, #4a7dd6);
+  animation: dm-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dm-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.65; }
+}
+
+.dm-info-name {
+  font-size: 21px;
+  font-weight: 700;
+  color: #f2f6fc;
+  letter-spacing: 0.02em;
+}
+
+.dm-info-year {
+  margin: 2px 0 8px;
+  font-size: 12.5px;
+  color: var(--dm-muted);
+}
+
+.dm-info-intro {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #c3d1e6;
+}
+
+.dm-info-capital {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  color: var(--dm-muted);
+}
+
+.dm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dm-legend-item {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
-  color: var(--text);
-  cursor: pointer;
-  user-select: none;
+  font-size: 12px;
+  color: var(--dm-text);
 }
 
-.dynasty-map-toggle input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--primary);
-  cursor: pointer;
+.dm-legend-item .dot,
+.dm-chip .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
 }
 
-/* 状态浮层（覆盖在地图舞台上） */
-.dynasty-map-overlay {
+.dm-chip .dot {
+  background: var(--c, #8ea3c0);
+  box-shadow: 0 0 6px var(--c, #8ea3c0);
+}
+
+.dm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--dm-text);
+  background: rgba(15, 25, 45, 0.55);
+  border: 1px solid rgba(140, 180, 235, 0.16);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.dm-chip:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--c, #8ea3c0) 55%, transparent);
+}
+
+.dm-chip.active {
+  background: color-mix(in srgb, var(--c, #8ea3c0) 24%, rgba(10, 18, 35, 0.7));
+  border-color: var(--c, #8ea3c0);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ---------- 右上：工具栏 ---------- */
+
+.dm-toolbar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+}
+
+.dm-tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 52px;
+  padding: 7px 0 5px;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--dm-text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.dm-tool span {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.dm-tool:hover {
+  background: rgba(30, 48, 80, 0.55);
+}
+
+.dm-tool.on {
+  background: color-mix(in srgb, var(--accent, #4a7dd6) 22%, rgba(10, 18, 35, 0.6));
+  border-color: color-mix(in srgb, var(--accent, #4a7dd6) 60%, transparent);
+  color: #ffffff;
+}
+
+/* ---------- 右侧：城邑面板 ---------- */
+
+.dm-side {
+  position: absolute;
+  top: 78px;
+  right: 16px;
+  bottom: 92px;
+  width: 292px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 12px 10px;
+  transition: transform 0.35s cubic-bezier(0.5, 0, 0.2, 1);
+}
+
+.dm-side.collapsed {
+  transform: translateX(calc(100% - 38px));
+}
+
+.dm-side.collapsed .dm-card,
+.dm-side.collapsed .dm-list {
+  visibility: hidden;
+}
+
+.dm-side-toggle {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 30px;
+  height: 44px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  background: rgba(30, 48, 80, 0.5);
+  color: var(--dm-text);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dm-side-toggle:hover {
+  background: rgba(48, 74, 118, 0.7);
+}
+
+.dm-card {
+  border-left: 3px solid var(--accent, #4a7dd6);
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(18, 30, 52, 0.6);
+  flex: none;
+}
+
+.dm-card h3 {
+  margin: 2px 0 6px;
+  font-size: 17px;
+  color: #f2f6fc;
+}
+
+.dm-card-type {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.dm-card-modern {
+  margin: 0 0 6px;
+  font-size: 12.5px;
+  color: var(--dm-muted);
+}
+
+.dm-card-note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--dm-text);
+}
+
+.dm-hint {
+  border-left-color: rgba(142, 163, 192, 0.6);
+}
+
+.dm-card-list {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dm-card-list a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--dm-text);
+  text-decoration: none;
+}
+
+.dm-card-list .dot,
+.dm-list .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.dm-card-list .modern {
+  color: var(--dm-muted);
+  font-size: 11.5px;
+  margin-left: auto;
+}
+
+.dm-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.dm-list h4 {
+  margin: 2px 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--dm-muted);
+}
+
+.dm-group {
+  margin-bottom: 10px;
+}
+
+.dm-group-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dm-muted);
+}
+
+.dm-group-head .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px currentColor;
+}
+
+.dm-group ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dm-group li a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5.5px 8px;
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--dm-text);
+  text-decoration: none;
+}
+
+.dm-group li a:hover {
+  background: rgba(30, 48, 80, 0.55);
+}
+
+.dm-group li.active a {
+  background: color-mix(in srgb, var(--accent, #4a7dd6) 20%, rgba(18, 30, 52, 0.6));
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.dm-group .name {
+  flex: none;
+}
+
+.dm-group .modern {
+  color: var(--dm-muted);
+  font-size: 11.5px;
+  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 108px;
+}
+
+/* ---------- 底部：朝代时间条 ---------- */
+
+.dm-timeline {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+.dm-nav {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  color: var(--dm-text);
+  background: rgba(15, 25, 45, 0.6);
+  border: 1px solid rgba(140, 180, 235, 0.16);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.dm-nav:hover:not(:disabled) {
+  background: rgba(34, 56, 94, 0.8);
+}
+
+.dm-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.dm-strip {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 160, 210, 0.3) transparent;
+}
+
+.dm-strip::-webkit-scrollbar {
+  height: 5px;
+}
+
+.dm-strip::-webkit-scrollbar-thumb {
+  background: rgba(120, 160, 210, 0.3);
+  border-radius: 3px;
+}
+
+.dm-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dm-era {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 64px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(15, 25, 45, 0.55);
+  border: 1px solid rgba(140, 180, 235, 0.14);
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+
+.dm-era:hover {
+  transform: translateY(-1px);
+  background: rgba(28, 46, 78, 0.7);
+}
+
+.dm-era-name {
+  font-size: 13px;
+  color: var(--dm-text);
+  white-space: nowrap;
+}
+
+.dm-era-year {
+  font-size: 10.5px;
+  color: var(--dm-muted);
+  white-space: nowrap;
+}
+
+.dm-era.active {
+  background: color-mix(in srgb, var(--c, #4a7dd6) 26%, rgba(10, 18, 35, 0.72));
+  border-color: var(--c, #4a7dd6);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--c, #4a7dd6) 45%, transparent);
+}
+
+.dm-era.active .dm-era-name {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.dm-era.active .dm-era-year {
+  color: color-mix(in srgb, var(--c, #4a7dd6) 70%, #ffffff);
+}
+
+/* ---------- 覆盖层 ---------- */
+
+.dm-overlay {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 6;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,246 +545,69 @@
   padding: 24px;
   color: #cbd5e1;
   text-align: center;
-  background: rgba(11, 18, 32, 0.82);
-  backdrop-filter: blur(2px);
+  background: rgba(6, 10, 20, 0.8);
+  backdrop-filter: blur(3px);
 }
 
-.dynasty-map-overlay p {
+.dm-overlay p {
   margin: 0;
 }
 
-.dynasty-map-error {
+.dm-error {
   color: #fca5a5;
 }
 
-.dynasty-map-spinner {
-  width: 34px;
-  height: 34px;
-  border: 3px solid rgba(148, 163, 184, 0.3);
-  border-top-color: var(--primary);
+.dm-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(148, 163, 184, 0.25);
+  border-top-color: var(--accent, #4a7dd6);
   border-radius: 50%;
-  animation: dynasty-spin 0.8s linear infinite;
+  animation: dm-spin 0.8s linear infinite;
 }
 
-@keyframes dynasty-spin {
+@keyframes dm-spin {
   to { transform: rotate(360deg); }
 }
 
-/* 主体布局 */
-.dynasty-map-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 18px;
-  align-items: start;
-}
-
-.dynasty-map-stage {
-  position: relative;
-  height: 65vh;
-  min-height: 480px;
-  background: #0b1220;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.dynasty-map-chart {
-  position: absolute;
-  inset: 0;
-}
-
-.dynasty-map-legend {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 14px;
-  padding: 8px 12px;
-  background: rgba(15, 23, 42, 0.78);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  border-radius: 8px;
-  font-size: 12px;
-  color: #e2e8f0;
-  pointer-events: none;
-  backdrop-filter: blur(4px);
-}
-
-.legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.legend-item .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-/* 侧栏 */
-.dynasty-map-side {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-height: 65vh;
-  min-height: 480px;
-}
-
-.dynasty-map-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--accent, var(--primary));
-  border-radius: 10px;
-  padding: 14px 16px;
-  box-shadow: 0 4px 14px rgba(28, 39, 60, 0.06);
-}
-
-.dynasty-map-card h3 {
-  margin: 4px 0 6px;
-  font-size: 18px;
-}
-
-.dynasty-map-card .card-type {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-.dynasty-map-card .card-modern {
-  margin: 0 0 8px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.dynasty-map-card .card-note {
-  margin: 6px 0 0;
-  font-size: 13.5px;
-  line-height: 1.65;
-  color: var(--text);
-}
-
-.dynasty-map-hint {
-  border-left-color: var(--muted);
-}
-
-.card-city-list {
-  margin: 10px 0 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.card-city-list a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13.5px;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.card-city-list .modern {
-  color: var(--muted);
-  font-size: 12px;
-  margin-left: auto;
-}
-
-.dynasty-map-list-wrap {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 12px 14px;
-  overflow-y: auto;
-  flex: 1;
-  min-height: 0;
-}
-
-.dynasty-map-list-wrap h4 {
-  margin: 0 0 10px;
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 600;
-  letter-spacing: 0.03em;
-}
-
-.dynasty-map-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-}
-
-.dynasty-map-list li a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 8px;
-  border-radius: 6px;
-  font-size: 13.5px;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.dynasty-map-list li a:hover {
-  background: var(--surface-soft);
-}
-
-.dynasty-map-list li.active a {
-  background: var(--surface-soft);
-  font-weight: 600;
-}
-
-.dynasty-map-list .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex: none;
-}
-
-.dynasty-map-list .city-name {
-  flex: none;
-}
-
-.dynasty-map-list .city-modern {
-  color: var(--muted);
-  font-size: 12px;
-  margin-left: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 120px;
-}
-
-.dynasty-map-foot {
+.dm-foot {
   margin-top: 14px;
 }
 
-@media (max-width: 920px) {
-  .dynasty-map-body {
-    grid-template-columns: 1fr;
+/* ---------- 响应式 ---------- */
+
+@media (max-width: 960px) {
+  .dm-side {
+    display: none;
   }
 
-  .dynasty-map-stage,
-  .dynasty-map-side {
-    max-height: none;
-    height: auto;
+  .dm-info {
+    width: min(280px, calc(100% - 130px));
+    padding: 10px 12px 9px;
   }
 
-  .dynasty-map-stage {
-    height: 55vh;
+  .dm-info-name {
+    font-size: 17px;
   }
 
-  .dynasty-map-side {
-    min-height: 0;
+  .dm-info-intro {
+    font-size: 12px;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .dynasty-map-list-wrap {
-    max-height: 320px;
+  .dm-toolbar {
+    flex-direction: column;
+    padding: 4px;
+  }
+
+  .dm-tool {
+    width: 44px;
+  }
+
+  .dm-stage {
+    height: clamp(460px, calc(100vh - 210px), 720px);
   }
 }

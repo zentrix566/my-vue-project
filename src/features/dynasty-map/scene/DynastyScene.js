@@ -16,11 +16,12 @@ import { LabelManager } from './labels/LabelManager.js'
 import { project } from './geo.js'
 import { CITY_TIERS, morandi } from './palette.js'
 
-// 挂墙地图式俯视：接近正上方（极角约 18°）、北朝上，保留轻微立体透视
-const DEFAULT_CAM_POS = new THREE.Vector3(0, 104, 34)
-const DEFAULT_TARGET = new THREE.Vector3(0, 0, 3)
+// 2D 历史地图：正交相机正俯视，拖拽只负责平移，滚轮负责缩放。
+const DEFAULT_CAM_POS = new THREE.Vector3(0, 160, 0)
+const DEFAULT_TARGET = new THREE.Vector3(0, 0, 0)
 
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
 
 export class DynastyScene {
   constructor(container, { onPickCity, onPickFaction, onPickProvince, onHoverCity, onHoverDivision, onError } = {}) {
@@ -38,19 +39,23 @@ export class DynastyScene {
     container.appendChild(this.renderer.domElement)
 
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(42, 1, 0.5, 800)
+    this.camera = new THREE.OrthographicCamera(-80, 80, 60, -60, 0.1, 800)
     this.camera.position.copy(DEFAULT_CAM_POS)
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
     this.controls.target.copy(DEFAULT_TARGET)
     this.controls.enableDamping = true
     this.controls.dampingFactor = 0.08
-    this.controls.minDistance = 30
-    this.controls.maxDistance = 240
-    this.controls.minPolarAngle = 0.1
-    this.controls.maxPolarAngle = 1.25
-    this.sidebarShiftX = 0
-    this.controls.autoRotateSpeed = 0.55
+    this.controls.enablePan = true
+    this.controls.screenSpacePanning = false
+    this.controls.panSpeed = 1.15
+    this.controls.rotateSpeed = 0.55
+    this.controls.enableRotate = false
+    this.controls.mouseButtons.LEFT = THREE.MOUSE.PAN
+    this.controls.touches.ONE = THREE.TOUCH.PAN
+    this.controls.minZoom = 0.7
+    this.controls.maxZoom = 5.5
+    this.controls.autoRotate = false
     this.controls.addEventListener('start', () => this.cancelCameraTween())
 
     this.scene.add(new THREE.AmbientLight(0xbfd0e8, 1.15))
@@ -66,7 +71,8 @@ export class DynastyScene {
 
     this.composer = new EffectComposer(this.renderer)
     this.composer.addPass(new RenderPass(this.scene, this.camera))
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.85, 0.55, 0.52)
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0, 0, 1)
+    this.bloom.enabled = false
     this.composer.addPass(this.bloom)
     this.composer.addPass(new OutputPass())
 
@@ -125,25 +131,10 @@ export class DynastyScene {
 
   createPedestal() {
     // 博物馆展台式暗色圆盘，边缘径向淡出
-    const geom = new THREE.CircleGeometry(170, 72)
+    // 大范围海洋底：拖到非国家区域时显示地图底色，不让透明 WebGL 画布露出纸张舞台。
+    const geom = new THREE.CircleGeometry(500, 96)
     geom.rotateX(-Math.PI / 2)
-    const mat = new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      uniforms: {},
-      vertexShader: `
-        varying float vDist;
-        void main() {
-          vDist = length(position.xy);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }`,
-      fragmentShader: `
-        varying float vDist;
-        void main() {
-          float a = 1.0 - smoothstep(60.0, 165.0, vDist);
-          gl_FragColor = vec4(0.055, 0.08, 0.15, a * 0.9);
-        }`
-    })
+    const mat = new THREE.MeshBasicMaterial({ color: '#b9c9d8', depthWrite: false })
     const mesh = new THREE.Mesh(geom, mat)
     mesh.position.y = -0.3
     return mesh
@@ -217,13 +208,9 @@ export class DynastyScene {
     this.tweenCamera(view.pos, view.tgt, 850)
   }
 
-  // 默认视角叠加侧栏让位偏移
+  // 默认视角
   defaultView() {
-    const pos = DEFAULT_CAM_POS.clone()
-    const tgt = DEFAULT_TARGET.clone()
-    pos.x += this.sidebarShiftX
-    tgt.x += this.sidebarShiftX
-    return { pos, tgt }
+    return { pos: DEFAULT_CAM_POS.clone(), tgt: DEFAULT_TARGET.clone() }
   }
 
   setFaction(key) {
@@ -231,30 +218,21 @@ export class DynastyScene {
     if (this.divisions) this.divisions.setFaction(key)
   }
 
+  setLayers(layers = {}) {
+    if (this.provinces) this.provinces.group.visible = layers.provinces !== false
+    if (this.territories) this.territories.group.visible = layers.territories !== false
+    if (this.cities) this.cities.group.visible = layers.cities !== false
+    if (this.wall) this.wall.group.visible = layers.walls !== false
+    if (this.labels) this.labels.setShow(layers.cities !== false)
+  }
+
   setLabels(v) {
     this.labels.setShow(v)
   }
 
   setAutoRotate(v) {
-    this.controls.autoRotate = v
-  }
-
-  // 侧栏开合：展开时地图向左让位（相机与目标沿屏幕右方向平移），收起回正。
-  // 初始挂墙视角下世界 X 即屏幕右；换算按当前距离的每像素世界宽度。
-  setSidebarOpen(open) {
-    const vh = this.container.clientHeight || 700
-    const dist = this.controls.getDistance()
-    const worldPerPx = (2 * Math.tan((this.camera.fov * Math.PI) / 360) * dist) / vh
-    // 侧栏约 268px（236 面板 + 32 间距），让出一半多即可视觉居中
-    const targetX = open ? 268 * worldPerPx * 0.55 : 0
-    const delta = targetX - this.sidebarShiftX
-    if (Math.abs(delta) < 0.01) return
-    this.sidebarShiftX = targetX
-    const posTo = this.camera.position.clone()
-    posTo.x += delta
-    const tgtTo = this.controls.target.clone()
-    tgtTo.x += delta
-    this.tweenCamera(posTo, tgtTo, 650)
+    // 2D 地图没有旋转视角，保留接口避免旧按钮/状态破坏页面。
+    this.controls.autoRotate = false
   }
 
   resetView() {
@@ -366,7 +344,12 @@ export class DynastyScene {
     const w = this.container.clientWidth
     const h = this.container.clientHeight
     if (w < 50 || h < 50) return // 容器隐藏/切换瞬间不按 0 尺寸重建
-    this.camera.aspect = w / h
+    const viewHeight = 120
+    const viewWidth = viewHeight * w / h
+    this.camera.left = -viewWidth / 2
+    this.camera.right = viewWidth / 2
+    this.camera.top = viewHeight / 2
+    this.camera.bottom = -viewHeight / 2
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(w, h)
     this.composer.setSize(w, h)
@@ -410,6 +393,30 @@ export class DynastyScene {
     }
 
     this.controls.update()
+
+    // 2D 平移边界：允许查看地图四周，但不能把整张中国地图拖出视口。
+    // 目标点和相机同步移动，避免 OrbitControls 的内部距离被破坏。
+    if (this.camera.isOrthographicCamera) {
+      // 正俯视 2D 地图只能沿 X/Z 平面移动，始终锁定高度。
+      // 这也会恢复旧版错误平移遗留的相机状态。
+      this.controls.target.y = 0
+      this.camera.position.y = DEFAULT_CAM_POS.y
+      // 中国主体约覆盖 X=-51..51、Z=-35..37；高倍缩放时收紧边界，
+      // 防止用户把整张底图拖出视口后只看到舞台背景。
+      const zoom = this.camera.zoom || 1
+      const panX = clamp(50 - 28 / zoom, 22, 50)
+      const panZ = clamp(34 - 20 / zoom, 14, 34)
+      const nextX = clamp(this.controls.target.x, -panX, panX)
+      const nextZ = clamp(this.controls.target.z, -panZ, panZ)
+      const dx = nextX - this.controls.target.x
+      const dz = nextZ - this.controls.target.z
+      if (dx || dz) {
+        this.controls.target.x = nextX
+        this.controls.target.z = nextZ
+        this.camera.position.x += dx
+        this.camera.position.z += dz
+      }
+    }
 
     if (this.cities && this.labels.labels.length) {
       this.labels.update(this.camera, this.cities.topPositions(), this.controls.getDistance())

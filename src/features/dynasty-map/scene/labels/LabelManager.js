@@ -137,7 +137,10 @@ export class LabelManager {
       const { lb, x, y, tierBlocked } = cand
       const forcedShow = !!forced && lb.name === forced
       let visible = (this.show && !tierBlocked) || forcedShow
-      if (visible && !forcedShow) {
+      // 政权名称是地图主信息，即使彼此靠近也全部保留；只让城市/区划标签参与碰撞隐藏。
+      // 否则春秋战国、三国、宋辽金等并立地图会只剩一个国家名。
+      const isFaction = lb.kind === 'faction'
+      if (visible && !forcedShow && !isFaction) {
         // 标签矩形：水平以 x 为中心，垂直从 y 往上 boxH
         const hw = lb.boxW / 2
         const top = y - lb.boxH
@@ -152,6 +155,9 @@ export class LabelManager {
       if (visible) {
         lb.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`
         lb.el.classList.add('on')
+        if (isFaction && !placed.some((r) => r.x === x && r.y === y)) {
+          placed.push({ x, y, hw: lb.boxW / 2, top: y - lb.boxH })
+        }
       } else {
         lb.el.classList.remove('on')
       }

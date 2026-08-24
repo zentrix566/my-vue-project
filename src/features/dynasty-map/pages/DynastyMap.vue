@@ -2,9 +2,9 @@
   <section class="page dynasty-map-page">
     <header class="dm-header">
       <RouterLink to="/" class="back">← 返回主页</RouterLink>
-      <p class="eyebrow">Dynasty Map · 3D</p>
-      <h1>历代疆域 · 3D 地图</h1>
-      <p class="dm-sub">暗色数字博物馆沙盘：挂墙地图式俯视，暗石板省份底座之上，历代疆域以莫兰迪色立体拔起并按郡/州划块，都城与重镇化作辉光光柱；城名标签带碰撞检测与缩放分层，可拖拽旋转、滚轮缩放，点击城邑与疆域查看详情。</p>
+      <p class="eyebrow">HISTORICAL ATLAS · 中国历史地图</p>
+      <h1>历代疆域图</h1>
+      <p class="dm-sub">以历史地图册的方式浏览中国历代疆域：彩色区域表示主要政权，深色线条表示国界与边界，重点城市按都城、州郡重镇和关隘分级标注。</p>
     </header>
 
     <div class="dm-stage" :class="{ 'is-switching': switching }" :style="{ '--accent': dynasty.color }">
@@ -21,6 +21,10 @@
         </div>
         <p class="dm-info-intro">{{ dynasty.intro }}</p>
         <p class="dm-info-capital">🏛 都城：{{ dynasty.capital }}</p>
+        <div v-if="selectedFactionInfo" class="dm-selected-faction">
+          <strong>{{ selectedFactionInfo.name }}</strong>
+          <span>{{ selectedFactionInfo.note }}</span>
+        </div>
         <p class="dm-info-division" v-if="hoveredDivision">🗺 {{ hoveredDivision }}</p>
         <template v-if="dynasty.legend">
           <p class="dm-info-sec">政权 · 点击筛选</p>
@@ -32,7 +36,7 @@
             </button>
           </div>
         </template>
-        <p class="dm-info-sec">图例 · 光柱越高越重</p>
+        <p class="dm-info-sec">图例 · 城市与边界</p>
         <div class="dm-legend dm-type-legend">
           <span class="dm-legend-item"><i class="dot" :style="{ background: tiers.capital.color, boxShadow: '0 0 8px ' + tiers.capital.color }"></i>都城</span>
           <span class="dm-legend-item"><i class="dot" :style="{ background: tiers.city.color }"></i>州郡重镇</span>
@@ -45,70 +49,28 @@
       <div class="dm-toolbar" v-if="ready">
         <button type="button" class="dm-tool" :class="{ on: touring }" :title="touring ? '停止巡游' : '自动巡游历代'"
           @click="toggleTour">{{ touring ? '⏸' : '▶' }}<span>巡游</span></button>
-        <button type="button" class="dm-tool" :class="{ on: autoRotate }" title="自动旋转视角"
-          @click="toggleRotate">⟳<span>旋转</span></button>
         <button type="button" class="dm-tool" :class="{ on: showLabels }" :title="showLabels ? '隐藏城邑名称' : '显示城邑名称'"
-          @click="toggleLabels">🏷<span>城名</span></button>
+          @click="toggleLabels">🏷<span>城市</span></button>
+        <button type="button" class="dm-tool" :class="{ on: layers.territories }" title="显示/隐藏政权边界"
+          @click="toggleLayer('territories')">▧<span>国界</span></button>
+        <button type="button" class="dm-tool" :class="{ on: layers.provinces }" title="显示/隐藏现代省界"
+          @click="toggleLayer('provinces')">⌘<span>省界</span></button>
+        <button type="button" class="dm-tool" :class="{ on: layers.walls }" title="显示/隐藏长城"
+          @click="toggleLayer('walls')">〰<span>长城</span></button>
         <button type="button" class="dm-tool" title="复位视角" @click="resetView">⌂<span>复位</span></button>
       </div>
 
-      <!-- 右侧：城邑列表 -->
-      <aside class="dm-side" :class="{ collapsed: sideCollapsed }" v-if="ready">
-        <button type="button" class="dm-side-toggle" :title="sideCollapsed ? '展开城邑列表' : '收起城邑列表'"
-          @click="sideCollapsed = !sideCollapsed">{{ sideCollapsed ? '‹' : '›' }}</button>
-        <div class="dm-card" v-if="selectedCity">
-          <div class="dm-card-type" :style="{ background: cityColor(selectedCity) }">{{ cityTypeLabel(selectedCity) }}</div>
-          <h3>{{ selectedCity.name }}</h3>
-          <p class="dm-card-modern">今址：{{ selectedCity.modern }}</p>
-          <p class="dm-card-note">{{ selectedCity.note }}</p>
-        </div>
-        <div class="dm-card" v-else-if="selectedProvince">
-          <h3>{{ selectedProvince }}</h3>
-          <p class="dm-card-note">今{{ selectedProvince }}境内可考城邑共 <strong>{{ provinceCities.length }}</strong> 处。</p>
-          <ul v-if="provinceCities.length" class="dm-card-list">
-            <li v-for="c in provinceCities" :key="c.name">
-              <a href="#" @click.prevent="selectCity(c)">
-                <i class="dot" :style="{ background: cityColor(c) }"></i>{{ c.name }}
-                <span class="modern">{{ c.modern }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="dm-card" v-else>
-          <h3>探索指南</h3>
-          <p class="dm-card-note">疆域内部按{{ dynasty.division || '郡' }}划块，同色系深浅区分；悬停显示{{ dynasty.division || '郡' }}名，点击区划选中郡治。点击辉光光柱查看城邑古名今址；点击疆域边缘按政权筛选；缩放地图逐层显示关隘、城邑与{{ dynasty.division || '郡' }}名；底部时间条切换朝代，或用 ← → 键翻页。</p>
-        </div>
-        <div class="dm-list" v-show="!sideCollapsed">
-          <h4>本图城邑（{{ visibleCities.length }}）</h4>
-          <div v-for="g in cityGroups" :key="g.key" class="dm-group">
-            <div class="dm-group-head" v-if="g.key !== '__all__'">
-              <i class="dot" :style="{ background: factionColor[g.key] || '#94a3b8' }"></i>{{ g.label }}<em>{{ g.cities.length }}</em>
-            </div>
-            <ul>
-              <li v-for="c in g.cities" :key="c.name" :class="{ active: selectedCity && selectedCity.name === c.name }">
-                <a href="#" @click.prevent="selectCity(c)">
-                  <i class="dot" :style="{ background: cityColor(c) }"></i>
-                  <span class="name">{{ c.name }}</span>
-                  <span class="modern">{{ c.modern }}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </aside>
-
-      <!-- 底部：时间条 -->
+      <!-- 底部：朝代选择 -->
       <nav class="dm-timeline" v-if="ready" aria-label="朝代时间条">
         <button type="button" class="dm-nav" :disabled="eraIndex === 0" @click="stepEra(-1)">‹</button>
-        <div class="dm-strip" ref="stripRef">
-          <button v-for="(d, i) in dynasties" :key="d.key" type="button"
-            class="dm-era" :class="{ active: i === eraIndex }" :style="{ '--c': d.color }"
-            :ref="el => { if (i === eraIndex) activeEraEl = el }"
-            @click="setEra(i)">
-            <span class="dm-era-name">{{ d.name }}</span>
-            <span class="dm-era-year">{{ shortYear(d.startYear) }}</span>
-          </button>
-        </div>
+        <label class="dm-era-select-label" for="dynasty-era-select">选择朝代</label>
+        <select id="dynasty-era-select" class="dm-era-select" :value="eraIndex"
+          @change="setEra(Number($event.target.value))">
+          <option v-for="(d, i) in dynasties" :key="d.key" :value="i">
+            {{ d.name }} · {{ shortYear(d.startYear) }}
+          </option>
+        </select>
+        <span class="dm-era-current">{{ dynasty.name }}<small>{{ dynasty.year }}</small></span>
         <button type="button" class="dm-nav" :disabled="eraIndex === dynasties.length - 1" @click="stepEra(1)">›</button>
       </nav>
 
@@ -124,7 +86,7 @@
     </div>
 
     <p class="form-hint dm-foot">
-      底座为现代中国省级行政区划（阿里云 DataV）；历代疆域为参照谭其骧《中国历史地图集》手绘的简化示意轮廓，城邑坐标取今址经纬度，仅作地理大势参考，非精确历史边界。
+      底图支持现代省界、历史国界、城市和长城分层显示；历代疆域为参照历史地图集整理的示意轮廓，城邑坐标取今址经纬度，仅作地理大势参考，非精确历史边界。
     </p>
   </section>
 </template>
@@ -133,12 +95,12 @@
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { dynasties } from '../data/dynasties.js'
-import { territories, walls } from '../data/territories.js'
+import { walls } from '../data/territories.js'
+import { factionsFromGeoJson } from '../data/geo/historical-territories.js'
+import chinaProvinces from '../data/geo/china-provinces.json'
 import { DynastyScene } from '../scene/DynastyScene.js'
 import { CITY_TIERS, morandi } from '../scene/palette.js'
 import '../dynasty-map.css'
-
-const GEO_URL = 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json'
 
 const hostRef = ref(null)
 const stripRef = ref(null)
@@ -158,17 +120,20 @@ const eraIndex = ref(initialIndex)
 const dynasty = computed(() => dynasties[eraIndex.value])
 const switching = ref(false)
 
-const autoRotate = ref(false)
 const showLabels = ref(true)
 const touring = ref(false)
-const sideCollapsed = ref(true)
 const selectedProvince = ref('')
 const selectedCity = ref(null)
 const selectedFaction = ref('')
 const hoveredDivision = ref('')
+const layers = ref({ provinces: true, territories: true, cities: true, walls: true })
 
 const tiers = CITY_TIERS
-const factions = computed(() => territories[dynasty.value.key] || [])
+const factions = computed(() => factionsFromGeoJson(dynasty.value.key))
+const selectedFactionInfo = computed(() => {
+  const faction = factions.value.find((f) => f.key === selectedFaction.value)
+  return faction ? { name: faction.name, note: faction.note || `${faction.name}：点击地图区域可取消筛选。` } : null
+})
 const factionColor = computed(() =>
   Object.fromEntries(factions.value.map((f) => [f.key, morandi(f.color).top]))
 )
@@ -235,6 +200,7 @@ function applyEra() {
     factions: factions.value,
     wall: walls[dynasty.value.key]
   })
+  scene.setLayers(layers.value)
   switching.value = true
   setTimeout(() => { switching.value = false }, 550)
   nextTick(() => {
@@ -263,20 +229,10 @@ watch(eraIndex, () => {
 watch(selectedCity, (c) => {
   if (!scene) return
   if (c) {
-    if (sideCollapsed.value) sideCollapsed.value = false
     scene.pulseCity(c.name)
   } else {
     scene.clearPulse()
   }
-})
-
-watch(selectedProvince, (name) => {
-  if (name && sideCollapsed.value) sideCollapsed.value = false
-})
-
-// 侧栏默认收起不挡地图；展开时地图向左让位、收起回正
-watch(sideCollapsed, (collapsed) => {
-  scene?.setSidebarOpen(!collapsed)
 })
 
 function selectCity(c) {
@@ -290,14 +246,14 @@ function toggleFaction(key) {
   scene?.setFaction(selectedFaction.value || '')
 }
 
-function toggleRotate() {
-  autoRotate.value = !autoRotate.value
-  scene?.setAutoRotate(autoRotate.value)
-}
-
 function toggleLabels() {
   showLabels.value = !showLabels.value
   scene?.setLabels(showLabels.value)
+}
+
+function toggleLayer(key) {
+  layers.value[key] = !layers.value[key]
+  scene?.setLayers(layers.value)
 }
 
 function resetView() {
@@ -307,7 +263,6 @@ function resetView() {
 function toggleTour() {
   touring.value = !touring.value
   if (touring.value) {
-    if (!autoRotate.value) toggleRotate()
     tourTimer = setInterval(() => {
       const next = (eraIndex.value + 1) % dynasties.length
       setEra(next)
@@ -324,9 +279,8 @@ async function loadMap() {
   if (abortController) abortController.abort()
   abortController = new AbortController()
   try {
-    const res = await fetch(GEO_URL, { signal: abortController.signal })
-    if (!res.ok) throw new Error('HTTP ' + res.status)
-    geoJson = await res.json()
+    // 省界随前端一起打包，运行时不再依赖在线 GeoJSON 服务。
+    geoJson = chinaProvinces
     if (!scene) {
       scene = new DynastyScene(hostRef.value, {
         onPickCity: (c) => {
@@ -347,6 +301,7 @@ async function loadMap() {
       })
     }
     scene.setGeoJson(geoJson)
+    scene.setLayers(layers.value)
     applyEra()
   } catch (err) {
     if (err.name === 'AbortError') return

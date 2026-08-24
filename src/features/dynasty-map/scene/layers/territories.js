@@ -42,7 +42,10 @@ export function buildTerritories(factions) {
       emissive: new THREE.Color(colors.side),
       emissiveIntensity: 0.35,
       transparent: true,
-      opacity: 0.94
+      opacity: 0.78,
+      polygonOffset: true,
+      polygonOffsetFactor: 1,
+      polygonOffsetUnits: 1
     })
     const mesh = new THREE.Mesh(geom, mat)
     mesh.userData = { kind: 'territory', faction: fac.key, colors, height }
@@ -55,10 +58,10 @@ export function buildTerritories(factions) {
       const lg = new LineGeometry()
       lg.setPositions(pts.flatMap((v) => [v.x, height + 0.12, v.z]))
       const lm = new LineMaterial({
-        color: new THREE.Color(colors.bright).getHex(),
-        linewidth: 2.2,
+        color: 0x493b2c,
+        linewidth: 3.6,
         transparent: true,
-        opacity: 0.9
+        opacity: 0.95
       })
       const loop = new Line2(lg, lm)
       loop.computeLineDistances()
@@ -77,7 +80,7 @@ export function buildTerritories(factions) {
     setFaction(key) {
       for (const m of meshes) {
         const on = !key || m.userData.faction === key
-        m.material.opacity = key ? (on ? 1 : 0.28) : 0.94
+        m.material.opacity = key ? (on ? 0.9 : 0.2) : 0.78
         m.material.emissiveIntensity = key ? (on ? 0.85 : 0.15) : 0.35
         for (const loop of m.userData.lineLoops || []) {
           loop.material.opacity = key ? (on ? 1 : 0.15) : 0.9

@@ -6,6 +6,46 @@
 
 export const dynasties = [
   {
+    key: 'chunqiu',
+    name: '春秋',
+    year: '前 770—前 476 年 · 诸侯争霸',
+    startYear: -770,
+    division: '国',
+    color: '#00796b',
+    capital: '洛邑（周）',
+    intro: '周室东迁后王权式微，齐、晋、楚、秦、吴、越等诸侯相继争霸，华夏秩序在冲突中重组。',
+    legend: { zhou: '周王畿', qi: '齐', jin: '晋', chu: '楚', qin: '秦', wu: '吴', yue: '越' },
+    cities: [
+      { name: '洛邑', modern: '河南洛阳', lng: 112.45, lat: 34.62, type: 'capital', faction: 'zhou', note: '东周王城，诸侯朝聘与会盟的名义中心。' },
+      { name: '临淄', modern: '山东淄博', lng: 118.37, lat: 36.83, type: 'city', faction: 'qi', note: '齐国都城，稷下学宫所在。' },
+      { name: '新田', modern: '山西侯马', lng: 111.35, lat: 35.62, type: 'city', faction: 'jin', note: '晋国晚期新都，晋文公称霸的根基。' },
+      { name: '郢', modern: '湖北荆州', lng: 112.24, lat: 30.33, type: 'city', faction: 'chu', note: '楚国都城，春秋南方强国的政治中心。' },
+      { name: '咸', modern: '陕西凤翔', lng: 107.39, lat: 34.52, type: 'city', faction: 'qin', note: '秦国都城区域，秦穆公由此东争诸侯。' },
+      { name: '姑苏', modern: '江苏苏州', lng: 120.58, lat: 31.30, type: 'city', faction: 'wu', note: '吴国都城，阖闾、夫差经营江东之地。' },
+      { name: '会稽', modern: '浙江绍兴', lng: 120.58, lat: 30.00, type: 'city', faction: 'yue', note: '越国都城，勾践卧薪尝胆之地。' }
+    ]
+  },
+  {
+    key: 'zhanguo',
+    name: '战国',
+    year: '前 475—前 221 年 · 七雄并立',
+    startYear: -475,
+    division: '国',
+    color: '#d84315',
+    capital: '咸阳（秦）',
+    intro: '三家分晋后，秦、楚、齐、燕、韩、赵、魏七雄角力，变法与兼并战争最终推动秦统一天下。',
+    legend: { qin: '秦', chu: '楚', qi: '齐', yan: '燕', han: '韩', zhao: '赵', wei: '魏' },
+    cities: [
+      { name: '咸阳', modern: '陕西咸阳', lng: 108.71, lat: 34.35, type: 'capital', faction: 'qin', note: '秦国都城，商鞅变法与秦王政统一战争的中心。' },
+      { name: '郢', modern: '湖北荆州', lng: 112.24, lat: 30.33, type: 'city', faction: 'chu', note: '楚国故都，屈原、项氏家族活动的江汉重镇。' },
+      { name: '临淄', modern: '山东淄博', lng: 118.37, lat: 36.83, type: 'city', faction: 'qi', note: '齐国都城，田齐与稷下学者汇聚之地。' },
+      { name: '蓟', modern: '北京', lng: 116.41, lat: 39.90, type: 'city', faction: 'yan', note: '燕国都城，荆轲入秦前曾在此与太子丹谋划。' },
+      { name: '邯郸', modern: '河北邯郸', lng: 114.54, lat: 36.63, type: 'city', faction: 'zhao', note: '赵国都城，长平之战后赵国元气大伤。' },
+      { name: '大梁', modern: '河南开封', lng: 114.35, lat: 34.80, type: 'city', faction: 'wei', note: '魏国后期都城，信陵君窃符救赵的故事发生于此。' },
+      { name: '新郑', modern: '河南新郑', lng: 113.74, lat: 34.40, type: 'city', faction: 'han', note: '韩国都城，位于中原交通要冲。' }
+    ]
+  },
+  {
     key: 'qin',
     name: '秦',
     year: '前 221—前 207 年 · 并灭六国',

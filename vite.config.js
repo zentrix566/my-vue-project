@@ -74,12 +74,16 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [vue(), llmConfigPlugin(model, provider), webSearchPlugin],
     server: {
-      port: 5173,
+      // 不复用其它工作区的 5173；默认由系统分配空闲端口，避免串到旧页面。
+      port: Number(env.PORT) || 0,
+      strictPort: false,
       host: true,
+      open: true,
       proxy: llmProxy
     },
     preview: {
-      port: 4173,
+      port: Number(env.PREVIEW_PORT) || 0,
+      strictPort: false,
       proxy: llmProxy
     }
   }

@@ -44,6 +44,7 @@ export default {
 - 数据 / 组件 / 组合式函数 / 样式都放本文件夹内（`data/`、`components/`、`composables/`、`utils/`、`*.css`），互不串门。
 - 第一条 `routes` 应是该子项目的「主入口页」，首页卡片会链接到 `routes[0].path`。
 - 只有「纯详情页」之类不需要首页入口的子项目，才设 `card: false`。
+- **返回首页链接（每个路由页面必备）**：`routes` 里挂载的每个页面，模板顶部（标题/主内容之前）都要放 `<RouterLink class="back" to="/">← 返回主页</RouterLink>`（`RouterLink` 由 vue-router 全局注册无需 import，`.back` 样式来自共享的 `src/styles.css`）；子项目内的二级页可返回上级列表页（如 `FigureDetail` 返回人物列表）。`pages/` 下没有被 `routes` 引用的纯组件（如 `StationAutocomplete.vue`）不算页面，无需加。
 - **首页排序约定（2026-08 起）**：前四名固定为 `history-timeline`（order 1）、`biography`（2）、`dynasty-map`（3）、`subway`（4）；其余子项目按「最新添加排最前」排列，order 从 100 起步进 10 递增（当前最新的 feature 是 100）。**新增子项目时，把它的 order 设为当前最小值再往下的空档**（如 90、80），让它出现在最前面；order 用完再整体重排一轮。
 
 ---

@@ -47,6 +47,7 @@ function fmtTime(ts) {
 
 <template>
   <div class="page game-show">
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
     <header class="gs-head">
       <div>
         <p class="card-kicker">AMERICAN GAME SHOW</p>

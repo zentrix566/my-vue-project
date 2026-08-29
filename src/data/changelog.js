@@ -3,6 +3,13 @@
 // 渲染层可参考 E:\github\my-index\src\data\changelog.js 与 Changelog.vue。
 export const changelog = [
   {
+    date: '2026-08-29',
+    title: '新增 AI 公司·摸鱼群聊',
+    changes: [
+      '【摸鱼群聊】新增 AI 公司·摸鱼群聊（/office-chat）：十位 AI 员工各带人设——老板画饼、产品改需求、程序员救火、设计师改稿、财务守门……在公司大群里全自动开聊；办公室舞台谁说话谁头顶冒泡，右侧群聊同步刷屏，可点小人戳一戳、输入框插话、点播话题把天聊歪，支持暂停、变速与重置。'
+    ]
+  },
+  {
     date: '2026-08-28',
     title: '新增变形金刚·变形玩具',
     changes: [

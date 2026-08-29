@@ -3,7 +3,7 @@ export default {
   title: '毛笔书法·停笔自动优化',
   emoji: '✒️',
   description: '宣纸上书写，停笔 2 秒自动优化成大师笔法，可向标准字形靠拢。',
-  order: 170,
+  order: 350,
   routes: [
     {
       path: '/calligraphy',

@@ -3,7 +3,7 @@ export default {
   title: '江阴保卫战·形势图',
   emoji: '🗺️',
   description: '清军与义军交战路线互动地图，点箭头看事件。',
-  order: 210,
+  order: 380,
   routes: [
     {
       path: '/jiangyin',

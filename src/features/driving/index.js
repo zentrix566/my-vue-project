@@ -3,7 +3,7 @@ export default {
   title: '模拟驾驶·练车找手感',
   emoji: '🚗',
   description: '俯视小车练习变道、转弯、掉头：转向灯时机、导向车道、压线扣分一样不少，方向盘打多少回多少。',
-  order: 120,
+  order: 250,
   routes: [
     {
       path: '/driving',

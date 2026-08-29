@@ -6,7 +6,7 @@ export default {
   title: '当代人物追踪',
   emoji: '👤',
   description: '按领域收录当代人物，看出生日期与主要事迹时间轴，并给每个人写观察笔记、标记追踪状态。',
-  order: 70,
+  order: 230,
   routes: [
     {
       path: '/contemporary-figures',

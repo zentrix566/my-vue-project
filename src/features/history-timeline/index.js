@@ -3,7 +3,7 @@ export default {
   title: '历史·时间轴',
   emoji: '📜',
   description: '默认中国历史；可在页面顶部选择国外国家与文明。人物、统治者和事件均支持按时间查看。',
-  order: 10,
+  order: 1,
   routes: [
     {
       path: '/history',

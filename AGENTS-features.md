@@ -44,6 +44,7 @@ export default {
 - 数据 / 组件 / 组合式函数 / 样式都放本文件夹内（`data/`、`components/`、`composables/`、`utils/`、`*.css`），互不串门。
 - 第一条 `routes` 应是该子项目的「主入口页」，首页卡片会链接到 `routes[0].path`。
 - 只有「纯详情页」之类不需要首页入口的子项目，才设 `card: false`。
+- **首页排序约定（2026-08 起）**：前四名固定为 `history-timeline`（order 1）、`biography`（2）、`dynasty-map`（3）、`subway`（4）；其余子项目按「最新添加排最前」排列，order 从 100 起步进 10 递增（当前最新的 feature 是 100）。**新增子项目时，把它的 order 设为当前最小值再往下的空档**（如 90、80），让它出现在最前面；order 用完再整体重排一轮。
 
 ---
 

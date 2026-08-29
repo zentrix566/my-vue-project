@@ -10,7 +10,7 @@ export default {
   title: '虚拟博物馆·文物编年',
   emoji: '🏺',
   description: '按编年体逛 17 座朝代展厅：文物放回真实场景，同步同期大事与人物，支持盖章打卡。',
-  order: 15,
+  order: 170,
   routes: [
     {
       path: '/museum',

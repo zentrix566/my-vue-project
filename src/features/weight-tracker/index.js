@@ -4,7 +4,7 @@ export default {
   title: '体重变化·趋势分析',
   emoji: '⚖️',
   description: '按月记录体重，看整体走势、分年度变化和每月增减多少斤，标出最重与最轻节点。',
-  order: 50,
+  order: 240,
   routes: [
     {
       path: '/weight',

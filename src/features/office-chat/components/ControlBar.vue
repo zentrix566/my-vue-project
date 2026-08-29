@@ -1,6 +1,6 @@
 <script setup>
 // 控制条：播放/暂停、速度、聊天模式（AI/剧本）、点播话题、重置
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { SPEEDS } from '../game/constants.js'
 import { TOPICS } from '../game/topics.js'
 
@@ -11,6 +11,9 @@ const props = defineProps({
 const emit = defineEmits(['toggle', 'speed', 'mode', 'retry-ai', 'topic', 'reset'])
 
 const topicPick = ref('')
+
+// AI 余量：本批还能聊几轮（剧本模式不花钱，不显示）
+const quotaLeft = computed(() => Math.max(0, props.sim.aiQuota - props.sim.aiUsed))
 
 function onTopic(e) {
   const title = e.target.value
@@ -63,6 +66,14 @@ function onTopic(e) {
         🔄 重试 AI
       </button>
     </div>
+
+    <span
+      v-if="sim.aiReady"
+      class="quota"
+      :title="'AI 每批聊 ' + sim.aiQuota + ' 轮自动暂停，点「▶ 继续」再加一批'"
+    >
+      🪙 余 {{ quotaLeft }} 轮
+    </span>
 
     <select class="topic-select" :value="topicPick" @change="onTopic">
       <option value="">🎬 点播一个话题…</option>
@@ -143,5 +154,15 @@ function onTopic(e) {
 
 .topic-select option {
   color: #212529;
+}
+
+.quota {
+  font-size: 12.5px;
+  color: #ffd43b;
+  background: rgba(255, 212, 59, 0.1);
+  border: 1px solid rgba(255, 212, 59, 0.35);
+  border-radius: 999px;
+  padding: 4px 10px;
+  white-space: nowrap;
 }
 </style>

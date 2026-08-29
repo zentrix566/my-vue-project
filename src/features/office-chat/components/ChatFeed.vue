@@ -1,14 +1,18 @@
 <script setup>
-// 右侧群聊栏：实时滚动的聊天记录 + 底部"我"的插话输入框
-import { ref, watch, nextTick } from 'vue'
+// 右侧群聊栏：实时滚动的聊天记录 + 底部"我"的插话、"王总"布置议题两路输入
+import { computed, ref, watch, nextTick } from 'vue'
 import { sim } from '../game/engine.js'
 import { personaOf } from '../game/personas.js'
 import { ROOM } from '../game/constants.js'
 
-const emit = defineEmits(['send'])
+const emit = defineEmits(['send', 'scene'])
 
 const listRef = ref(null)
 const draft = ref('')
+const sceneDraft = ref('')
+
+// 剧情讨论只在 AI 模式开放（剧本模式没有大模型可开）
+const aiOn = computed(() => sim.mode === 'ai')
 
 // 模板里取消息对应人设的信息
 function of(m) {
@@ -30,6 +34,13 @@ function send() {
   if (!text) return
   emit('send', text)
   draft.value = ''
+}
+
+function startScene() {
+  const text = sceneDraft.value.trim()
+  if (!text) return
+  emit('scene', text)
+  sceneDraft.value = ''
 }
 </script>
 
@@ -79,6 +90,27 @@ function send() {
         @keydown.enter="send"
       />
       <button class="send-btn" :disabled="!draft.trim()" @click="send">发送</button>
+    </div>
+
+    <div class="input-row">
+      <input
+        v-model="sceneDraft"
+        class="input"
+        type="text"
+        maxlength="40"
+        :disabled="!aiOn"
+        :title="aiOn ? '' : '剧情讨论需要 AI 接龙模式，剧本模式下不可用'"
+        placeholder="👑 布置议题（以王总身份开会）…"
+        @keydown.enter="startScene"
+      />
+      <button
+        class="send-btn scene-btn"
+        :disabled="!aiOn || !sceneDraft.trim()"
+        title="以王总身份@全体，围绕议题讨论 8 轮后由李经理总结（计入 AI 轮数额度）"
+        @click="startScene"
+      >
+        布置
+      </button>
     </div>
   </aside>
 </template>
@@ -247,6 +279,16 @@ function send() {
 .send-btn:disabled {
   opacity: 0.4;
   cursor: default;
+}
+
+/* 布置议题按钮走绿色，和普通插话区分 */
+.scene-btn {
+  background: #94d82d;
+}
+
+/* 两行输入更紧凑 */
+.input-row + .input-row {
+  padding-top: 0;
 }
 
 @keyframes msg-in {

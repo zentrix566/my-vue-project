@@ -4,7 +4,7 @@ import { onMounted, onUnmounted } from 'vue'
 import ControlBar from '../components/ControlBar.vue'
 import OfficeStage from '../components/OfficeStage.vue'
 import ChatFeed from '../components/ChatFeed.vue'
-import { sim, initSim, destroySim, setRunning, setSpeed, setMode, retryAi, resetSim, requestTopic, sendUserMessage, pokeEmployee } from '../game/engine.js'
+import { sim, initSim, destroySim, setRunning, setSpeed, setMode, retryAi, resetSim, requestTopic, sendUserMessage, pokeEmployee, startBossScene } from '../game/engine.js'
 
 onMounted(initSim)
 onUnmounted(destroySim)
@@ -12,10 +12,11 @@ onUnmounted(destroySim)
 
 <template>
   <div class="app">
+    <RouterLink class="back" to="/">← 返回主页</RouterLink>
     <header class="title">
       <h1>🏢 AI 公司·摸鱼群聊</h1>
       <p>
-        十位 AI 员工各带人设：老板画饼、产品改需求、程序员救火、设计师改稿、财务守门……他们在一个大群里全自动开聊。办公室里谁说话谁头顶冒泡，右侧群里同步刷屏；点小人戳一戳、在输入框里插句话，还能点播话题把天聊歪。
+        十位 AI 员工各带人设：老板画饼、产品改需求、程序员救火、设计师改稿、财务守门……全自动群聊，谁说话谁头顶冒泡，右侧群里同步刷屏。为省 token，AI 每批只聊 10 轮就自动暂停，点「▶ 继续」再加一批；点小人戳一戳、在下方插话，或以王总身份「布置议题」开一场讨论会。
       </p>
     </header>
 
@@ -33,11 +34,11 @@ onUnmounted(destroySim)
         <OfficeStage @poke="pokeEmployee" />
       </div>
 
-      <ChatFeed @send="sendUserMessage" />
+      <ChatFeed @send="sendUserMessage" @scene="startBossScene" />
     </div>
 
     <footer class="foot">
-      本地开发时自动连上大模型进入「AI 接龙」，线上无接口则退回内置剧本模式 · 全程自动演出
+      AI 接龙每 10 轮自动暂停省 token，续跑需手点「▶ 继续」；剧本模式免费循环 · 布置议题＝以王总身份开会，聊 8 轮后李经理总结
     </footer>
   </div>
 </template>

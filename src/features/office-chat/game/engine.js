@@ -22,6 +22,9 @@ export const sim = reactive({
   aiReady: false,
   aiBusy: false,
   aiFailStreak: 0,
+  aiQuota: 10, // 每批 AI 轮数上限（省 token：用完自动暂停，手动「继续」再加一批）
+  aiUsed: 0, // 本批已聊的 AI 轮数
+  scene: null, // 剧情模式：{ theme, cast, turnsLeft, lastWho }，null=日常闲聊
   employees: [],
   messages: [],
   topicTitle: ''
@@ -82,6 +85,11 @@ function schedule(base) {
 
 function nextTurn() {
   if (!sim.running) return
+  // 剧情模式进行中：一心开会，不插日常琐事
+  if (sim.scene) {
+    sceneTurn()
+    return
+  }
   // 偶发氛围事件与老板突袭，打乱节奏
   if (Math.random() < 0.06) {
     pushSystem(pick(SYSTEM_EVENTS))
@@ -141,7 +149,7 @@ function pickAiSpeaker() {
   return pick(sim.employees).key
 }
 
-async function askAi(emp) {
+async function askAi(emp, opts = null) {
   const transcript = sim.messages
     .filter((m) => m.kind === 'chat' || m.kind === 'user')
     .slice(-14)
@@ -151,11 +159,18 @@ async function askAi(emp) {
       return `${p.name}（${p.role}）：${m.text}`
     })
     .join('\n')
+  // 剧情模式的议题上下文
+  let sceneLine = ''
+  if (opts && opts.sceneSummary) {
+    sceneLine = `老板布置的议题「${opts.sceneSummary}」讨论结束，请你做一句总结陈词：直接给老板结论，不超过 30 个字。`
+  } else if (sim.scene) {
+    sceneLine = `当前是老板布置的议题讨论会「${sim.scene.theme}」，发言必须围绕这个议题，可以接同事的话头、补充或抬杠。`
+  }
   const system = [
     '这是一场公司群聊模拟：一家中小型互联网公司，员工们在微信群里聊天。',
     `现在轮到「${emp.name}」发言，岗位：${emp.role}。`,
     `人设：${emp.persona.quirk}`,
-    sim.topicTitle ? `当前话题：${sim.topicTitle}。` : '',
+    sceneLine || (sim.topicTitle && !sim.scene ? `当前话题：${sim.topicTitle}。` : ''),
     '要求：直接输出这个人说的那一句话，不要名字、引号、旁白或解释；不超过 30 个字；口语化、有人味、符合人设；最多带一个 emoji；要接住上文或推动话题。'
   ]
     .filter(Boolean)
@@ -179,7 +194,7 @@ function sanitizeAiText(text, emp) {
   return t
 }
 
-async function aiTurn(forcedKey = null) {
+async function aiTurn(forcedKey = null, opts = null) {
   clearTimeout(timer)
   const who = forcedKey || pickAiSpeaker()
   const emp = sim.employees.find((e) => e.key === who)
@@ -189,12 +204,27 @@ async function aiTurn(forcedKey = null) {
   }
   sim.aiBusy = true
   try {
-    const text = await askAi(emp)
+    const text = await askAi(emp, opts)
     sim.aiFailStreak = 0
     say(who, text)
-    if (sim.topicTitle && ++aiTopicTurns > 7) {
+    if (opts && opts.sceneSummary) {
+      pushSystem('✅ 议题讨论完毕，散会！')
+      if (sim.topicTitle.startsWith('👑')) sim.topicTitle = ''
+      aiTopicTurns = 0
+    } else if (sim.topicTitle && !sim.scene && ++aiTopicTurns > 7) {
       sim.topicTitle = ''
       aiTopicTurns = 0
+    }
+    // 省 token：本批额度用完自动暂停，等人工「继续」再放行下一批
+    sim.aiUsed++
+    if (sim.aiUsed >= sim.aiQuota) {
+      sim.running = false
+      clearTimeout(timer)
+      const midScene = sim.scene ? '（议题还没聊完，继续后接着开）' : ''
+      pushSystem(
+        `💤 AI 已连聊 ${sim.aiQuota} 轮，自动暂停省 token——点「▶ 继续」再加一批${midScene ? '，' + midScene : ''}，或切「📜 剧本模式」免费畅聊`
+      )
+      return
     }
     schedule(PACE.aiGap)
   } catch {
@@ -202,6 +232,7 @@ async function aiTurn(forcedKey = null) {
     if (sim.aiFailStreak >= 2) {
       sim.mode = 'script'
       sim.aiBusy = false
+      sim.scene = null
       pushSystem('⚠️ AI 接口连不上了，切回剧本模式')
       schedule(2200)
       return
@@ -210,6 +241,57 @@ async function aiTurn(forcedKey = null) {
   } finally {
     sim.aiBusy = false
   }
+}
+
+// —— 剧情模式：用户以王总身份布置议题，指定员工开会讨论，李经理收尾 ——
+
+function sceneTurn() {
+  const sc = sim.scene
+  if (!sc) {
+    schedule(1500)
+    return
+  }
+  if (sc.turnsLeft <= 0) {
+    const theme = sc.theme
+    sim.scene = null
+    aiTurn('pm', { sceneSummary: theme })
+    return
+  }
+  sc.turnsLeft--
+  // 不连着两个人重复发言
+  const pool = sc.cast.filter((k) => k !== sc.lastWho)
+  const who = pick(pool.length ? pool : sc.cast)
+  sc.lastWho = who
+  aiTurn(who)
+}
+
+export function startBossScene(theme) {
+  const t = (theme || '').trim().slice(0, 40)
+  if (!t) return
+  if (sim.mode !== 'ai') {
+    pushSystem('📜 剧情讨论需要大模型，当前是剧本模式，连上 AI 再开吧')
+    return
+  }
+  if (!sim.running) {
+    pushSystem('⏸ 当前已暂停，先点「▶ 继续」再开会')
+    return
+  }
+  if (sim.scene) {
+    pushSystem('👑 上一场会还没散，稍等')
+    return
+  }
+  clearTimeout(timer)
+  // 王总必不入会（他就是布置任务的人），产品经理必入（负责收尾总结）
+  const others = sim.employees
+    .filter((e) => e.key !== 'boss' && e.key !== 'pm')
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 4)
+    .map((e) => e.key)
+  sim.scene = { theme: t, cast: ['pm', ...others], turnsLeft: 8, lastWho: null }
+  sim.topicTitle = `👑 议题：${t}`
+  aiTopicTurns = 0
+  say('boss', `@全体成员 关于「${t}」，都谈谈看法，散会前给我结论`)
+  schedule(2400)
 }
 
 // —— 对外 API（页面层调用）——
@@ -248,6 +330,8 @@ export function initSim() {
   sim.aiReady = false
   sim.aiFailStreak = 0
   sim.aiBusy = false
+  sim.aiUsed = 0
+  sim.scene = null
   sim.running = true
   pushSystem('🕘 新的一天，公司开工，群聊开始刷屏……')
   schedule(1400)
@@ -270,8 +354,13 @@ export function resetSim() {
 
 export function setRunning(on) {
   sim.running = on
-  if (on) schedule(1000)
-  else clearTimeout(timer)
+  if (on) {
+    // 手动续跑＝人工放行，重新发满一批额度
+    sim.aiUsed = 0
+    schedule(1000)
+  } else {
+    clearTimeout(timer)
+  }
 }
 
 export function setSpeed(v) {
@@ -309,6 +398,10 @@ export function sendUserMessage(text) {
   if (!t) return
   sim.messages.push({ id: ++msgId, kind: 'user', who: 'me', text: t, time: clock() })
   trimFeed()
+  if (!sim.running) {
+    pushSystem('⏸ 当前已暂停（省 token），点「▶ 继续」后大家才会接话')
+    return
+  }
   // 挑两位群友回应；AI 模式只请一位，避免并发请求
   const responders = [...sim.employees].sort(() => Math.random() - 0.5)
   const count = sim.mode === 'ai' ? 1 : 2

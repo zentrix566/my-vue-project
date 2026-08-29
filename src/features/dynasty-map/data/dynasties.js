@@ -22,7 +22,15 @@ export const dynasties = [
       { name: '郢', modern: '湖北荆州', lng: 112.24, lat: 30.33, type: 'city', faction: 'chu', note: '楚国都城，春秋南方强国的政治中心。' },
       { name: '咸', modern: '陕西凤翔', lng: 107.39, lat: 34.52, type: 'city', faction: 'qin', note: '秦国都城区域，秦穆公由此东争诸侯。' },
       { name: '姑苏', modern: '江苏苏州', lng: 120.58, lat: 31.30, type: 'city', faction: 'wu', note: '吴国都城，阖闾、夫差经营江东之地。' },
-      { name: '会稽', modern: '浙江绍兴', lng: 120.58, lat: 30.00, type: 'city', faction: 'yue', note: '越国都城，勾践卧薪尝胆之地。' }
+      { name: '会稽', modern: '浙江绍兴', lng: 120.58, lat: 30.00, type: 'city', faction: 'yue', note: '越国都城，勾践卧薪尝胆之地。' },
+      { name: '曲阜', modern: '山东曲阜', lng: 116.99, lat: 35.58, type: 'city', note: '鲁国都，周公之子伯禽封国，礼乐之邦。' },
+      { name: '商丘', modern: '河南商丘', lng: 115.65, lat: 34.42, type: 'city', note: '宋国都，殷商后裔封国，宋襄公之仁的舞台。' },
+      { name: '帝丘', modern: '河南濮阳', lng: 115.03, lat: 35.88, type: 'town', note: '卫国都城，卫懿公好鹤亡国后迁此。' },
+      { name: '新郑', modern: '河南新郑', lng: 113.74, lat: 34.40, type: 'city', note: '郑国都，子产执政、商人弦高犒师退秦军之地。' },
+      { name: '蓟', modern: '北京', lng: 116.41, lat: 39.90, type: 'town', note: '燕国都城，召公奭封国，偏居北土。' },
+      { name: '定陶', modern: '山东菏泽定陶', lng: 115.55, lat: 35.07, type: 'town', note: '曹国都，「天下之中」，范蠡去越后在此三致千金。' },
+      { name: '上蔡', modern: '河南上蔡', lng: 114.27, lat: 33.27, type: 'town', note: '蔡国都，孔子厄于陈蔡之间即在此左近。' },
+      { name: '莒', modern: '山东莒县', lng: 118.83, lat: 35.58, type: 'town', note: '莒国都，齐襄公之乱时公子小白奔莒。' }
     ]
   },
   {
@@ -42,7 +50,12 @@ export const dynasties = [
       { name: '蓟', modern: '北京', lng: 116.41, lat: 39.90, type: 'city', faction: 'yan', note: '燕国都城，荆轲入秦前曾在此与太子丹谋划。' },
       { name: '邯郸', modern: '河北邯郸', lng: 114.54, lat: 36.63, type: 'city', faction: 'zhao', note: '赵国都城，长平之战后赵国元气大伤。' },
       { name: '大梁', modern: '河南开封', lng: 114.35, lat: 34.80, type: 'city', faction: 'wei', note: '魏国后期都城，信陵君窃符救赵的故事发生于此。' },
-      { name: '新郑', modern: '河南新郑', lng: 113.74, lat: 34.40, type: 'city', faction: 'han', note: '韩国都城，位于中原交通要冲。' }
+      { name: '新郑', modern: '河南新郑', lng: 113.74, lat: 34.40, type: 'city', faction: 'han', note: '韩国都城，位于中原交通要冲。' },
+      { name: '安邑', modern: '山西夏县', lng: 111.20, lat: 35.20, type: 'city', faction: 'wei', note: '魏国早期都城，李悝变法、西门豹治邺之前魏的根基。' },
+      { name: '即墨', modern: '山东青岛即墨', lng: 120.45, lat: 36.39, type: 'town', faction: 'qi', note: '齐之即墨，田单以火牛阵破燕，一举复齐七十余城。' },
+      { name: '寿春', modern: '安徽寿县', lng: 116.78, lat: 32.57, type: 'city', faction: 'chu', note: '楚考烈王迁都于此，战国晚期楚都，「郢」之名随迁。' },
+      { name: '成都', modern: '四川成都', lng: 104.07, lat: 30.67, type: 'city', faction: 'qin', note: '秦惠王用司马错策伐蜀，置蜀郡，李冰都江堰成天府之国。' },
+      { name: '燕下都', modern: '河北易县', lng: 115.49, lat: 39.35, type: 'town', faction: 'yan', note: '燕国下都，荆轲刺秦自此后动身，易水送别之地。' }
     ]
   },
   {
@@ -106,7 +119,19 @@ export const dynasties = [
       { name: '敦煌', modern: '甘肃敦煌', lng: 94.66, lat: 40.14, type: 'pass', note: '敦煌郡治，河西走廊西端，通西域门户。' },
       { name: '龟兹', modern: '新疆库车', lng: 82.96, lat: 41.72, type: 'pass', note: '西域北道大国，西域都护府所倚。' },
       { name: '武威', modern: '甘肃武威', lng: 102.64, lat: 37.93, type: 'pass', note: '凉州刺史部治所，河西都会。' },
-      { name: '日南', modern: '越南广治', lng: 107.10, lat: 16.50, type: 'town', note: '日南郡最南端，汉疆之极南。' }
+      { name: '日南', modern: '越南广治', lng: 107.10, lat: 16.50, type: 'town', note: '日南郡最南端，汉疆之极南。' },
+      { name: '张掖', modern: '甘肃张掖', lng: 100.45, lat: 38.93, type: 'pass', note: '河西四郡之一，断匈奴右臂、隔羌胡交通的要冲。' },
+      { name: '酒泉', modern: '甘肃酒泉', lng: 98.49, lat: 39.74, type: 'pass', note: '河西四郡之一，相传霍去病倾御酒入泉与将士共饮。' },
+      { name: '乌垒', modern: '新疆轮台', lng: 84.40, lat: 41.80, type: 'pass', note: '西域都护府治所，前 60 年郑吉首任都护，新疆正式纳入版图之始。' },
+      { name: '朔方', modern: '内蒙古磴口', lng: 107.00, lat: 40.30, type: 'pass', note: '卫青取河南地后置朔方郡，苏武牧羊前曾出使至此。' },
+      { name: '渔阳', modern: '北京怀柔', lng: 116.70, lat: 40.30, type: 'town', note: '渔阳郡治，「发闾左适戍渔阳」九百人，大泽乡起义由此爆发。' },
+      { name: '襄平', modern: '辽宁辽阳', lng: 123.18, lat: 41.27, type: 'town', note: '辽东郡治，汉疆东北重镇。' },
+      { name: '广陵', modern: '江苏扬州', lng: 119.41, lat: 32.39, type: 'city', note: '吴王刘濞「即山铸钱、煮海为盐」，七国之乱首倡之地。' },
+      { name: '豫章', modern: '江西南昌', lng: 115.89, lat: 28.68, type: 'town', note: '豫章郡治，海昏侯刘贺封国，马王堆外的汉代大墓所在地。' },
+      { name: '合浦', modern: '广西合浦', lng: 109.16, lat: 21.66, type: 'town', note: '合浦郡治，海上丝绸之路始发港，「珠还合浦」典故所在。' },
+      { name: '徐闻', modern: '广东徐闻', lng: 110.17, lat: 20.34, type: 'town', note: '汉代船队出海赴南洋诸国之地。' },
+      { name: '安邑', modern: '山西夏县', lng: 111.20, lat: 35.20, type: 'town', note: '河东郡治，盐池之利甲天下。' },
+      { name: '长子', modern: '山西长子', lng: 112.88, lat: 36.16, type: 'town', note: '上党郡治，「上党天下之脊」，俯瞰河内。' }
     ]
   },
   {
@@ -138,7 +163,15 @@ export const dynasties = [
       { name: '汉中', modern: '陕西汉中', lng: 107.03, lat: 33.07, type: 'pass', note: '219 年刘备取汉中称汉中王，蜀之北门。' },
       { name: '蓟', modern: '北京', lng: 116.41, lat: 39.90, type: 'town', note: '幽州治，公孙瓒、刘虞、袁绍相继经营。' },
       { name: '襄平', modern: '辽宁辽阳', lng: 123.18, lat: 41.27, type: 'town', note: '辽东郡治，公孙氏割据三世，后为司马懿所灭。' },
-      { name: '武威', modern: '甘肃武威', lng: 102.64, lat: 37.93, type: 'pass', note: '凉州治，马腾、韩遂势力范围。' }
+      { name: '武威', modern: '甘肃武威', lng: 102.64, lat: 37.93, type: 'pass', note: '凉州治，马腾、韩遂势力范围。' },
+      { name: '谯', modern: '安徽亳州', lng: 115.78, lat: 33.85, type: 'town', note: '曹操故里，汉室宗庙所在，「谯沛集团」之名由此。' },
+      { name: '南郑', modern: '陕西汉中', lng: 107.03, lat: 33.07, type: 'town', note: '汉中郡治，张鲁以五斗米道据此近三十年。' },
+      { name: '疏勒', modern: '新疆喀什', lng: 75.99, lat: 39.47, type: 'pass', note: '班超以三十六人定西域的大本营，「不入虎穴，焉得虎子」。' },
+      { name: '于阗', modern: '新疆和田', lng: 79.93, lat: 37.11, type: 'town', note: '西域南道大国，佛教东传的中转站。' },
+      { name: '酒泉', modern: '甘肃酒泉', lng: 98.49, lat: 39.74, type: 'pass', note: '河西驻防重镇。' },
+      { name: '张掖', modern: '甘肃张掖', lng: 100.45, lat: 38.93, type: 'pass', note: '河西驻防重镇。' },
+      { name: '会稽', modern: '浙江绍兴', lng: 120.58, lat: 30.00, type: 'town', note: '王朗任太守，孙策渡浙江袭取之。' },
+      { name: '九真', modern: '越南清化', lng: 105.60, lat: 19.80, type: 'town', note: '马援南征平二征所至，汉疆极南之一。' }
     ]
   },
   {
@@ -173,7 +206,15 @@ export const dynasties = [
       { name: '吴', modern: '江苏苏州', lng: 120.58, lat: 31.30, type: 'town', faction: 'wu', note: '吴郡，孙氏起家之地。' },
       { name: '会稽', modern: '浙江绍兴', lng: 120.58, lat: 30.00, type: 'town', faction: 'wu', note: '江东名郡，孙吴后方。' },
       { name: '番禺', modern: '广东广州', lng: 113.26, lat: 23.13, type: 'town', faction: 'wu', note: '交州腹地，226 年孙权分置广州。' },
-      { name: '襄阳', modern: '湖北襄阳', lng: 112.14, lat: 32.01, type: 'pass', note: '三国交界，关羽北伐威震华夏，后属魏。' }
+      { name: '襄阳', modern: '湖北襄阳', lng: 112.14, lat: 32.01, type: 'pass', note: '三国交界，关羽北伐威震华夏，后属魏。' },
+      { name: '街亭', modern: '甘肃秦安', lng: 105.67, lat: 35.10, type: 'pass', faction: 'wei', note: '马谡违节制失街亭，诸葛亮挥泪斩马谡，一出祁山功败垂成。' },
+      { name: '五丈原', modern: '陕西岐山', lng: 107.80, lat: 34.15, type: 'pass', faction: 'wei', note: '234 年诸葛亮与司马懿相持百余日，病逝于此，「秋风五丈原」。' },
+      { name: '夷陵', modern: '湖北宜昌', lng: 111.30, lat: 30.70, type: 'pass', faction: 'wu', note: '222 年陆逊火烧连营七百里，大败刘备。' },
+      { name: '濡须口', modern: '安徽无为', lng: 117.90, lat: 31.35, type: 'pass', faction: 'wu', note: '曹操四越巢湖不下，孙权筑濡须坞拒之，「生子当如孙仲谋」。' },
+      { name: '味县', modern: '云南曲靖', lng: 103.80, lat: 25.49, type: 'town', faction: 'shu', note: '庲降都督驻南中，诸葛亮「五月渡泸，深入不毛」平定之地。' },
+      { name: '谯', modern: '安徽亳州', lng: 115.78, lat: 33.85, type: 'town', faction: 'wei', note: '曹氏故里，曹魏陪都之一。' },
+      { name: '交趾', modern: '越南河内', lng: 105.85, lat: 21.03, type: 'town', faction: 'wu', note: '步骘定交州，士燮归附，吴疆极南。' },
+      { name: '曲阿', modern: '江苏丹阳', lng: 119.58, lat: 31.99, type: 'town', faction: 'wu', note: '曲阿，孙氏渡江后立足江东的第一站。' }
     ]
   },
   {
@@ -204,7 +245,12 @@ export const dynasties = [
       { name: '高昌', modern: '新疆吐鲁番东南', lng: 89.18, lat: 42.95, type: 'pass', note: '西域长史辖下戊己校尉驻地。' },
       { name: '味县', modern: '云南曲靖', lng: 103.80, lat: 25.49, type: 'town', note: '宁州治所，南中大姓爨氏所据。' },
       { name: '番禺', modern: '广东广州', lng: 113.26, lat: 23.13, type: 'town', note: '广州治。' },
-      { name: '龙编', modern: '越南河内东', lng: 105.95, lat: 21.00, type: 'town', note: '交州治，最南疆土。' }
+      { name: '龙编', modern: '越南河内东', lng: 105.95, lat: 21.00, type: 'town', note: '交州治，最南疆土。' },
+      { name: '张掖', modern: '甘肃张掖', lng: 100.45, lat: 38.93, type: 'pass', note: '凉州中部重镇。' },
+      { name: '酒泉', modern: '甘肃酒泉', lng: 98.49, lat: 39.74, type: 'pass', note: '凉州西陲重镇。' },
+      { name: '临淄', modern: '山东淄博', lng: 118.37, lat: 36.83, type: 'town', note: '齐王司马攸封国，海岱名都。' },
+      { name: '乐浪', modern: '朝鲜平壤', lng: 125.75, lat: 39.03, type: 'town', note: '乐浪郡治，汉晋经营朝鲜半岛的据点。' },
+      { name: '长沙', modern: '湖南长沙', lng: 112.94, lat: 28.23, type: 'town', note: '湘州治所。' }
     ]
   },
   {
@@ -239,7 +285,13 @@ export const dynasties = [
       { name: '姑臧', modern: '甘肃武威', lng: 102.64, lat: 37.93, type: 'city', faction: 'qianqin', note: '376 年前秦灭前凉，得河西。' },
       { name: '敦煌', modern: '甘肃敦煌', lng: 94.66, lat: 40.14, type: 'town', faction: 'qianqin', note: '凉州西陲。' },
       { name: '高昌', modern: '新疆吐鲁番东南', lng: 89.18, lat: 42.95, type: 'town', faction: 'qianqin', note: '西域东部门户。' },
-      { name: '龟兹', modern: '新疆库车', lng: 82.96, lat: 41.72, type: 'pass', faction: 'qianqin', note: '383 年吕光大军远征西域所平，鸠摩罗什由此东来。' }
+      { name: '龟兹', modern: '新疆库车', lng: 82.96, lat: 41.72, type: 'pass', faction: 'qianqin', note: '383 年吕光大军远征西域所平，鸠摩罗什由此东来。' },
+      { name: '武昌', modern: '湖北鄂州', lng: 114.89, lat: 30.40, type: 'town', faction: 'jin', note: '陶侃曾镇守，「陶公裁得竹头木屑」皆有所用。' },
+      { name: '巴陵', modern: '湖南岳阳', lng: 113.10, lat: 29.37, type: 'town', faction: 'jin', note: '巴陵城，扼洞庭入江之口，荆州门户。' },
+      { name: '晋安', modern: '福建福州', lng: 119.30, lat: 26.08, type: 'town', faction: 'jin', note: '东晋置晋安郡，中土士族南渡入闽所居。' },
+      { name: '仇池', modern: '甘肃西和', lng: 105.45, lat: 33.65, type: 'pass', faction: 'qianqin', note: '仇池山百顷险绝，杨氏氐羌世守其上。' },
+      { name: '枹罕', modern: '甘肃临夏', lng: 103.21, lat: 35.60, type: 'pass', faction: 'qianqin', note: '河州重镇，羌胡杂处，河湟门户。' },
+      { name: '广固', modern: '山东青州', lng: 118.48, lat: 36.68, type: 'pass', faction: 'qianqin', note: '青州治所，曹嶷所筑，后为南燕都城。' }
     ]
   },
   {
@@ -250,8 +302,8 @@ export const dynasties = [
     division: '州',
     color: '#a9cce3',
     capital: '建康（宋）· 平城（魏）',
-    intro: '北魏太武帝灭北凉统一北方，与刘宋以淮汉为界南北对峙，开启近一百七十年的分裂时代。',
-    legend: { song: '南朝宋', wei: '北魏' },
+    intro: '北魏太武帝灭北凉统一北方，与刘宋以淮汉为界南北对峙；北有柔然、西有吐谷浑、东北有高句丽，半岛上百济新罗并立。',
+    legend: { song: '南朝宋', wei: '北魏', rouran: '柔然', tuyuhun: '吐谷浑', gaogouli: '高句丽', baekje: '百济', silla: '新罗' },
     cities: [
       { name: '建康', modern: '江苏南京', lng: 118.78, lat: 32.06, type: 'capital', faction: 'song', note: '刘宋都城，元嘉之治所在。' },
       { name: '广陵', modern: '江苏扬州', lng: 119.41, lat: 32.39, type: 'city', faction: 'song', note: '竟陵王诞据以抗命，鲍照作《芜城赋》吊之。' },
@@ -272,7 +324,23 @@ export const dynasties = [
       { name: '洛阳', modern: '河南洛阳', lng: 112.45, lat: 34.62, type: 'city', faction: 'wei', note: '431 年后魏取金墉，河南易手。' },
       { name: '长安', modern: '陕西西安', lng: 108.94, lat: 34.34, type: 'city', faction: 'wei', note: '雍州治，镇守关中。' },
       { name: '蓟', modern: '北京', lng: 116.41, lat: 39.90, type: 'town', faction: 'wei', note: '幽州治。' },
-      { name: '和龙', modern: '辽宁朝阳', lng: 120.45, lat: 41.57, type: 'pass', faction: 'wei', note: '436 年魏灭北燕冯氏，取龙城。' }
+      { name: '和龙', modern: '辽宁朝阳', lng: 120.45, lat: 41.57, type: 'pass', faction: 'wei', note: '436 年魏灭北燕冯氏，取龙城。' },
+      { name: '钟离', modern: '安徽凤阳', lng: 117.56, lat: 32.58, type: 'pass', faction: 'song', note: '507 年钟离之战，韦睿以水攻大破魏军数十万，南朝罕见大捷。' },
+      { name: '义阳', modern: '河南信阳', lng: 114.07, lat: 32.13, type: 'pass', faction: 'song', note: '义阳三关所在，南北争夺的豫南门户。' },
+      { name: '汉中', modern: '陕西汉中', lng: 107.03, lat: 33.07, type: 'town', faction: 'song', note: '梁州治，450 年元嘉北伐期间魏军曾南入。' },
+      { name: '寻阳', modern: '江西九江', lng: 115.99, lat: 29.71, type: 'town', faction: 'song', note: '江州治，上下游之争的枢纽，谢灵运、陶渊明之游地。' },
+      { name: '长沙', modern: '湖南长沙', lng: 112.94, lat: 28.23, type: 'town', faction: 'song', note: '湘州治，刘宋宗室所镇。' },
+      { name: '东阳', modern: '山东青州', lng: 118.48, lat: 36.68, type: 'city', faction: 'song', note: '青州治，山东半岛重镇，469 年后陷于魏。' },
+      { name: '彭城', modern: '江苏徐州', lng: 117.28, lat: 34.20, type: 'city', faction: 'song', note: '徐州治，450 年魏太武帝亲率大军围攻不下。' },
+      { name: '沃野镇', modern: '内蒙古乌拉特前旗', lng: 108.90, lat: 40.90, type: 'pass', faction: 'wei', note: '北边六镇最西，523 年破六韩拔陵在此首倡六镇起义。' },
+      { name: '怀朔镇', modern: '内蒙古固阳', lng: 110.00, lat: 41.20, type: 'pass', faction: 'wei', note: '六镇之一，高欢起家之地。' },
+      { name: '武川镇', modern: '内蒙古武川', lng: 111.46, lat: 41.15, type: 'pass', faction: 'wei', note: '六镇之一，宇文泰、杨坚、李渊祖上三代皆出武川，「王气所聚」。' },
+      { name: '柔玄镇', modern: '内蒙古兴和', lng: 113.90, lat: 41.00, type: 'pass', faction: 'wei', note: '六镇之一，拱卫平城北面。' },
+      { name: '国内城', modern: '吉林集安', lng: 126.20, lat: 41.15, type: 'city', faction: 'gaogouli', note: '高句丽都城四百余年，丸都山城相依。' },
+      { name: '平壤', modern: '朝鲜平壤', lng: 125.75, lat: 39.03, type: 'city', faction: 'gaogouli', note: '427 年长寿王自国内城迁都，经略朝鲜半岛。' },
+      { name: '熊津', modern: '韩国公州', lng: 126.90, lat: 36.45, type: 'town', faction: 'baekje', note: '475 年高句丽南下陷汉城后，百济迁都熊津。' },
+      { name: '金城', modern: '韩国庆州', lng: 129.20, lat: 35.85, type: 'town', faction: 'silla', note: '新罗都城，「庆州流水络金城」。' },
+      { name: '伏俟城', modern: '青海共和', lng: 99.00, lat: 36.97, type: 'town', faction: 'tuyuhun', note: '青海湖西岸，吐谷浑夸吕可汗所都。' }
     ]
   },
   {
@@ -304,7 +372,11 @@ export const dynasties = [
       { name: '且末', modern: '新疆且末', lng: 85.53, lat: 38.14, type: 'town', note: '且末郡。' },
       { name: '伏俟城', modern: '青海共和', lng: 99.00, lat: 36.97, type: 'town', note: '西海郡治，故吐谷浑王都。' },
       { name: '湟水', modern: '青海乐都', lng: 102.40, lat: 36.48, type: 'town', note: '609 年置河源郡，裴矩经略之地。' },
-      { name: '辽东城', modern: '辽宁辽阳', lng: 123.18, lat: 41.27, type: 'pass', note: '三征高句丽久攻不下，丧师百万由此始。' }
+      { name: '辽东城', modern: '辽宁辽阳', lng: 123.18, lat: 41.27, type: 'pass', note: '三征高句丽久攻不下，丧师百万由此始。' },
+      { name: '会稽', modern: '浙江绍兴', lng: 120.58, lat: 30.00, type: 'town', note: '越州，江南运河东线节点。' },
+      { name: '汉川', modern: '陕西汉中', lng: 107.03, lat: 33.07, type: 'town', note: '汉川郡治，入蜀咽喉。' },
+      { name: '始安', modern: '广西桂林', lng: 110.29, lat: 25.27, type: 'town', note: '始安郡治，灵渠所达。' },
+      { name: '长沙', modern: '湖南长沙', lng: 112.94, lat: 28.23, type: 'town', note: '长沙郡治。' }
     ]
   },
   {
@@ -343,7 +415,14 @@ export const dynasties = [
       { name: '泉州', modern: '福建泉州', lng: 118.68, lat: 24.87, type: 'town', faction: 'tang', note: '江南东道港口，唐后期渐兴。' },
       { name: '邕州', modern: '广西南宁', lng: 108.32, lat: 22.82, type: 'town', faction: 'tang', note: '邕管经略使所在，防南诏要地。' },
       { name: '逻些', modern: '西藏拉萨', lng: 91.13, lat: 29.65, type: 'town', faction: 'tubo', note: '吐蕃都城，松赞干布所都，文成公主和亲所往。' },
-      { name: '鄯州', modern: '青海乐都', lng: 102.40, lat: 36.48, type: 'pass', faction: 'tubo', note: '唐蕃拉锯的最前线，哥舒翰曾收复。' }
+      { name: '鄯州', modern: '青海乐都', lng: 102.40, lat: 36.48, type: 'pass', faction: 'tubo', note: '唐蕃拉锯的最前线，哥舒翰曾收复。' },
+      { name: '于阗', modern: '新疆和田', lng: 79.93, lat: 37.11, type: 'pass', faction: 'tang', note: '安西四镇之一，南道佛国，尉迟氏世守。' },
+      { name: '洪州', modern: '江西南昌', lng: 115.86, lat: 28.68, type: 'town', faction: 'tang', note: '江南西道治，滕王阁「落霞与孤鹜齐飞」所在。' },
+      { name: '潭州', modern: '湖南长沙', lng: 112.94, lat: 28.23, type: 'town', faction: 'tang', note: '湖南观察使治所，铜官窑外销瓷由此出海。' },
+      { name: '灵州', modern: '宁夏灵武', lng: 106.34, lat: 38.10, type: 'pass', faction: 'tang', note: '朔方节度使治所，安史乱中肃宗即位于此，郭子仪勤王之师所出。' },
+      { name: '登州', modern: '山东蓬莱', lng: 120.76, lat: 37.81, type: 'pass', faction: 'tang', note: '北海港口，渤海国「朝贡道」由此登陆。' },
+      { name: '安南', modern: '越南河内', lng: 105.85, lat: 21.03, type: 'town', faction: 'tang', note: '安南都护府治宋平城，唐疆极南。' },
+      { name: '越州', modern: '浙江绍兴', lng: 120.58, lat: 30.00, type: 'town', faction: 'tang', note: '浙东观察使治，越窑青瓷与唐诗之路枢纽。' }
     ]
   },
   {
@@ -433,7 +512,11 @@ export const dynasties = [
       { name: '析津府', modern: '北京', lng: 116.41, lat: 39.90, type: 'town', faction: 'liao', note: '辽南京（幽州），澶渊之盟后辽之南部重镇。' },
       { name: '大同', modern: '山西大同', lng: 113.30, lat: 40.08, type: 'town', faction: 'liao', note: '辽西京，云冈所在。' },
       { name: '黄龙府', modern: '吉林农安', lng: 125.17, lat: 44.44, type: 'town', faction: 'liao', note: '辽东北重镇，女真渐兴之地。' },
-      { name: '大理', modern: '云南大理', lng: 100.23, lat: 25.60, type: 'town', faction: 'dali', note: '大理国王都，段氏所都。' }
+      { name: '大理', modern: '云南大理', lng: 100.23, lat: 25.60, type: 'town', faction: 'dali', note: '大理国王都，段氏所都。' },
+      { name: '秦州', modern: '甘肃天水', lng: 105.72, lat: 34.58, type: 'pass', faction: 'song', note: '秦凤路治，对夏前沿，陇右都会。' },
+      { name: '青唐', modern: '青海西宁', lng: 101.78, lat: 36.62, type: 'town', note: '唃厮啰都城，控制河湟，宋徽宗时取之建陇右都护府。' },
+      { name: '楚州', modern: '江苏淮安', lng: 119.14, lat: 33.52, type: 'town', faction: 'song', note: '漕运咽喉，北神堰所在。' },
+      { name: '定州', modern: '河北定州', lng: 114.99, lat: 38.51, type: 'pass', faction: 'song', note: '中山府，定州塔高冠中华，镇守北边。' }
     ]
   },
   {
@@ -470,6 +553,10 @@ export const dynasties = [
       { name: '静江', modern: '广西桂林', lng: 110.29, lat: 25.27, type: 'town', faction: 'song', note: '广南西路治。' },
       { name: '琼州', modern: '海南海口', lng: 110.33, lat: 20.03, type: 'town', faction: 'song', note: '海南岛统治中心，南宋末君臣曾奔崖山。' },
       { name: '崖山', modern: '广东新会', lng: 113.05, lat: 22.17, type: 'pass', faction: 'song', note: '1279 年崖山海战，陆秀夫负幼帝投海，南宋亡。' },
+      { name: '庐州', modern: '安徽合肥', lng: 117.23, lat: 31.82, type: 'pass', faction: 'song', note: '淮西屏障，「铁打庐州城」，宋金淮上拉锯的支点。' },
+      { name: '大散关', modern: '陕西宝鸡', lng: 106.83, lat: 34.13, type: 'pass', faction: 'jin', note: '「铁马秋风大散关」，宋金以淮河至大散关划界，此为西端。' },
+      { name: '潭州', modern: '湖南长沙', lng: 112.94, lat: 28.23, type: 'city', faction: 'song', note: '湖南安抚司治，岳麓书院所在，蒙古南下久攻方克。' },
+      { name: '黄州', modern: '湖北黄冈', lng: 114.88, lat: 30.45, type: 'town', faction: 'song', note: '苏轼赤壁怀古之地，南宋江防中段要塞。' },
       { name: '中都', modern: '北京', lng: 116.41, lat: 39.90, type: 'town', faction: 'jin', note: '金朝都城，完颜亮迁都燕京所建。' },
       { name: '开封', modern: '河南开封', lng: 114.31, lat: 34.80, type: 'town', faction: 'jin', note: '金南京，1214 年宣宗南迁避蒙。' },
       { name: '辽阳', modern: '辽宁辽阳', lng: 123.18, lat: 41.27, type: 'town', faction: 'jin', note: '金东京，故地根本。' },
@@ -509,7 +596,10 @@ export const dynasties = [
       { name: '亦集乃', modern: '内蒙古额济纳', lng: 101.14, lat: 41.76, type: 'pass', note: '黑水城，甘肃行省北境要塞。' },
       { name: '辽阳', modern: '辽宁辽阳', lng: 123.18, lat: 41.27, type: 'city', note: '辽阳行省治，东北统治中心。' },
       { name: '奴儿干', modern: '俄罗斯特林', lng: 140.40, lat: 53.30, type: 'town', note: '黑龙江入海口，征东元帅府所在，疆域东北极。' },
-      { name: '登州', modern: '山东蓬莱', lng: 120.76, lat: 37.81, type: 'pass', note: '海运港口，元大都粮道所经。' }
+      { name: '登州', modern: '山东蓬莱', lng: 120.76, lat: 37.81, type: 'pass', note: '海运港口，元大都粮道所经。' },
+      { name: '别失八里', modern: '新疆吉木萨尔', lng: 89.17, lat: 44.00, type: 'town', note: '别失八里行尚书省治，天山北麓重镇。' },
+      { name: '庆元', modern: '浙江宁波', lng: 121.55, lat: 29.87, type: 'town', note: '庆元路，对日高丽贸易的市舶大港。' },
+      { name: '沙州', modern: '甘肃敦煌', lng: 94.66, lat: 40.14, type: 'pass', note: '敦煌，甘肃行省西陲。' }
     ]
   },
   {
@@ -552,7 +642,12 @@ export const dynasties = [
       { name: '昆明', modern: '云南昆明', lng: 102.71, lat: 25.04, type: 'town', note: '云南布政司治，黔国公沐氏世镇。' },
       { name: '贵阳', modern: '贵州贵阳', lng: 106.71, lat: 26.65, type: 'town', note: '贵州布政司治，永乐时设省。' },
       { name: '辽阳', modern: '辽宁辽阳', lng: 123.18, lat: 41.27, type: 'pass', note: '辽东都司治，明末与后金交战前线。' },
-      { name: '沈阳', modern: '辽宁沈阳', lng: 123.43, lat: 41.81, type: 'pass', note: '1625 年后金迁都于此，后称盛京。' }
+      { name: '沈阳', modern: '辽宁沈阳', lng: 123.43, lat: 41.81, type: 'pass', note: '1625 年后金迁都于此，后称盛京。' },
+      { name: '榆林', modern: '陕西榆林', lng: 109.74, lat: 38.28, type: 'pass', note: '九边之一延绥镇治，长城「驼城」。' },
+      { name: '固原', modern: '宁夏固原', lng: 106.24, lat: 36.00, type: 'pass', note: '九边之一陕西镇（固原镇）治，关中北门。' },
+      { name: '临清', modern: '山东临清', lng: 115.70, lat: 36.85, type: 'city', note: '会通河枢纽，明代最大钞关，「南有苏杭，北有临张」。' },
+      { name: '淮安', modern: '江苏淮安', lng: 119.15, lat: 33.61, type: 'city', note: '漕运总督驻地，运河咽喉，淮盐集散。' },
+      { name: '丽江', modern: '云南丽江', lng: 100.23, lat: 26.87, type: 'town', note: '木氏土司府，茶马古道重镇。' }
     ]
   },
   {
@@ -605,7 +700,12 @@ export const dynasties = [
       { name: '齐齐哈尔', modern: '黑龙江齐齐哈尔', lng: 123.92, lat: 47.36, type: 'pass', note: '黑龙江将军驻地。' },
       { name: '瑷珲', modern: '黑龙江黑河', lng: 127.53, lat: 50.25, type: 'pass', note: '1858 年《瑷珲条约》签订地，黑龙江城。' },
       { name: '宁古塔', modern: '黑龙江宁安', lng: 129.45, lat: 44.37, type: 'pass', note: '清代流放之地，东北边防重镇。' },
-      { name: '归绥', modern: '内蒙古呼和浩特', lng: 111.75, lat: 40.84, type: 'pass', note: '绥远城，内蒙古统治中心。' }
+      { name: '归绥', modern: '内蒙古呼和浩特', lng: 111.75, lat: 40.84, type: 'pass', note: '绥远城，内蒙古统治中心。' },
+      { name: '阿克苏', modern: '新疆阿克苏', lng: 80.26, lat: 41.17, type: 'town', note: '天山南麓重镇，温宿府。' },
+      { name: '打箭炉', modern: '四川康定', lng: 102.00, lat: 30.05, type: 'town', note: '茶马互市门户，「炉城」，入藏孔道。' },
+      { name: '多伦', modern: '内蒙古多伦', lng: 116.60, lat: 42.20, type: 'pass', note: '1691 年多伦诺尔会盟，喀尔喀蒙古归清，汇宗寺所在。' },
+      { name: '张家口', modern: '河北张家口', lng: 114.88, lat: 40.82, type: 'pass', note: '张库大道起点，对蒙俄贸易枢纽。' },
+      { name: '台湾府', modern: '台湾台南', lng: 120.20, lat: 23.00, type: 'town', note: '1684 年设台湾府，「一府二鹿三艋舺」。' }
     ]
   }
 ]

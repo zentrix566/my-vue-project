@@ -55,6 +55,8 @@
           @click="toggleLayer('territories')">▧<span>国界</span></button>
         <button type="button" class="dm-tool" :class="{ on: layers.provinces }" title="显示/隐藏现代省界"
           @click="toggleLayer('provinces')">⌘<span>省界</span></button>
+        <button type="button" class="dm-tool" :class="{ on: layers.rivers }" title="显示/隐藏江河淮汉水系"
+          @click="toggleLayer('rivers')">💧<span>水系</span></button>
         <button type="button" class="dm-tool" :class="{ on: layers.walls }" title="显示/隐藏长城"
           @click="toggleLayer('walls')">〰<span>长城</span></button>
         <button type="button" class="dm-tool" title="复位视角" @click="resetView">⌂<span>复位</span></button>
@@ -126,7 +128,7 @@ const selectedProvince = ref('')
 const selectedCity = ref(null)
 const selectedFaction = ref('')
 const hoveredDivision = ref('')
-const layers = ref({ provinces: true, territories: true, cities: true, walls: true })
+const layers = ref({ provinces: true, territories: true, cities: true, walls: true, rivers: true })
 
 const tiers = CITY_TIERS
 const factions = computed(() => factionsFromGeoJson(dynasty.value.key))

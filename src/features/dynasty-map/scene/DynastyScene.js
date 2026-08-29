@@ -12,6 +12,8 @@ import { buildTerritories } from './layers/territories.js'
 import { buildDivisions } from './layers/divisions.js'
 import { buildCities } from './layers/cities.js'
 import { buildWall } from './layers/walls.js'
+import { buildRivers } from './layers/rivers.js'
+import { rivers as riverData } from '../data/rivers.js'
 import { LabelManager } from './labels/LabelManager.js'
 import { project } from './geo.js'
 import { CITY_TIERS, morandi } from './palette.js'
@@ -93,6 +95,7 @@ export class DynastyScene {
     this.divisions = null
     this.cities = null
     this.wall = null
+    this.riversLayer = null
     this.grow = 0 // 疆域组生长因子 0→1
     this.cameraTween = null
     this.raycaster = new THREE.Raycaster()
@@ -147,6 +150,14 @@ export class DynastyScene {
     }
     this.provinces = buildProvinces(geoJson)
     this.scene.add(this.provinces.group)
+
+    // 水系与朝代无关，随底图一次性铺好
+    if (this.riversLayer) {
+      this.scene.remove(this.riversLayer.group)
+      this.riversLayer.dispose()
+    }
+    this.riversLayer = buildRivers(riverData)
+    this.scene.add(this.riversLayer.group)
   }
 
   // era: { cities, factions, wall }；factions 来自 territories[key]
@@ -223,6 +234,7 @@ export class DynastyScene {
     if (this.territories) this.territories.group.visible = layers.territories !== false
     if (this.cities) this.cities.group.visible = layers.cities !== false
     if (this.wall) this.wall.group.visible = layers.walls !== false
+    if (this.riversLayer) this.riversLayer.group.visible = layers.rivers !== false
     if (this.labels) this.labels.setShow(layers.cities !== false)
   }
 
@@ -356,6 +368,7 @@ export class DynastyScene {
     this.bloom.setSize(w, h)
     this.labels.resize()
     this.territories?.setResolution(w, h)
+    this.riversLayer?.setResolution(w, h)
   }
 
   loop() {
@@ -453,6 +466,7 @@ export class DynastyScene {
     this.territories?.dispose()
     this.cities?.dispose()
     this.wall?.dispose()
+    this.riversLayer?.dispose()
     this.pedestal.geometry.dispose()
     this.pedestal.material.dispose()
     this.composer.dispose?.()

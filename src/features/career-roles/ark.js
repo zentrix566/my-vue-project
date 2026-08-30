@@ -1,5 +1,5 @@
 // 大模型接口调用：输入现代职业，返回对应的古代岗位
-// 请求经由 Vite 代理 /ark-api 转发（火山方舟优先，回退 DeepSeek），鉴权头在服务端注入，前端不接触密钥
+// 请求经由 Vite 代理 /ark-api 转发（DeepSeek 优先，回退火山方舟），鉴权头在服务端注入，前端不接触密钥
 import { chatCompletion, extractJson } from '../../lib/llm.js'
 
 const SYSTEM_PROMPT = `你是一位精通中国古代社会职业与官制的历史学家。用户输入一个现代职业或行业，你需要找出中国古代最接近的对应职业，用 JSON 返回结果，不要输出 markdown 代码块或任何解释性文字。

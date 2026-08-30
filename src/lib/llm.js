@@ -1,5 +1,5 @@
 // 大模型接口公共客户端：封装经由 Vite 代理 /ark-api 的调用与错误处理。
-// 请求经由 Vite 代理 /ark-api 转发（火山方舟优先，回退 DeepSeek），鉴权头在服务端注入，前端不接触密钥。
+// 请求经由 Vite 代理 /ark-api 转发（DeepSeek 优先，回退火山方舟），鉴权头在服务端注入，前端不接触密钥。
 // 模型名与提供方由 vite.config.js 构建期通过 virtual:llm-config 注入。
 import { MODEL, PROVIDER } from 'virtual:llm-config'
 

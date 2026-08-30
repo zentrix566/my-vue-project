@@ -42,7 +42,7 @@
 
 ## 环境变量配置
 
-「人物生平 · 纪年查询」与「现代职业 · 古代岗位」需要调用大模型接口，支持两种提供方（**火山引擎方舟优先**，未配置方舟时自动回退 DeepSeek），密钥通过环境变量注入，**不写进代码、不提交版本库**。
+「人物生平 · 纪年查询」与「现代职业 · 古代岗位」需要调用大模型接口，支持两种提供方（**DeepSeek 优先**，未配置 DeepSeek 时自动回退火山引擎方舟），密钥通过环境变量注入，**不写进代码、不提交版本库**。
 
 在项目根目录复制 `.env.example` 为 `.env`，填入真实密钥：
 
@@ -52,11 +52,11 @@ cp .env.example .env
 
 ```ini
 # .env（已被 .gitignore 忽略，不会提交）
-HUOSHAN_KEY=你的火山引擎方舟 API Key（优先，模型 ark-code-latest）
-DEEPSEEK_KEY=你的 DeepSeek API Key（回退）
+DEEPSEEK_KEY=你的 DeepSeek API Key（优先，模型 deepseek-v4-flash）
+HUOSHAN_KEY=你的火山引擎方舟 API Key（回退）
 ```
 
-密钥采用不带 `VITE_` 前缀的变量名，仅在 `vite.config.js` 的开发/预览代理中读取，由 Vite 服务器在转发请求时注入 `Authorization` 头——前端代码与构建产物里都不包含密钥，同时绕开浏览器跨域限制。当前使用的模型名与提供方通过虚拟模块 `virtual:llm-config` 在构建期注入前端（dev/build 行为一致）。配置后直接 `npm run dev`（或 `npm run preview`）即可使用，前端请求 `/ark-api/chat/completions` 会被代理到火山方舟 Coding 接口（`https://ark.cn-beijing.volces.com/api/coding/v3`）或 DeepSeek 官方接口（`https://api.deepseek.com`）。
+密钥采用不带 `VITE_` 前缀的变量名，仅在 `vite.config.js` 的开发/预览代理中读取，由 Vite 服务器在转发请求时注入 `Authorization` 头——前端代码与构建产物里都不包含密钥，同时绕开浏览器跨域限制。当前使用的模型名与提供方通过虚拟模块 `virtual:llm-config` 在构建期注入前端（dev/build 行为一致）。配置后直接 `npm run dev`（或 `npm run preview`）即可使用，前端请求 `/ark-api/chat/completions` 会被代理到 DeepSeek 官方接口（`https://api.deepseek.com`）或火山方舟 Coding 接口（`https://ark.cn-beijing.volces.com/api/coding/v3`）。
 
 > 注意：该代理仅在 Vite 开发/预览服务器下生效。若把 `dist/` 部署到纯静态主机，需另行配置一个等价的服务端代理（或 Serverless 函数）转发到对应接口并带上鉴权头。
 

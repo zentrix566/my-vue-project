@@ -3,8 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import { webSearchMiddleware } from './server/websearch.js'
 
 // LLM 接入地址（均为 OpenAI 兼容协议）：
-// - 火山引擎方舟（Ark）Coding Plan 接口（配置了 HUOSHAN_KEY 时优先使用）
-// - DeepSeek 官方接口（回退方案）
+// - DeepSeek 官方接口（配置了 DEEPSEEK_KEY 时优先使用）
+// - 火山引擎方舟（Ark）Coding Plan 接口（回退方案）
 const DEEPSEEK_TARGET = 'https://api.deepseek.com/v1'
 const ARK_TARGET = 'https://ark.cn-beijing.volces.com/api/coding/v3'
 
@@ -34,8 +34,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const huoshanKey = env.HUOSHAN_KEY || env.ARK_API_KEY || ''
   const deepseekKey = env.DEEPSEEK_KEY || env.DEEPSEEK_API_KEY || ''
-  // 火山方舟优先；两者都没配时保留 DeepSeek 目标（请求会 401，页面会给出错误提示）
-  const useArk = !!huoshanKey
+  // DeepSeek 优先；两者都没配时保留 DeepSeek 目标（请求会 401，页面会给出错误提示）
+  const useArk = !deepseekKey && !!huoshanKey
 
   const target = useArk ? ARK_TARGET : DEEPSEEK_TARGET
   const apiKey = useArk ? huoshanKey : deepseekKey

@@ -3,6 +3,13 @@
 // 渲染层可参考 E:\github\my-index\src\data\changelog.js 与 Changelog.vue。
 export const changelog = [
   {
+    date: '2026-08-30',
+    title: '大模型切换为 DeepSeek 优先',
+    changes: [
+      '【全站】AI 调用的模型提供方由「火山方舟优先」改为「DeepSeek 优先」（模型 deepseek-v4-flash）：人物生平·纪年查询、现代职业·古代岗位、AI 公司·摸鱼群聊三处经由 /ark-api 代理的请求，在 .env 配置了 DEEPSEEK_KEY 时优先代理到 DeepSeek 官方接口（https://api.deepseek.com），未配置时仍自动回退火山方舟；.env.example 与 README 同步更新说明。'
+    ]
+  },
+  {
     date: '2026-08-29',
     title: '新增 AI 公司·摸鱼群聊、纸牌对战·以小胜大、主播收藏馆、美式游戏秀、斗兽棋·鼠吃大象、拍画片·啪叽响',
     changes: [

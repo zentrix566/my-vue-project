@@ -1,5 +1,5 @@
 // 大模型接口调用：输入人名，返回纯文本年谱
-// 请求经由 Vite 代理 /ark-api 转发（火山方舟优先，回退 DeepSeek），鉴权头在服务端注入，前端不接触密钥
+// 请求经由 Vite 代理 /ark-api 转发（DeepSeek 优先，回退火山方舟），鉴权头在服务端注入，前端不接触密钥
 import { chatCompletion } from '../../lib/llm.js'
 
 const SYSTEM_PROMPT = `你是一位严谨的中国史人物年谱整理助手，依据「百度百科」（baike.baidu.com）人物词条进行整理。用户输入一个人名，你按下面固定的纯文本格式整理其生平。只输出这几行纯文本，不要输出 markdown、代码块、标题或任何额外说明。

@@ -1,7 +1,7 @@
 // 大模型接口公共客户端：封装经由 Vite 代理 /ark-api 的调用与错误处理。
 // 请求经由 Vite 代理 /ark-api 转发（DeepSeek 优先，回退火山方舟），鉴权头在服务端注入，前端不接触密钥。
-// 模型名与提供方由 vite.config.js 构建期通过 virtual:llm-config 注入。
-import { MODEL, PROVIDER } from 'virtual:llm-config'
+// 模型名由 vite.config.js 构建期通过 virtual:llm-config 注入。
+import { MODEL } from 'virtual:llm-config'
 
 const ENDPOINT = '/ark-api/chat/completions'
 
@@ -26,8 +26,9 @@ export async function chatCompletion({ system, user, temperature = 0.3, maxToken
     temperature,
     ...(json ? { response_format: { type: 'json_object' } } : {}),
     ...(maxTokens ? { max_tokens: maxTokens } : {}),
-    // 方舟模型需关闭内部推理（thinking），否则先生成数千 tokens reasoning 触发代理超时；DeepSeek 无此参数
-    ...(PROVIDER === 'ark' ? { thinking: { type: 'disabled' } } : {})
+    // 两家模型（deepseek-v4-flash、方舟系列）都默认开启内部推理（thinking）：
+    // 思维链先行消耗 max_tokens，上限小时正文被截空，故统一显式关闭
+    thinking: { type: 'disabled' },
   }
 
   const res = await fetch(ENDPOINT, {
@@ -64,6 +65,10 @@ export async function chatCompletion({ system, user, temperature = 0.3, maxToken
   }
 
   if (!content) {
+    // 正文为空但思维链有内容：max_tokens 被内部推理耗尽（模型忽略 thinking 参数或未关闭时会出现）
+    if (data?.choices?.[0]?.message?.reasoning_content) {
+      throw new Error('模型的输出上限被内部推理（思维链）耗尽，正文为空。请增大 maxTokens 或确认已关闭 thinking。')
+    }
     throw new Error('接口未返回有效内容')
   }
   return content.trim()

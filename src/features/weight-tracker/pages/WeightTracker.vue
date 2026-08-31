@@ -14,15 +14,22 @@
           <strong>{{ formatJin(stats.first.value) }}</strong>
           <small>{{ labelOf(stats.first) }}</small>
         </div>
-        <div class="metric-item">
+        <div class="metric-item metric-item-current">
           <span>当前体重</span>
           <strong>{{ formatJin(stats.last.value) }}</strong>
           <small>{{ labelOf(stats.last) }}</small>
         </div>
         <div class="metric-item">
-          <span>本月变化</span>
+          <span>较上月</span>
           <strong :class="stats.monthlyChange < 0 ? 'trend-down' : 'trend-up'">{{ signed(stats.monthlyChange) }}</strong>
-          <small>较 {{ labelOf(stats.previous) }}（斤）</small>
+          <small>{{ labelOf(stats.previous) }} · {{ formatJin(stats.previous.value) }} 斤</small>
+        </div>
+        <div class="metric-item">
+          <span>较去年同期</span>
+          <strong v-if="stats.yearlyChange !== null" :class="stats.yearlyChange < 0 ? 'trend-down' : 'trend-up'">{{ signed(stats.yearlyChange) }}</strong>
+          <strong v-else>—</strong>
+          <small v-if="stats.sameMonthLastYear">{{ labelOf(stats.sameMonthLastYear) }} · {{ formatJin(stats.sameMonthLastYear.value) }} 斤</small>
+          <small v-else>暂无同期记录</small>
         </div>
         <div class="metric-item">
           <span>累计变化</span>
@@ -318,6 +325,7 @@ const stats = computed(() => {
   const first = weightRecords[0]
   const last = weightRecords[weightRecords.length - 1]
   const previous = weightRecords[weightRecords.length - 2]
+  const sameMonthLastYear = weightRecords.find((r) => r.year === last.year - 1 && r.month === last.month) || null
   let min = weightRecords[0]
   let max = weightRecords[0]
   for (const r of weightRecords) {
@@ -327,7 +335,18 @@ const stats = computed(() => {
   const total = last.value - first.value
   const kg = last.value / 2
   const bmi = kg / Math.pow(HEIGHT_CM / 100, 2)
-  return { first, last, previous, min, max, total, bmi, monthlyChange: last.value - previous.value }
+  return {
+    first,
+    last,
+    previous,
+    sameMonthLastYear,
+    min,
+    max,
+    total,
+    bmi,
+    monthlyChange: last.value - previous.value,
+    yearlyChange: sameMonthLastYear ? last.value - sameMonthLastYear.value : null
+  }
 })
 
 const years = [...new Set(weightRecords.map((r) => r.year))].sort()
@@ -568,6 +587,11 @@ const onCmpEnter = (b) => {
   display: flex;
   flex-direction: column;
   padding: 18px 20px;
+}
+
+.metric-item-current {
+  background: linear-gradient(135deg, var(--primary-soft), color-mix(in srgb, var(--surface) 80%, var(--primary-soft)));
+  border-color: color-mix(in srgb, var(--primary) 24%, var(--line));
 }
 
 .metric-item span {

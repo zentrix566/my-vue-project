@@ -10,7 +10,7 @@
 | `src/features/history-timeline/data/personDetails.json` | 按人名索引的生卒年与生平摘要，被主数据通过人名查找 |
 | `src/features/history-timeline/data/worldHistory.json` | 世界史（非中国）扁平数组，结构与中国史不同，不要套用本文规则 |
 | `src/features/history-timeline/pages/HistoryTimeline.vue` | 渲染层。**改数据时不需要改此文件**；只有新增字段或调整展示逻辑时才需要动它 |
-| `src/data/changelog.js` | 页面顶部的更新日志，提交前可考虑补一条（非强制） |
+| `src/data/changelog.js` | 页面顶部的更新日志；历史时间轴的用户可见数据或交互改动必须同步补一条，详细格式见 `AGENTS-features.md` |
 
 原始史料笔记位于用户文档目录：
 - `D:\文档\我的文档\历史.md` —— 总纲，宋/辽/金/西夏等未单独成篇的朝代写在这里

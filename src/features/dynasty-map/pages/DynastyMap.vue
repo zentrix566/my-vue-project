@@ -64,16 +64,16 @@
 
       <!-- 底部：朝代选择 -->
       <nav class="dm-timeline" v-if="ready" aria-label="朝代时间条">
-        <button type="button" class="dm-nav" :disabled="eraIndex === 0" @click="stepEra(-1)">‹</button>
+        <button type="button" class="dm-nav" :disabled="eraIndex === 0" aria-label="上一朝代" @pointerdown.stop @touchstart.stop @click="stepEra(-1)">‹</button>
         <label class="dm-era-select-label" for="dynasty-era-select">选择朝代</label>
         <select id="dynasty-era-select" class="dm-era-select" :value="eraIndex"
-          @change="setEra(Number($event.target.value))">
+          @pointerdown.stop @touchstart.stop @change="setEra(Number($event.target.value))">
           <option v-for="(d, i) in dynasties" :key="d.key" :value="i">
             {{ d.name }} · {{ shortYear(d.startYear) }}
           </option>
         </select>
         <span class="dm-era-current">{{ dynasty.name }}<small>{{ dynasty.year }}</small></span>
-        <button type="button" class="dm-nav" :disabled="eraIndex === dynasties.length - 1" @click="stepEra(1)">›</button>
+        <button type="button" class="dm-nav" :disabled="eraIndex === dynasties.length - 1" aria-label="下一朝代" @pointerdown.stop @touchstart.stop @click="stepEra(1)">›</button>
       </nav>
 
       <div v-if="loading" class="dm-overlay">

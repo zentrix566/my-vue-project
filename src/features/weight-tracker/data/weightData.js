@@ -39,5 +39,6 @@ export const weightRecords = [
   { year: 2026, month: 4, value: 161.7 },
   { year: 2026, month: 5, value: 158.2 },
   { year: 2026, month: 6, value: 159.4 },
-  { year: 2026, month: 7, value: 164.1 }
+  { year: 2026, month: 7, value: 164.1 },
+  { year: 2026, month: 8, value: 161.6 }
 ]

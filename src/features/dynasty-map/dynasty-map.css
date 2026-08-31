@@ -818,7 +818,25 @@
 }
 
 @media (max-width: 760px) {
-  .dynasty-map-page .dm-timeline { width: calc(100% - 20px); gap: 7px; }
+  .dynasty-map-page .dm-timeline {
+    width: calc(100% - 20px);
+    bottom: 10px;
+    gap: 8px;
+    padding: 8px;
+  }
   .dm-era-select-label, .dm-era-current { display: none; }
-  .dm-era-select { min-width: 0; flex: 1; }
+  .dm-era-select {
+    min-width: 0;
+    min-height: 46px;
+    flex: 1;
+    font-size: 16px;
+    touch-action: manipulation;
+  }
+  .dm-nav {
+    width: 46px;
+    height: 46px;
+    font-size: 28px;
+    line-height: 1;
+    touch-action: manipulation;
+  }
 }

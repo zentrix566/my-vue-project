@@ -20,6 +20,11 @@
           <small>{{ labelOf(stats.last) }}</small>
         </div>
         <div class="metric-item">
+          <span>本月变化</span>
+          <strong :class="stats.monthlyChange < 0 ? 'trend-down' : 'trend-up'">{{ signed(stats.monthlyChange) }}</strong>
+          <small>较 {{ labelOf(stats.previous) }}（斤）</small>
+        </div>
+        <div class="metric-item">
           <span>累计变化</span>
           <strong :class="stats.total < 0 ? 'trend-down' : 'trend-up'">{{ signed(stats.total) }}</strong>
           <small>斤</small>
@@ -67,7 +72,7 @@
             <text v-for="t in overall.janTicks" :key="'xy'+t.x" :x="t.x" :y="overall.H - overall.B + 33" font-size="10" font-weight="700" fill="var(--text)" text-anchor="middle">{{ t.year }}</text>
             <path class="trend-path" :d="overall.path" />
             <g v-for="(r,i) in weightRecords" :key="'pt'+i">
-              <circle :cx="overall.x(i)" :cy="overall.y(r.value)" r="11" fill="transparent" pointer-events="all" class="hit" @mouseenter="onOverallEnter(r,i)" @mouseleave="overallHover=null" />
+              <circle :cx="overall.x(i)" :cy="overall.y(r.value)" r="11" fill="transparent" pointer-events="all" class="hit" @mouseenter="onOverallEnter(r,i)" @click="onOverallEnter(r,i)" @mouseleave="overallHover=null" />
               <circle :cx="overall.x(i)" :cy="overall.y(r.value)" r="2.4" class="dot" :class="{ 'dot-max': r.value===stats.max.value, 'dot-min': r.value===stats.min.value }" />
             </g>
             <g v-if="overallHover" class="chart-tip">
@@ -98,7 +103,7 @@
                 <text v-for="p in yc.xLabels" :key="'x'+yc.year+p.label" :x="p.x" :y="yc.H - yc.B + 16" font-size="10" fill="var(--muted)" text-anchor="middle">{{ p.label }}</text>
                 <path class="trend-path" :d="yc.path" />
                 <g v-for="(p,i) in yc.points" :key="'p'+yc.year+p.label">
-                  <circle :cx="p.x" :cy="p.y" r="9" fill="transparent" pointer-events="all" class="hit" @mouseenter="onYearEnter(yc.year, p)" @mouseleave="yearHover=null" />
+                  <circle :cx="p.x" :cy="p.y" r="9" fill="transparent" pointer-events="all" class="hit" @mouseenter="onYearEnter(yc.year, p)" @click="onYearEnter(yc.year, p)" @mouseleave="yearHover=null" />
                   <circle :cx="p.x" :cy="p.y" r="2.4" class="dot" :class="{ 'dot-max': p.kind==='max', 'dot-min': p.kind==='min' }" />
                 </g>
                 <g v-if="yearHover && yearHover.year===yc.year" class="chart-tip">
@@ -135,7 +140,7 @@
                 :class="b.value >= 0 ? 'bar-up' : 'bar-down'"
                 rx="1.5"
                 class="hit"
-                @mouseenter="onDeltaEnter(b)" @mouseleave="deltaHover=null"
+                @mouseenter="onDeltaEnter(b)" @click="onDeltaEnter(b)" @mouseleave="deltaHover=null"
               />
               <text
                 v-if="Math.abs(b.value) >= 4"
@@ -220,7 +225,7 @@
               :fill="b.color"
               rx="1.5"
               class="hit"
-              @mouseenter="onCmpEnter(b)" @mouseleave="cmpHover=null"
+              @mouseenter="onCmpEnter(b)" @click="onCmpEnter(b)" @mouseleave="cmpHover=null"
             />
             <g v-if="cmpHover" class="chart-tip">
               <rect :x="cmpHover.tip.x" :y="cmpHover.tip.y" :width="cmpHover.tip.w" :height="cmpHover.tip.h" rx="6" />
@@ -312,6 +317,7 @@ const onDeltaEnter = (b) => {
 const stats = computed(() => {
   const first = weightRecords[0]
   const last = weightRecords[weightRecords.length - 1]
+  const previous = weightRecords[weightRecords.length - 2]
   let min = weightRecords[0]
   let max = weightRecords[0]
   for (const r of weightRecords) {
@@ -321,7 +327,7 @@ const stats = computed(() => {
   const total = last.value - first.value
   const kg = last.value / 2
   const bmi = kg / Math.pow(HEIGHT_CM / 100, 2)
-  return { first, last, min, max, total, bmi }
+  return { first, last, previous, min, max, total, bmi, monthlyChange: last.value - previous.value }
 })
 
 const years = [...new Set(weightRecords.map((r) => r.year))].sort()

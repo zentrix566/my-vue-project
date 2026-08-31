@@ -840,3 +840,170 @@
     touch-action: manipulation;
   }
 }
+
+/* ---------- 2026-08 · 卫星地貌历史地图 ---------- */
+
+.dynasty-map-page {
+  --dm-glass: rgba(14, 24, 31, .78);
+  --dm-glass-border: rgba(255, 255, 255, .16);
+  --dm-text: #f6f4eb;
+  --dm-muted: #c2cbc8;
+}
+
+.dynasty-map-page .dm-stage {
+  height: clamp(600px, calc(100vh - 190px), 920px);
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(85, 137, 158, .38), transparent 36%),
+    linear-gradient(145deg, #294f66 0%, #17394f 52%, #0e293d 100%);
+  border-color: rgba(165, 204, 216, .34);
+  box-shadow: 0 26px 70px -24px rgba(13, 31, 40, .72);
+}
+
+.dynasty-map-page .dm-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .19;
+  mix-blend-mode: soft-light;
+  background-image:
+    repeating-linear-gradient(116deg, transparent 0 3px, rgba(255,255,255,.08) 4px, transparent 5px 12px),
+    repeating-linear-gradient(24deg, transparent 0 7px, rgba(0,0,0,.12) 8px, transparent 10px 19px);
+}
+
+.dynasty-map-page .dm-canvas-host,
+.dynasty-map-page .dm-label-root { z-index: 2; }
+
+.dynasty-map-page .dm-vignette {
+  display: block;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, transparent 56%, rgba(3, 15, 24, .32) 100%);
+}
+
+.dynasty-map-page .dm-info,
+.dynasty-map-page .dm-toolbar,
+.dynasty-map-page .dm-timeline {
+  color: var(--dm-text);
+  background: var(--dm-glass);
+  border-color: var(--dm-glass-border);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .28);
+  backdrop-filter: blur(12px) saturate(1.25);
+}
+
+.dynasty-map-page .dm-info {
+  width: min(286px, calc(100% - 32px));
+  padding: 13px 15px;
+}
+
+.dynasty-map-page .dm-info-name { font-size: 22px; }
+.dynasty-map-page .dm-info-intro { color: #dde4df; }
+.dynasty-map-page .dm-info-capital { color: #ffe0aa; }
+.dynasty-map-page .dm-info-sec,
+.dynasty-map-page .dm-info-year,
+.dynasty-map-page .dm-type-legend .dm-legend-item { color: var(--dm-muted); }
+
+.dynasty-map-page .dm-chip,
+.dynasty-map-page .dm-tool,
+.dynasty-map-page .dm-nav {
+  color: #f6f4eb;
+  background: rgba(255, 255, 255, .055);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.dynasty-map-page .dm-chip:hover,
+.dynasty-map-page .dm-tool:hover,
+.dynasty-map-page .dm-nav:not(:disabled):hover { background: rgba(255, 255, 255, .13); }
+
+.dynasty-map-page .dm-selected-faction {
+  color: #e4e8e0;
+  background: rgba(255, 255, 255, .07);
+}
+.dynasty-map-page .dm-selected-faction strong { color: #fff; }
+
+.dynasty-map-page .dm-label--faction {
+  color: #fffdf2 !important;
+  font-size: clamp(24px, 2.3vw, 34px);
+  font-family: "STKaiti", "KaiTi", "Noto Serif SC", serif;
+  font-weight: 900;
+  letter-spacing: .22em;
+  -webkit-text-stroke: 1px rgba(22, 30, 31, .4);
+  text-shadow:
+    0 2px 2px rgba(0, 0, 0, .75),
+    0 0 10px rgba(0, 0, 0, .55),
+    0 0 22px rgba(255, 255, 255, .28);
+}
+
+.dynasty-map-page .dm-label--capital,
+.dynasty-map-page .dm-label--city,
+.dynasty-map-page .dm-label--pass,
+.dynasty-map-page .dm-label--town {
+  color: #fff;
+  background: rgba(17, 29, 34, .66);
+  border-color: rgba(255, 255, 255, .24);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .28);
+  text-shadow: 0 1px 2px rgba(0,0,0,.9);
+}
+
+.dynasty-map-page .dm-label--capital {
+  color: #fff4d8;
+  border-color: rgba(255, 197, 86, .78);
+  background: rgba(78, 42, 19, .72);
+}
+
+.dynasty-map-page .dm-label--division {
+  color: rgba(255,255,255,.86);
+  text-shadow: 0 1px 4px rgba(0,0,0,.95);
+}
+
+.dynasty-map-page .dm-label--context {
+  color: rgba(236, 239, 226, .66);
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .82);
+}
+
+.dynasty-map-page .dm-toolbar { padding: 5px; }
+.dynasty-map-page .dm-tool { padding: 6px 9px; }
+
+.dynasty-map-page .dm-timeline {
+  width: min(530px, calc(100% - 32px));
+  padding: 7px 9px;
+}
+
+.dynasty-map-page .dm-era-select-label { color: #c8d1cd; }
+.dynasty-map-page .dm-era-select {
+  color: #f8f5e9;
+  background: rgba(25, 40, 46, .94);
+  border-color: rgba(255,255,255,.2);
+}
+.dynasty-map-page .dm-era-current { color: #fff; }
+.dynasty-map-page .dm-era-current small { color: #bdc8c4; }
+
+.dynasty-map-page .dm-foot { color: var(--muted); }
+
+@media (max-width: 760px) {
+  .dynasty-map-page .dm-stage {
+    height: calc(100svh - 112px);
+    min-height: 610px;
+    margin-inline: -12px;
+    border-radius: 12px;
+  }
+  .dynasty-map-page .dm-info {
+    top: 10px;
+    left: 10px;
+    width: min(235px, calc(100% - 78px));
+  }
+  .dynasty-map-page .dm-info-intro { display: none; }
+  .dynasty-map-page .dm-toolbar {
+    top: 10px;
+    right: 10px;
+    flex-direction: column;
+    max-width: 48px;
+  }
+  .dynasty-map-page .dm-tool { justify-content: center; min-height: 36px; }
+  .dynasty-map-page .dm-tool span { display: none; }
+}

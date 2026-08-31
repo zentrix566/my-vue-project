@@ -8,8 +8,8 @@ import { LineMaterial } from 'three/addons/lines/LineMaterial.js'
 import { ringsToShape, polylineToXZ, polygonAreaXZ } from '../geo.js'
 import { morandi } from '../palette.js'
 
-const BASE_HEIGHT = 2.1
-const MAX_BOOST = 0.8 // 大政权比小政权最多高这么多，形成细微高度差
+const BASE_HEIGHT = 0.72
+const MAX_BOOST = 0.16 // 接近平面地图，仅保留一点层次供边界与拾取使用
 
 export function buildTerritories(factions) {
   const group = new THREE.Group()
@@ -40,9 +40,9 @@ export function buildTerritories(factions) {
       roughness: 0.62,
       metalness: 0.05,
       emissive: new THREE.Color(colors.side),
-      emissiveIntensity: 0.35,
+      emissiveIntensity: 0.08,
       transparent: true,
-      opacity: 0.78,
+      opacity: 0.69,
       polygonOffset: true,
       polygonOffsetFactor: 1,
       polygonOffsetUnits: 1
@@ -58,10 +58,10 @@ export function buildTerritories(factions) {
       const lg = new LineGeometry()
       lg.setPositions(pts.flatMap((v) => [v.x, height + 0.12, v.z]))
       const lm = new LineMaterial({
-        color: 0x493b2c,
-        linewidth: 3.6,
+        color: 0x26333a,
+        linewidth: 2.25,
         transparent: true,
-        opacity: 0.95
+        opacity: 0.9
       })
       const loop = new Line2(lg, lm)
       loop.computeLineDistances()
@@ -80,8 +80,8 @@ export function buildTerritories(factions) {
     setFaction(key) {
       for (const m of meshes) {
         const on = !key || m.userData.faction === key
-        m.material.opacity = key ? (on ? 0.9 : 0.2) : 0.78
-        m.material.emissiveIntensity = key ? (on ? 0.85 : 0.15) : 0.35
+        m.material.opacity = key ? (on ? 0.82 : 0.16) : 0.69
+        m.material.emissiveIntensity = key ? (on ? 0.25 : 0.03) : 0.08
         for (const loop of m.userData.lineLoops || []) {
           loop.material.opacity = key ? (on ? 1 : 0.15) : 0.9
         }

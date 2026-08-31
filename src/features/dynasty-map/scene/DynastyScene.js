@@ -8,6 +8,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import { buildProvinces } from './layers/provinces.js'
+import { buildContext } from './layers/context.js'
 import { buildTerritories } from './layers/territories.js'
 import { buildDivisions } from './layers/divisions.js'
 import { buildCities } from './layers/cities.js'
@@ -17,6 +18,7 @@ import { rivers as riverData } from '../data/rivers.js'
 import { LabelManager } from './labels/LabelManager.js'
 import { project } from './geo.js'
 import { CITY_TIERS, morandi } from './palette.js'
+import contextGeoJson from '../data/geo/east-asia-context.json'
 
 // 2D 历史地图：正交相机正俯视，拖拽只负责平移，滚轮负责缩放。
 const DEFAULT_CAM_POS = new THREE.Vector3(0, 160, 0)
@@ -60,11 +62,11 @@ export class DynastyScene {
     this.controls.autoRotate = false
     this.controls.addEventListener('start', () => this.cancelCameraTween())
 
-    this.scene.add(new THREE.AmbientLight(0xbfd0e8, 1.15))
-    const dir = new THREE.DirectionalLight(0xdfe8ff, 1.5)
+    this.scene.add(new THREE.AmbientLight(0xfff4de, 1.4))
+    const dir = new THREE.DirectionalLight(0xfff2d7, 1.7)
     dir.position.set(40, 80, 30)
     this.scene.add(dir)
-    const dir2 = new THREE.DirectionalLight(0x7a8fc0, 0.5)
+    const dir2 = new THREE.DirectionalLight(0x9eb7c0, 0.38)
     dir2.position.set(-50, 30, -40)
     this.scene.add(dir2)
 
@@ -90,6 +92,7 @@ export class DynastyScene {
     this.labelRoot.appendChild(this.divLabel)
     this.hoverDivision = null
 
+    this.context = null
     this.provinces = null
     this.territories = null
     this.divisions = null
@@ -137,13 +140,20 @@ export class DynastyScene {
     // 大范围海洋底：拖到非国家区域时显示地图底色，不让透明 WebGL 画布露出纸张舞台。
     const geom = new THREE.CircleGeometry(500, 96)
     geom.rotateX(-Math.PI / 2)
-    const mat = new THREE.MeshBasicMaterial({ color: '#b9c9d8', depthWrite: false })
+    const mat = new THREE.MeshBasicMaterial({ color: '#315c78', depthWrite: false })
     const mesh = new THREE.Mesh(geom, mat)
     mesh.position.y = -0.3
     return mesh
   }
 
   setGeoJson(geoJson) {
+    if (this.context) {
+      this.scene.remove(this.context.group)
+      this.context.dispose()
+    }
+    this.context = buildContext(contextGeoJson)
+    this.scene.add(this.context.group)
+
     if (this.provinces) {
       this.scene.remove(this.provinces.group)
       this.provinces.dispose()
@@ -213,7 +223,7 @@ export class DynastyScene {
       rank: (CITY_TIERS[c.type] || CITY_TIERS.town).rank,
       cityIndex: i
     }))
-    this.labels.setEra(citySpecs, factionSpecs, this.divisions.labelSpecs())
+    this.labels.setEra(citySpecs, factionSpecs, this.divisions.labelSpecs(), this.context?.labels || [])
 
     const view = this.defaultView()
     this.tweenCamera(view.pos, view.tgt, 850)
@@ -356,7 +366,9 @@ export class DynastyScene {
     const w = this.container.clientWidth
     const h = this.container.clientHeight
     if (w < 50 || h < 50) return // 容器隐藏/切换瞬间不按 0 尺寸重建
-    const viewHeight = 120
+    // 让中国主体在横屏中占到约 2/3 画面，接近视频历史地图的满幅构图；
+    // 仍保留四周海域和拖拽余量。
+    const viewHeight = 102
     const viewWidth = viewHeight * w / h
     this.camera.left = -viewWidth / 2
     this.camera.right = viewWidth / 2
@@ -461,6 +473,7 @@ export class DynastyScene {
     this.renderer.domElement.removeEventListener('pointermove', this.handleMove)
     this.controls.dispose()
     this.labels.dispose()
+    this.context?.dispose()
     this.provinces?.dispose()
     this.divisions?.dispose()
     this.territories?.dispose()

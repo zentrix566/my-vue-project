@@ -11,8 +11,9 @@ import { ZOOM_TIERS } from '../palette.js'
 
 const FONT_BODY = '600 12.5px "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
 const FONT_CAPITAL = '700 13.5px "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
-const FONT_FACTION = '800 24px "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+const FONT_FACTION = '900 32px "STKaiti", "KaiTi", "Noto Serif SC", serif'
 const FONT_DIVISION = '500 11px "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+const FONT_CONTEXT = '600 12px "Noto Serif SC", "Songti SC", serif'
 
 export class LabelManager {
   constructor(container) {
@@ -36,7 +37,7 @@ export class LabelManager {
   // citySpecs: { name, rank, cityIndex, type }[]（锚点每帧取城市柱顶坐标）
   // factionSpecs: { name, color, anchor: Vector3 }[]（世界坐标静态锚点）
   // divisionSpecs: { name, anchor: Vector3 }[]（郡/州名，最近缩放档显示）
-  setEra(citySpecs, factionSpecs, divisionSpecs = []) {
+  setEra(citySpecs, factionSpecs, divisionSpecs = [], contextSpecs = []) {
     this.clear()
     for (const f of factionSpecs) {
       this.labels.push({
@@ -70,18 +71,30 @@ export class LabelManager {
         el: this.createEl('dm-label dm-label--division')
       })
     }
+    for (const c of contextSpecs) {
+      this.labels.push({
+        kind: 'context',
+        name: c.name,
+        rank: 5,
+        cityIndex: -1,
+        anchor: c.anchor,
+        el: this.createEl('dm-label dm-label--context')
+      })
+    }
     for (const lb of this.labels) {
       lb.el.textContent = lb.name
       this.measureCtx.font = lb.kind === 'faction'
         ? FONT_FACTION
-        : (lb.kind === 'division' ? FONT_DIVISION : (lb.rank === 0 ? FONT_CAPITAL : FONT_BODY))
+        : (lb.kind === 'division'
+            ? FONT_DIVISION
+            : (lb.kind === 'context' ? FONT_CONTEXT : (lb.rank === 0 ? FONT_CAPITAL : FONT_BODY)))
       const w = this.measureCtx.measureText(lb.name).width
       // 城邑胶囊有左右 padding 与边框；政权名/郡名为裸字加 letter-spacing
       lb.boxW = lb.kind === 'faction'
         ? w + lb.name.length * 4 + 20
-        : (lb.kind === 'division' ? w + lb.name.length * 3 + 8 : w + 24)
-      lb.boxH = lb.kind === 'faction' ? 36 : (lb.kind === 'division' ? 16 : 24)
-      if (lb.kind === 'faction') lb.el.style.color = lb.color
+        : (lb.kind === 'division' ? w + lb.name.length * 3 + 8 : (lb.kind === 'context' ? w + 16 : w + 24))
+      lb.boxH = lb.kind === 'faction' ? 36 : (lb.kind === 'division' ? 16 : (lb.kind === 'context' ? 18 : 24))
+      if (lb.kind === 'faction') lb.el.style.setProperty('--label-color', lb.color)
       this.container.appendChild(lb.el)
     }
   }
@@ -100,7 +113,7 @@ export class LabelManager {
 
     const candidates = []
     for (const lb of this.labels) {
-      if (lb.kind === 'faction' || lb.kind === 'division') {
+      if (lb.kind === 'faction' || lb.kind === 'division' || lb.kind === 'context') {
         v.copy(lb.anchor)
       } else {
         const p = topPositions[lb.cityIndex]

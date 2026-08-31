@@ -1,6 +1,6 @@
-// 莫兰迪色系推导与城市等级常量。
-// 数据文件里各政权的原始颜色饱和度不一，这里统一做「降饱和 + 统一明度」的
-// HSL 压缩，政权之间仍可区分，但整体呈低饱和莫兰迪观感。
+// 历史地图册配色与城市等级常量。
+// 保留原始政权色相，同时把饱和度和明度收敛到适合叠在地形底图上的范围：
+// 颜色醒目，但不会遮死底下的山川纹理。
 
 // hex → HSL（h: 0-360, s/l: 0-1）
 function hexToHsl(hex) {
@@ -52,9 +52,9 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 // 原始 faction 色 → 莫兰迪主色（顶面）/ 深色（侧面）/ 亮色（边界与高亮）
 export function morandi(hex) {
   const { h, s } = hexToHsl(hex)
-  const top = hslToHex(h, clamp(s, 0.14, 0.3), 0.62)
-  const side = hslToHex(h, clamp(s, 0.16, 0.32), 0.4)
-  const bright = hslToHex(h, clamp(s, 0.3, 0.5), 0.76)
+  const top = hslToHex(h, clamp(s * 1.1, 0.44, 0.7), 0.53)
+  const side = hslToHex(h, clamp(s, 0.38, 0.62), 0.34)
+  const bright = hslToHex(h, clamp(s * 1.15, 0.55, 0.78), 0.7)
   return { top, side, bright }
 }
 

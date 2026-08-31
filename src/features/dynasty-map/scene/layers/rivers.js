@@ -8,7 +8,7 @@ import { LineMaterial } from 'three/addons/lines/LineMaterial.js'
 import { polylineToXZ } from '../geo.js'
 
 const BASE_WIDTH = 1.7
-const LINE_HEIGHT = 3.6
+const LINE_HEIGHT = 1.15
 
 export function buildRivers(rivers) {
   const group = new THREE.Group()

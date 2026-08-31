@@ -65,12 +65,12 @@ export function buildDivisions(factions, cities, heights) {
         const tint = new THREE.Color(colors.top).offsetHSL(0, 0, lightnessJitter(name, i))
         const baseMat = new THREE.MeshStandardMaterial({
           color: tint,
-          roughness: 0.66,
-          metalness: 0.04,
+          roughness: 0.9,
+          metalness: 0,
           emissive: new THREE.Color(colors.side),
-          emissiveIntensity: 0.3,
+          emissiveIntensity: 0.04,
           transparent: true,
-          opacity: 0.97
+          opacity: 0.68
         })
         const mesh = new THREE.Mesh(geom, baseMat)
         mesh.position.y = height + 0.03

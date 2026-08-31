@@ -2,8 +2,8 @@
 // 一次构建、跨朝代复用；每省单独成 mesh 以支持拾取与悬停。
 
 import * as THREE from 'three'
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
 import { ringsToShape } from '../geo.js'
+import { addTerrainVertexColors } from '../terrain.js'
 
 const PROVINCE_HEIGHT = 0.42
 
@@ -12,19 +12,16 @@ export function buildProvinces(geoJson) {
   group.name = 'provinces'
 
   const baseMat = new THREE.MeshStandardMaterial({
-    color: '#1d2841',
-    roughness: 0.85,
-    metalness: 0.1,
-    emissive: '#0a1020',
-    emissiveIntensity: 0.5
+    color: '#ffffff',
+    roughness: 1,
+    metalness: 0,
+    vertexColors: true
   })
   const hoverMat = baseMat.clone()
-  hoverMat.color = new THREE.Color('#2b3a5f')
-  hoverMat.emissive = new THREE.Color('#1a2745')
-  hoverMat.emissiveIntensity = 1
+  hoverMat.emissive = new THREE.Color('#dce9bd')
+  hoverMat.emissiveIntensity = 0.22
 
   const meshes = []
-  const borderGeoms = []
   for (const feature of geoJson.features) {
     const name = feature.properties && feature.properties.name
     if (!name || !feature.geometry) continue
@@ -46,23 +43,24 @@ export function buildProvinces(geoJson) {
       curveSegments: 1
     })
     geom.rotateX(-Math.PI / 2)
+    addTerrainVertexColors(geom)
     const mesh = new THREE.Mesh(geom, baseMat)
     mesh.userData = { kind: 'province', name, baseMat, hoverMat }
     group.add(mesh)
     meshes.push(mesh)
-    borderGeoms.push(geom)
   }
 
-  // 省界细描边：所有省几何合并后取一次棱边，省 draw call
-  const merged = mergeGeometries(borderGeoms, false)
-  const lines = new THREE.LineSegments(
-    new THREE.EdgesGeometry(merged, 18),
-    new THREE.LineBasicMaterial({ color: '#3a4a72', transparent: true, opacity: 0.55 })
-  )
-  lines.position.y = PROVINCE_HEIGHT + 0.02
-  lines.renderOrder = 1
+  // 现代省界由每省外缘细线表现，低对比度，避免与历史国界争夺注意力。
+  const lines = new THREE.Group()
+  for (const mesh of meshes) {
+    const edge = new THREE.LineSegments(
+      new THREE.EdgesGeometry(mesh.geometry, 22),
+      new THREE.LineBasicMaterial({ color: '#dde3cf', transparent: true, opacity: 0.27 })
+    )
+    edge.position.y = PROVINCE_HEIGHT + 0.02
+    lines.add(edge)
+  }
   group.add(lines)
-  merged.dispose()
 
   return {
     group,
@@ -76,8 +74,10 @@ export function buildProvinces(geoJson) {
       for (const m of meshes) m.geometry.dispose()
       baseMat.dispose()
       hoverMat.dispose()
-      lines.geometry.dispose()
-      lines.material.dispose()
+      for (const edge of lines.children) {
+        edge.geometry.dispose()
+        edge.material.dispose()
+      }
     }
   }
 }

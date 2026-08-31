@@ -4,7 +4,7 @@
       <RouterLink to="/" class="back">← 返回主页</RouterLink>
       <p class="eyebrow">HISTORICAL ATLAS · 中国历史地图</p>
       <h1>历代疆域图</h1>
-      <p class="dm-sub">以历史地图册的方式浏览中国历代疆域：彩色区域表示主要政权，深色线条表示国界与边界，重点城市按都城、州郡重镇和关隘分级标注。</p>
+      <p class="dm-sub">在东亚地貌底图上浏览中国历代疆域：鲜明色块表示主要政权，周边国家作为低对比度地理参照，山川、水系与城邑共同呈现时代格局。</p>
     </header>
 
     <div class="dm-stage" :class="{ 'is-switching': switching }" :style="{ '--accent': dynasty.color }">
@@ -88,7 +88,7 @@
     </div>
 
     <p class="form-hint dm-foot">
-      底图支持现代省界、历史国界、城市和长城分层显示；历代疆域为参照历史地图集整理的示意轮廓，城邑坐标取今址经纬度，仅作地理大势参考，非精确历史边界。
+      底图包含 Natural Earth 东亚周边国家轮廓，并支持现代省界、历史国界、城市和长城分层显示；历代疆域为参照历史地图集整理的示意轮廓，城邑坐标取今址经纬度，仅作地理大势参考，非精确历史边界。
     </p>
   </section>
 </template>

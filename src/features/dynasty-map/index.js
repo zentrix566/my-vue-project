@@ -1,15 +1,15 @@
 export default {
   slug: 'dynasty-map',
-  title: '历代疆域·3D地图',
+  title: '历代疆域·历史地图',
   emoji: '🏯',
-  description: '秦至清十五个时期的 3D 疆域沙盘：疆域按郡/州划块立体拔起，都城与重镇化作光柱，悬停显示郡名，支持自动巡游。',
+  description: '在东亚地貌底图上浏览历代疆域：多彩政权、山川水系、周边国家、都城重镇与郡州边界分层呈现。',
   order: 3,
   routes: [
     {
       path: '/dynasty-map',
       name: 'dynasty-map',
       loader: () => import('./pages/DynastyMap.vue'),
-      meta: { title: '历代疆域 · 3D 地图' }
+      meta: { title: '历代疆域 · 历史地图' }
     }
   ]
 }

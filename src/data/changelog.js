@@ -3,6 +3,13 @@
 // 渲染层可参考 E:\github\my-index\src\data\changelog.js 与 Changelog.vue。
 export const changelog = [
   {
+    date: '2026-09-04',
+    title: '新增当代世界地图',
+    changes: [
+      '【当代世界地图】新增 /world-map：基于离线 Natural Earth 国界数据浏览当代世界，支持国家点按高亮、中文/英文关键词检索、大洲筛选、滚轮缩放、拖动平移、键盘点按与一键复位；台湾轮廓并入中国同一地图要素，交互名称统一使用中文；修复跨越 180°经线时 SVG 误连出的横向伪边界。'
+    ]
+  },
+  {
     date: '2026-09-02',
     title: '新增炉石传说上传说记录',
     changes: [

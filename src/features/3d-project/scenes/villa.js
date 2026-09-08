@@ -1,13 +1,13 @@
-// 别墅场景：现代加州豪宅外景（参考洛杉矶山坡豪宅气质：平顶大宅、玻璃幕墙、
-// 后院大泳池、车道与棕榈树）。坐标约定：x 为左右，z 为前后（正面朝 +z），y 为高度。
+// 别墅场景：现代加州豪宅剖面图（切开正面露出内部装修与家具）。
+// 坐标约定：x 左右，z 前后（正面朝 +z，剖面切口在 +z），y 高度。
 import * as THREE from 'three'
 import { box } from '../framework.js'
 
 function createMaterials() {
-  const std = (color, roughness = 0.9) =>
-    new THREE.MeshStandardMaterial({ color, roughness, metalness: 0 })
-
+  const std = (color, roughness = 0.9, metalness = 0) =>
+    new THREE.MeshStandardMaterial({ color, roughness, metalness })
   return {
+    // 外部
     grass: std(0x79b455, 1),
     driveway: std(0x8a8782, 0.85),
     stone: std(0xcfc9bf, 0.8),
@@ -21,10 +21,7 @@ function createMaterials() {
       transparent: true,
       opacity: 0.7
     }),
-    frame: std(0x5a5752, 0.6),
-    door: std(0x6b4a2f, 0.7),
     garage: std(0xb9b4ad, 0.6),
-    wood: std(0x7a5a3a, 0.8),
     trunk: std(0x7a5a3a, 0.9),
     palmLeaf: std(0x3f7a3a, 0.95),
     leaf: std(0x4c8a3f, 0.95),
@@ -35,11 +32,25 @@ function createMaterials() {
       metalness: 0.05,
       transparent: true,
       opacity: 0.85
-    })
+    }),
+    // 内部装修
+    floorWood: std(0x8b6b4a, 0.85),
+    carpet: std(0xc9b896, 0.95),
+    sofa: std(0x6f6f6d, 0.9),
+    cushion: std(0x9a9a98, 0.9),
+    tableTop: std(0xa07852, 0.8),
+    island: std(0xeeeae2, 0.7),
+    stove: std(0x2a2a2a, 0.5),
+    fridge: std(0xc8c8c8, 0.4, 0.3),
+    bed: std(0x8a6f4d, 0.8),
+    mattress: std(0xf2f0ec, 0.9),
+    wardrobe: std(0x6b4a2f, 0.8),
+    tvScreen: std(0x121212, 0.3),
+    stair: std(0x9a7a52, 0.8),
+    handrail: std(0x4a3a2a, 0.7)
   }
 }
 
-// 一棵普通树：树干 + 球形树冠
 function addTree(group, mats, x, z, scale = 1) {
   const tree = new THREE.Group()
   const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.22, 2, 10), mats.trunk)
@@ -55,7 +66,6 @@ function addTree(group, mats, x, z, scale = 1) {
   group.add(tree)
 }
 
-// 一棵棕榈树：细高树干 + 顶部放射状下垂叶片
 function addPalm(group, mats, x, z, h = 6) {
   const palm = new THREE.Group()
   const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.2, h, 8), mats.trunk)
@@ -73,117 +83,223 @@ function addPalm(group, mats, x, z, h = 6) {
     holder.add(leaf)
     crown.add(holder)
   }
-  palm.add(crown)
   palm.position.set(x, 0, z)
   group.add(palm)
-}
-
-// 一条竖向窗框（玻璃幕墙的隔断）
-function addMullion(group, mats, x, y, z, h) {
-  const bar = box(0.06, h, 0.1, mats.frame, { castShadow: false })
-  bar.position.set(x, y, z)
-  group.add(bar)
 }
 
 export default {
   id: 'villa',
   label: '别墅',
   views: [
-    { key: 'overview', label: '全景', position: [19, 12, 20], target: [0, 2.5, -2] },
-    { key: 'front', label: '正面', position: [0, 2.8, 19], target: [0, 2.8, -2] },
-    { key: 'top', label: '俯视', position: [0, 26, 2], target: [0, 0, -2] }
+    { key: 'overview', label: '全景', position: [22, 14, 22], target: [0, 3, -3] },
+    { key: 'front', label: '剖面', position: [0, 4, 22], target: [0, 3, -2] },
+    { key: 'top', label: '俯视', position: [0, 28, 2], target: [0, 2, -2] }
   ],
   build(group) {
     const mats = createMaterials()
 
-    // 草地
+    // ===== 外部地形 =====
     const grass = box(46, 0.3, 36, mats.grass, { castShadow: false })
     grass.position.set(0, -0.15, 0)
     group.add(grass)
 
-    // 车道：从正门延伸到草地前缘
     const driveway = box(6, 0.05, 11, mats.driveway)
     driveway.position.set(0, 0.03, 9.5)
     group.add(driveway)
 
-    // 地基平台
     const foundation = box(22, 0.5, 16, mats.stone)
     foundation.position.set(0, 0.25, -2)
     group.add(foundation)
 
-    // 一层主体（挑高大厅）
-    const body = box(20, 4.5, 13, mats.wall)
-    body.position.set(0, 0.5 + 2.25, -2)
-    group.add(body)
+    // ===== 一层空壳（剖面切口在 +z 侧，开放）=====
+    // 地板（深木色）
+    const floor1 = box(20, 0.2, 13, mats.floorWood)
+    floor1.position.set(0, 0.6, -2)
+    group.add(floor1)
+    // 后墙（z=-8.5，厚 0.3）
+    const backWall = box(20, 4.5, 0.3, mats.wall)
+    backWall.position.set(0, 2.75, -8.35)
+    group.add(backWall)
+    // 左墙（x=-10）
+    const leftWall = box(0.3, 4.5, 13, mats.wall)
+    leftWall.position.set(-9.85, 2.75, -2)
+    group.add(leftWall)
+    // 右墙（x=+10）
+    const rightWall = box(0.3, 4.5, 13, mats.wall)
+    rightWall.position.set(9.85, 2.75, -2)
+    group.add(rightWall)
+    // 顶板/二层楼板（y 5.0~5.3，跨整个 20×13；一层挑空大厅的天花兼二层地板）
+    const slab1 = box(20, 0.3, 13, mats.floorWood)
+    slab1.position.set(0, 5.15, -2)
+    group.add(slab1)
+    // 内部隔墙（x=0，分客厅/餐厨，不到顶以与挑空视觉连通）
+    const innerWall = box(0.15, 4.0, 13, mats.wall)
+    innerWall.position.set(0, 2.7, -2)
+    group.add(innerWall)
 
-    // 一层平顶 + 女儿墙
-    const roof1 = box(20.8, 0.5, 13.8, mats.roof)
-    roof1.position.set(0, 0.5 + 4.5 + 0.25, -2)
-    group.add(roof1)
-
-    // 二层（左侧挑高体块）
-    const upper = box(10, 2.8, 9, mats.wall)
-    upper.position.set(-5, 0.5 + 4.5 + 1.4, -2)
-    group.add(upper)
+    // ===== 二层空壳（x -10~0, z -6.5~2.5；切掉 +z 和 +x 开放）=====
+    const backWall2 = box(10, 2.8, 0.3, mats.wall)
+    backWall2.position.set(-5, 6.4, -6.35)
+    group.add(backWall2)
+    const leftWall2 = box(0.3, 2.8, 9, mats.wall)
+    leftWall2.position.set(-9.85, 6.4, -2)
+    group.add(leftWall2)
+    const slab2 = box(10, 0.3, 9, mats.floorWood)
+    slab2.position.set(-5, 7.65, -2)
+    group.add(slab2)
+    // 二层屋顶
     const roof2 = box(10.8, 0.4, 9.8, mats.roof)
-    roof2.position.set(-5, 0.5 + 4.5 + 2.8 + 0.2, -2)
+    roof2.position.set(-5, 8.0, -2)
     group.add(roof2)
-    // 二层窗户
-    ;[-7.5, -2.5].forEach((wx) => {
-      const wglass = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.4, 0.08), mats.glass)
-      wglass.position.set(wx, 0.5 + 4.5 + 1.4, -2 + 4.54)
-      group.add(wglass)
-      const wframe = box(1.8, 1.6, 0.1, mats.frame, { castShadow: false })
-      wframe.position.set(wx, 0.5 + 4.5 + 1.4, -2 + 4.54)
-      group.add(wframe)
-    })
+    // 一层檐口（y 5.2~5.6 跨整个，呼应原 roof1）
+    const cornice = box(20.8, 0.4, 13.8, mats.wallAccent)
+    cornice.position.set(0, 5.4, -2)
+    group.add(cornice)
 
-    // 一层正面玻璃幕墙（大厅落地窗）
-    const frontZ = -2 + 6.5 // = 4.5
-    const curtain = new THREE.Mesh(new THREE.BoxGeometry(15, 3.1, 0.1), mats.glass)
-    curtain.position.set(0, 0.5 + 1.75, frontZ + 0.05)
-    group.add(curtain)
-    ;[-6, -4, -2, 0, 2, 4, 6].forEach((mx) => addMullion(group, mats, mx, 0.5 + 1.75, frontZ + 0.12, 3.1))
-
-    // 正门（一层正面偏左）
-    const door = box(0.1, 2.6, 1.7, mats.door)
-    door.position.set(-5.5, 0.5 + 1.3, frontZ + 0.08)
-    group.add(door)
-    const handle = new THREE.Mesh(
-      new THREE.SphereGeometry(0.06, 12, 12),
-      new THREE.MeshStandardMaterial({ color: 0xd8c28a, roughness: 0.3, metalness: 0.6 })
-    )
-    handle.position.set(-5.5 + 0.6, 0.5 + 1.3, frontZ + 0.18)
-    group.add(handle)
-    // 门前两级台阶
-    const step1 = box(2.2, 0.15, 0.5, mats.stone)
-    step1.position.set(-5.5, 0.5 - 0.075, frontZ + 0.55)
-    group.add(step1)
-    const step2 = box(2.2, 0.15, 0.5, mats.stone)
-    step2.position.set(-5.5, 0.5 - 0.075 - 0.15, frontZ + 1.0)
-    group.add(step2)
-
-    // 车库（右侧，卷帘门朝前）
-    const garage = box(7, 3.2, 8, mats.wallAccent)
-    garage.position.set(11, 0.5 + 1.6, -2)
-    group.add(garage)
-    const garageRoof = box(7.6, 0.4, 8.6, mats.roof)
-    garageRoof.position.set(11, 0.5 + 3.2 + 0.2, -2)
-    group.add(garageRoof)
-    const garageDoor = box(4.6, 2.6, 0.08, mats.garage)
-    garageDoor.position.set(11, 0.5 + 1.3, -2 + 4.04)
-    group.add(garageDoor)
-
-    // 一层侧面窗户
+    // ===== 一层侧面窗户（左/右墙各两扇）=====
     ;[-1, 1].forEach((side) => {
       ;[-1.5, 1.5].forEach((wz) => {
         const glass = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.6, 2.2), mats.glass)
-        glass.position.set(side * 10.04, 0.5 + 1.8, wz)
+        glass.position.set(side * 10.04, 2.3, wz)
         group.add(glass)
       })
     })
 
-    // 后院泳池（z 负侧）
+    // ===== 楼梯（餐厨区靠左墙，10 级台阶从一层上到二层楼板）=====
+    const stairW = 1.0
+    const stairD = 0.4
+    const stairH = 0.43
+    const stairX = -9.0
+    const stairZ0 = -2.0
+    for (let i = 0; i < 10; i++) {
+      const step = box(stairW, stairH, stairD, mats.stair)
+      step.position.set(stairX, 0.7 + stairH / 2 + i * stairH, stairZ0 + stairD / 2 + i * stairD)
+      step.castShadow = true
+      step.receiveShadow = true
+      group.add(step)
+    }
+    // 楼梯顶部小平台（接二层楼板）
+    const stairLanding = box(stairW + 0.1, 0.05, 0.6, mats.stair)
+    stairLanding.position.set(stairX, 5.18, -2 - 0.4 * 2)
+    group.add(stairLanding)
+
+    // ===== 一层·客厅（x 0~10）=====
+    // 沙发（直排 3 人位，靠后墙）
+    const sofaBody = box(2.6, 0.45, 0.95, mats.sofa)
+    sofaBody.position.set(4, 0.925, -7.4)
+    group.add(sofaBody)
+    const sofaBack = box(2.6, 0.6, 0.2, mats.cushion)
+    sofaBack.position.set(4, 1.4, -7.9)
+    group.add(sofaBack)
+    ;[-1.35, 1.35].forEach((lx) => {
+      const arm = box(0.15, 0.55, 0.95, mats.cushion)
+      arm.position.set(4 + lx, 0.975, -7.4)
+      group.add(arm)
+    })
+    // 茶几（桌板 + 四腿）
+    const teaTop = box(1.3, 0.06, 0.7, mats.tableTop)
+    teaTop.position.set(4, 0.735, -6.0)
+    group.add(teaTop)
+    ;[
+      [-0.55, -0.25],
+      [0.55, -0.25],
+      [-0.55, 0.25],
+      [0.55, 0.25]
+    ].forEach(([lx, lz]) => {
+      const leg = box(0.05, 0.66, 0.05, mats.tableTop)
+      leg.position.set(4 + lx, 0.37, -6.0 + lz)
+      group.add(leg)
+    })
+    // 地毯
+    const carpet = box(2.6, 0.02, 1.8, mats.carpet)
+    carpet.position.set(4, 0.71, -6.2)
+    group.add(carpet)
+    // 电视柜（沿右墙）
+    const tvCabinet = box(1.6, 0.5, 0.45, mats.tableTop)
+    tvCabinet.position.set(9.0, 0.95, -3.5)
+    group.add(tvCabinet)
+    // 电视屏幕（薄板挂在右墙上，朝 -x）
+    const tv = box(0.03, 0.9, 1.5, mats.tvScreen)
+    tv.position.set(9.62, 1.8, -3.5)
+    group.add(tv)
+
+    // ===== 一层·餐厨（x -10~0）=====
+    // 厨房橱柜（沿后墙一排）
+    const cabinetRow = box(6.5, 0.9, 0.6, mats.island)
+    cabinetRow.position.set(-3.75, 1.15, -8.0)
+    group.add(cabinetRow)
+    // 灶台（黑色面板嵌在橱柜上）
+    const cooktop = box(1.4, 0.04, 0.5, mats.stove)
+    cooktop.position.set(-3, 1.6, -8.0)
+    group.add(cooktop)
+    // 冰箱（高柜，靠左墙）
+    const fridge = box(0.8, 2.0, 0.7, mats.fridge)
+    fridge.position.set(-9.4, 1.7, -8.0)
+    group.add(fridge)
+    // 厨房中岛（岛台）
+    const island = box(3.0, 0.9, 1.0, mats.island)
+    island.position.set(-4, 1.15, -5.5)
+    group.add(island)
+    // 餐桌（桌板 + 四腿）
+    const diningTop = box(1.8, 0.06, 1.0, mats.tableTop)
+    diningTop.position.set(-4, 0.73, -2.5)
+    group.add(diningTop)
+    ;[
+      [-0.8, -0.4],
+      [0.8, -0.4],
+      [-0.8, 0.4],
+      [0.8, 0.4]
+    ].forEach(([lx, lz]) => {
+      const leg = box(0.06, 0.66, 0.06, mats.tableTop)
+      leg.position.set(-4 + lx, 0.37, -2.5 + lz)
+      group.add(leg)
+    })
+    // 餐椅 4 把
+    ;[
+      [-1.1, 0],
+      [1.1, 0],
+      [0, -0.8],
+      [0, 0.8]
+    ].forEach(([lx, lz]) => {
+      const chair = box(0.4, 0.45, 0.4, mats.sofa)
+      chair.position.set(-4 + lx, 0.925, -2.5 + lz)
+      group.add(chair)
+    })
+
+    // ===== 二层·主卧 =====
+    const bedFrame = box(2.0, 0.2, 1.8, mats.bed)
+    bedFrame.position.set(-5, 5.6, -4)
+    group.add(bedFrame)
+    const mattress = box(1.9, 0.18, 1.7, mats.mattress)
+    mattress.position.set(-5, 5.79, -4)
+    group.add(mattress)
+    // 床头板（高，靠后墙）
+    const headboard = box(2.0, 0.8, 0.1, mats.bed)
+    headboard.position.set(-5, 6.4, -4.85)
+    group.add(headboard)
+    // 床头柜 ×2
+    ;[-1.2, 1.2].forEach((lx) => {
+      const ns = box(0.45, 0.4, 0.45, mats.bed)
+      ns.position.set(-5 + lx, 5.7, -4.5)
+      group.add(ns)
+    })
+    // 衣柜（靠左墙）
+    const wardrobe = box(0.55, 2.2, 2.2, mats.wardrobe)
+    wardrobe.position.set(-9.6, 6.7, -2.0)
+    group.add(wardrobe)
+
+    // ===== 车库（保留在右侧，独立体块不进剖面）=====
+    const garage = box(7, 3.2, 8, mats.wallAccent)
+    garage.position.set(11, 2.1, -2)
+    group.add(garage)
+    const garageRoof = box(7.6, 0.4, 8.6, mats.roof)
+    garageRoof.position.set(11, 3.7, -2)
+    group.add(garageRoof)
+    const garageDoor = box(4.6, 2.6, 0.08, mats.garage)
+    garageDoor.position.set(11, 1.8, 1.96)
+    group.add(garageDoor)
+
+    // ===== 后院泳池 =====
     const poolEdge = box(13, 0.12, 7, mats.stone)
     poolEdge.position.set(0, 0.06, -11)
     group.add(poolEdge)
@@ -194,20 +310,16 @@ export default {
     pool.position.set(0, 0.28, -11)
     group.add(pool)
 
-    // 棕榈树（豪宅标配）
+    // ===== 棕榈树 / 普通树 / 灌木 =====
     addPalm(group, mats, 14, -13, 6)
     addPalm(group, mats, -14, -15, 7)
     addPalm(group, mats, 17, 3, 5.5)
     addPalm(group, mats, -16, 6, 6)
     addPalm(group, mats, 8, 14, 5)
-
-    // 普通树
     addTree(group, mats, -19, 14, 1.1)
     addTree(group, mats, 19, -15, 1.2)
     addTree(group, mats, -19, -15, 1)
     addTree(group, mats, 19, 14, 1.1)
-
-    // 灌木
     ;[
       [3.5, 5.8],
       [-3.5, 5.8],
